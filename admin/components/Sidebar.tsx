@@ -23,10 +23,10 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { id: 'overview',      label: 'Overview',      icon: <LayoutDashboard size={18} /> },
   { id: 'models',        label: 'All Profiles',  icon: <Users size={18} /> },
-  { id: 'snapchat',      label: 'Snapchat',       icon: <SnapchatIcon size={18} />,   accent: '#FFD600' },
-  { id: 'telegram',      label: 'Telegram',       icon: <TelegramIcon size={18} />,    accent: '#00A8FF' },
-  { id: 'whatsapp',      label: 'WhatsApp',       icon: <WhatsAppIcon size={18} />,   accent: '#00FF7F' },
-  { id: 'onlyfans',      label: 'OnlyFans',       icon: <OnlyFansIcon size={18} />,     accent: '#00D4FF' },
+  { id: 'snapchat',      label: 'Snapchat',       icon: <SnapchatIcon size={18} />,   accent: '#E6C100' },
+  { id: 'telegram',      label: 'Telegram',       icon: <TelegramIcon size={18} />,    accent: '#0082C5' },
+  { id: 'whatsapp',      label: 'WhatsApp',       icon: <WhatsAppIcon size={18} />,   accent: '#00D168' },
+  { id: 'onlyfans',      label: 'OnlyFans',       icon: <OnlyFansIcon size={18} />,     accent: '#00A3C4' },
   { id: 'payments',      label: 'Payments',       icon: <CreditCard size={18} /> },
   { id: 'members',       label: 'Members',        icon: <UserCheck size={18} /> },
   { id: 'verification',  label: 'Verification',   icon: <Shield size={18} /> },
@@ -64,8 +64,8 @@ export default function Sidebar() {
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
         style={{
-          background: 'linear-gradient(180deg, #0c0c18 0%, #080810 100%)',
-          borderRight: '1px solid rgba(255,255,255,0.06)',
+          background: 'linear-gradient(180deg, #0A0A14 0%, #05050A 100%)',
+          borderRight: '1px solid rgba(255,255,255,0.04)',
         }}
       >
         {/* Logo */}
@@ -74,15 +74,15 @@ export default function Sidebar() {
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
               style={{
-                background: 'linear-gradient(135deg, #FF1B8D, #B026FF)',
-                boxShadow: '0 0 16px rgba(255,27,141,0.5)',
+                background: 'linear-gradient(135deg, #D41A75, #8E20D1)',
+                boxShadow: '0 0 12px rgba(212,26,117,0.3)',
               }}
             >
               <MessageCircle size={16} className="text-white" />
             </div>
             <div className="leading-none">
               <span className="font-extrabold text-white text-sm">Pal</span>
-              <span className="font-extrabold text-sm" style={{ color: '#FF1B8D' }}>Finder</span>
+              <span className="font-extrabold text-sm" style={{ color: '#D41A75' }}>Finder</span>
               <div className="text-[10px] text-white/40 font-medium tracking-widest mt-0.5">ADMIN</div>
             </div>
           </div>
@@ -134,12 +134,12 @@ export default function Sidebar() {
                       `}
                       style={isActive ? {
                         background: item.accent
-                          ? `${item.accent}18`
-                          : 'rgba(255,27,141,0.12)',
-                        color: item.accent || '#FF1B8D',
+                          ? `${item.accent}12`
+                          : 'rgba(212,26,117,0.08)',
+                        color: item.accent || '#D41A75',
                         boxShadow: item.accent
-                          ? `inset 0 0 0 1px ${item.accent}30`
-                          : 'inset 0 0 0 1px rgba(255,27,141,0.25)',
+                          ? `inset 0 0 0 1px ${item.accent}20`
+                          : 'inset 0 0 0 1px rgba(212,26,117,0.15)',
                       } : undefined}
                     >
                       <span style={isActive ? { color: item.accent || '#FF1B8D' } : undefined}>
@@ -165,8 +165,8 @@ export default function Sidebar() {
         <div className="px-4 py-4 border-t border-white/5">
           <div className="flex items-center gap-3">
             <div
-              className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold"
-              style={{ background: 'linear-gradient(135deg,#FF1B8D,#B026FF)' }}
+              className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold text-white"
+              style={{ background: 'linear-gradient(135deg,#D41A75,#8E20D1)' }}
             >
               A
             </div>

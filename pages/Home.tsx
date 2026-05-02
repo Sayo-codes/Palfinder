@@ -138,8 +138,8 @@ function Section({
         className="block w-full text-center py-3.5 rounded-xl font-bold transition-transform hover:scale-[1.01]"
         style={{
           backgroundColor: accentColor,
-          color: accentColor === '#FFD600' ? '#1a1a1a' : '#0a0a0a',
-          boxShadow: `0 0 24px ${accentColor}77`,
+          color: accentColor === '#E6C100' ? '#1a1a1a' : '#0a0a0a',
+          boxShadow: `0 0 16px ${accentColor}44`,
         }}
       >
         {ctaLabel}
@@ -157,9 +157,9 @@ export function Home() {
       <header className="flex justify-between items-center mb-8">
         <Link to="/" className="flex items-center gap-2">
           <div
-            className="w-9 h-9 rounded-full bg-gradient-to-br from-[#FF1B8D] to-[#B026FF] flex items-center justify-center"
+            className="w-9 h-9 rounded-full bg-gradient-to-br from-[#D41A75] to-[#8E20D1] flex items-center justify-center"
             style={{
-              boxShadow: '0 0 16px rgba(255,27,141,0.6)',
+              boxShadow: '0 0 12px rgba(212,26,117,0.4)',
             }}
           >
             <MessageCircleIcon className="w-5 h-5 text-white" />
@@ -187,28 +187,28 @@ export function Home() {
         <PlatformPill
           to="/snapchat"
           label="Snapchat"
-          color="#FFD600"
+          color="#E6C100"
           textColor="#1a1a1a"
           icon={<SnapchatIcon className="w-4 h-4" />}
         />
         <PlatformPill
           to="/telegram"
           label="Telegram"
-          color="#00A8FF"
+          color="#0082C5"
           textColor="#fff"
           icon={<TelegramIcon className="w-4 h-4" />}
         />
         <PlatformPill
           to="/whatsapp"
           label="WhatsApp"
-          color="#00FF7F"
+          color="#00D168"
           textColor="#0a2618"
           icon={<WhatsAppIcon className="w-4 h-4" />}
         />
         <PlatformPill
           to="/onlyfans"
           label="OnlyFans"
-          color="#00D4FF"
+          color="#00A3C4"
           textColor="#001a26"
           icon={<OnlyFansIcon className="w-4 h-4" />}
         />
@@ -225,12 +225,12 @@ export function Home() {
         <input
           type="text"
           placeholder="Search usernames, cities, or tags..."
-          className="w-full bg-black/60 border border-white/10 rounded-full pl-11 pr-28 py-3.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-[#FF1B8D]/50"
+          className="w-full bg-black/60 border border-white/10 rounded-full pl-11 pr-28 py-3.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-[#D41A75]/40"
         />
         <button
-          className="absolute right-1.5 top-1/2 -translate-y-1/2 px-5 py-2.5 rounded-full bg-[#FF1B8D] text-white font-bold text-sm"
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 px-5 py-2.5 rounded-full bg-[#D41A75] text-white font-bold text-sm"
           style={{
-            boxShadow: '0 0 18px rgba(255,27,141,0.6)',
+            boxShadow: '0 0 14px rgba(212,26,117,0.4)',
           }}
         >
           Search
@@ -248,11 +248,11 @@ export function Home() {
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors ${active ? 'bg-[#FF1B8D] text-white' : 'bg-black/60 border border-white/10 text-white/70 hover:text-white'}`}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors ${active ? 'bg-[#D41A75] text-white' : 'bg-black/60 border border-white/10 text-white/70 hover:text-white'}`}
               style={
                 active
                   ? {
-                      boxShadow: '0 0 14px rgba(255,27,141,0.55)',
+                      boxShadow: '0 0 12px rgba(212,26,117,0.35)',
                     }
                   : undefined
               }
@@ -268,7 +268,7 @@ export function Home() {
         <Section
           title="WhatsApp"
           accent="Girls"
-          accentColor="#00FF7F"
+          accentColor="#00D168"
           description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
           ctaLabel="Find WhatsApp Numbers"
           ctaTo="/whatsapp"
@@ -277,7 +277,7 @@ export function Home() {
         <Section
           title="OnlyFans"
           accent="Creators"
-          accentColor="#00D4FF"
+          accentColor="#00A3C4"
           description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
           ctaLabel="Explore All Creators"
           ctaTo="/onlyfans"
@@ -286,7 +286,7 @@ export function Home() {
         <Section
           title="Snapchat"
           accent="Models"
-          accentColor="#FFD600"
+          accentColor="#E6C100"
           description="Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops."
           ctaLabel="Explore All Creators"
           ctaTo="/snapchat"
@@ -295,7 +295,7 @@ export function Home() {
         <Section
           title="Telegram"
           accent="Models"
-          accentColor="#00A8FF"
+          accentColor="#0082C5"
           description="Join private Telegram channels and DM with verified models for one-on-one experiences."
           ctaLabel="Explore All Creators"
           ctaTo="/telegram"
@@ -306,9 +306,9 @@ export function Home() {
       {/* Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         {/* Verified Models card */}
-        <div className="bg-black/60 rounded-2xl p-5 card-glow h-full">
+        <div className="bg-black/60 rounded-2xl p-5 card-glow h-full border border-white/5">
           <div className="flex items-center gap-2 mb-4">
-            <ShieldCheckIcon className="w-5 h-5 text-[#00D4FF]" />
+            <ShieldCheckIcon className="w-5 h-5 text-[#00A3C4]" />
             <h3 className="font-bold text-white">Verified Models</h3>
           </div>
           <ul className="space-y-3 mb-4">
@@ -316,9 +316,9 @@ export function Home() {
               <li key={m.name} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF1B8D] to-[#B026FF]" />
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#D41A75] to-[#8E20D1]" />
                     {m.online && (
-                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00FF7F] border border-black" />
+                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00D168] border border-black" />
                     )}
                   </div>
                   <div>
@@ -326,33 +326,33 @@ export function Home() {
                       <span className="font-bold text-white text-sm">
                         {m.name}
                       </span>
-                      <BadgeCheckIcon className="w-3.5 h-3.5 text-[#00A8FF]" />
+                      <BadgeCheckIcon className="w-3.5 h-3.5 text-[#0082C5]" />
                     </div>
                     <p className="text-xs text-white/50">{m.location}</p>
                   </div>
                 </div>
-                <button className="text-white/40 hover:text-[#FFD600]">
+                <button className="text-white/40 hover:text-[#E6C100]">
                   <StarIcon className="w-5 h-5" />
                 </button>
               </li>
             ))}
           </ul>
-          <button className="w-full py-2.5 rounded-lg bg-[#00D4FF]/10 border border-[#00D4FF]/30 text-[#00D4FF] font-bold text-sm hover:bg-[#00D4FF]/20 mt-auto">
+          <button className="w-full py-2.5 rounded-lg bg-[#00A3C4]/10 border border-[#00A3C4]/20 text-[#00A3C4] font-bold text-sm hover:bg-[#00A3C4]/15 mt-auto">
             View All Verified
           </button>
         </div>
 
         {/* Trending Tags */}
-        <div className="bg-black/60 rounded-2xl p-5 card-glow h-full">
+        <div className="bg-black/60 rounded-2xl p-5 card-glow h-full border border-white/5">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUpIcon className="w-5 h-5 text-[#FF1B8D]" />
+            <TrendingUpIcon className="w-5 h-5 text-[#D41A75]" />
             <h3 className="font-bold text-white">Trending Tags</h3>
           </div>
           <div className="flex flex-wrap gap-2">
             {tags.map((t) => (
               <button
                 key={t}
-                className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/80 hover:border-[#FF1B8D]/50 hover:text-[#FF1B8D]"
+                className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/80 hover:border-[#D41A75]/30 hover:text-[#D41A75]"
               >
                 {t}
               </button>
@@ -402,7 +402,7 @@ export function Home() {
           {[TwitterIcon, InstagramIcon, MailIcon].map((Icon, i) => (
             <button
               key={i}
-              className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#FF1B8D] hover:border-[#FF1B8D]/50"
+              className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#D41A75] hover:border-[#D41A75]/30"
             >
               <Icon className="w-4 h-4" />
             </button>

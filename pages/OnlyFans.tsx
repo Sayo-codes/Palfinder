@@ -7,7 +7,7 @@ export function OnlyFans() {
     <PlatformPage
       platformName="onlyfans"
       title="OnlyFans Creators"
-      color="#00D4FF"
+      color="#00A3C4"
       textOnColor="#001a26"
       icon={<OnlyFansIcon className="w-5 h-5" />}
       buttonLabel="View Profile"

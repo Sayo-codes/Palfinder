@@ -7,7 +7,7 @@ export function Snapchat() {
     <PlatformPage
       platformName="snapchat"
       title="Snapchat Girls"
-      color="#FFD600"
+      color="#E6C100"
       textOnColor="#1a1a1a"
       icon={<SnapchatIcon className="w-5 h-5" />}
       buttonLabel="Add Snapchat"

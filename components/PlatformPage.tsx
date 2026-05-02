@@ -26,7 +26,7 @@ export function PlatformPage({
   }
 
   const glowStyle = {
-    boxShadow: `0 0 24px ${color}aa, 0 0 48px ${color}55`,
+    boxShadow: `0 0 16px ${color}66`,
   }
 
   return (
@@ -90,8 +90,8 @@ export function PlatformPage({
                 className="rounded-full p-[3px]"
                 style={{
                   background:
-                    'linear-gradient(135deg, #FF1B8D 0%, #B026FF 100%)',
-                  boxShadow: '0 0 14px rgba(255, 27, 141, 0.6)',
+                    'linear-gradient(135deg, #D41A75 0%, #8E20D1 100%)',
+                  boxShadow: '0 0 10px rgba(212, 26, 117, 0.4)',
                 }}
               >
                 <img
@@ -101,14 +101,14 @@ export function PlatformPage({
                 />
               </div>
               {p.online && (
-                <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-[#00FF7F] border-2 border-black" />
+                <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-[#00D168] border-2 border-black" />
               )}
             </div>
             <div className="flex items-center gap-1 mb-3">
               <span className="font-bold text-white text-sm">{p.username}</span>
               {p.verified && (
                 <BadgeCheckIcon
-                  className="w-4 h-4 text-[#00A8FF] fill-[#00A8FF]"
+                  className="w-4 h-4 text-[#0082C5] fill-[#0082C5]"
                   style={{
                     color: '#fff',
                   }}

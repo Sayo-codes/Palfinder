@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --pink: #FF1B8D;
-  --purple: #B026FF;
-  --cyan: #00D4FF;
-  --teal: #00A8FF;
-  --green: #00FF7F;
-  --yellow: #FFD600;
-  --bg: #080810;
-  --surface: #0f0f1a;
-  --surface2: #161624;
-  --border: rgba(255,255,255,0.07);
+  --pink: #D41A75;
+  --purple: #8E20D1;
+  --cyan: #00A3C4;
+  --teal: #0082C5;
+  --green: #00D168;
+  --yellow: #E6C100;
+  --bg: #05050A;
+  --surface: #0A0A14;
+  --surface2: #11111E;
+  --border: rgba(255,255,255,0.05);
 }
 
 * { box-sizing: border-box; }
@@ -37,9 +37,9 @@ html, body {
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
 
 /* Neon glow helpers */
-.glow-pink  { box-shadow: 0 0 24px rgba(255,27,141,0.45); }
-.glow-cyan  { box-shadow: 0 0 24px rgba(0,212,255,0.4); }
-.glow-purple{ box-shadow: 0 0 24px rgba(176,38,255,0.4); }
+.glow-pink  { box-shadow: 0 0 20px rgba(212,26,117,0.3); }
+.glow-cyan  { box-shadow: 0 0 20px rgba(0,163,196,0.25); }
+.glow-purple{ box-shadow: 0 0 20px rgba(142,32,209,0.25); }
 
 /* Card base */
 .card {
@@ -51,9 +51,9 @@ html, body {
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 .card-hover:hover {
-  border-color: rgba(255,27,141,0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(255,27,141,0.12);
+  border-color: rgba(212,26,117,0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
 /* Input base */
@@ -155,10 +155,10 @@ html, body {
 .toggle-track.on .toggle-thumb { transform: translateX(20px); }
 
 /* Platform badge colours */
-.badge-snapchat  { background: rgba(255,214,0,0.15); color: #FFD600; border: 1px solid rgba(255,214,0,0.3); }
-.badge-telegram  { background: rgba(0,168,255,0.15); color: #00A8FF; border: 1px solid rgba(0,168,255,0.3); }
-.badge-whatsapp  { background: rgba(0,255,127,0.15); color: #00FF7F; border: 1px solid rgba(0,255,127,0.3); }
-.badge-onlyfans  { background: rgba(0,212,255,0.15); color: #00D4FF; border: 1px solid rgba(0,212,255,0.3); }
+.badge-snapchat  { background: rgba(230,193,0,0.12); color: #E6C100; border: 1px solid rgba(230,193,0,0.2); }
+.badge-telegram  { background: rgba(0,130,197,0.12); color: #0082C5; border: 1px solid rgba(0,130,197,0.2); }
+.badge-whatsapp  { background: rgba(0,209,104,0.12); color: #00D168; border: 1px solid rgba(0,209,104,0.2); }
+.badge-onlyfans  { background: rgba(0,163,196,0.12); color: #00A3C4; border: 1px solid rgba(0,163,196,0.2); }
 
 /* Mobile Edge Swipe Fixes */
 .no-swipe-interruption {

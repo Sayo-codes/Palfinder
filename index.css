@@ -18,20 +18,20 @@ html, body, #root {
 
 body {
   font-family: 'Poppins', system-ui, sans-serif;
-  background: linear-gradient(180deg, #0a0a0a 0%, #1a0033 50%, #0a0a0a 100%);
+  background: linear-gradient(180deg, #050505 0%, #0d001a 50%, #050505 100%);
   background-attachment: fixed;
   color: #fff;
 }
 
-.glow-pink { box-shadow: 0 0 24px rgba(255, 27, 141, 0.55); }
-.glow-purple { box-shadow: 0 0 24px rgba(176, 38, 255, 0.55); }
-.glow-yellow { box-shadow: 0 0 24px rgba(255, 214, 0, 0.55); }
-.glow-green { box-shadow: 0 0 24px rgba(0, 255, 127, 0.55); }
-.glow-cyan { box-shadow: 0 0 24px rgba(0, 212, 255, 0.55); }
-.glow-blue { box-shadow: 0 0 24px rgba(0, 168, 255, 0.55); }
+.glow-pink { box-shadow: 0 0 20px rgba(212, 26, 117, 0.35); }
+.glow-purple { box-shadow: 0 0 20px rgba(142, 32, 209, 0.35); }
+.glow-yellow { box-shadow: 0 0 20px rgba(230, 193, 0, 0.35); }
+.glow-green { box-shadow: 0 0 20px rgba(0, 209, 104, 0.35); }
+.glow-cyan { box-shadow: 0 0 20px rgba(0, 163, 196, 0.35); }
+.glow-blue { box-shadow: 0 0 20px rgba(0, 130, 197, 0.35); }
 
 .text-gradient-pink {
-  background: linear-gradient(90deg, #FF1B8D 0%, #B026FF 100%);
+  background: linear-gradient(90deg, #D41A75 0%, #8E20D1 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
