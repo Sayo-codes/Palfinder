@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html, body, #root {
+  min-height: 100%;
+  background: #0a0a0a;
+}
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a0033 50%, #0a0a0a 100%);
+  background-attachment: fixed;
+  color: #fff;
+}
+
+.glow-pink { box-shadow: 0 0 24px rgba(255, 27, 141, 0.55); }
+.glow-purple { box-shadow: 0 0 24px rgba(176, 38, 255, 0.55); }
+.glow-yellow { box-shadow: 0 0 24px rgba(255, 214, 0, 0.55); }
+.glow-green { box-shadow: 0 0 24px rgba(0, 255, 127, 0.55); }
+.glow-cyan { box-shadow: 0 0 24px rgba(0, 212, 255, 0.55); }
+.glow-blue { box-shadow: 0 0 24px rgba(0, 168, 255, 0.55); }
+
+.text-gradient-pink {
+  background: linear-gradient(90deg, #FF1B8D 0%, #B026FF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.card-glow {
+  box-shadow: 0 0 20px rgba(176, 38, 255, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
