@@ -1,5 +1,8 @@
 {
   "rewrites": [
+    { "source": "/_next/(.*)", "destination": "https://palfinder-admin.vercel.app/_next/$1" },
+    { "source": "/admin", "destination": "https://palfinder-admin.vercel.app/admin" },
+    { "source": "/admin/(.*)", "destination": "https://palfinder-admin.vercel.app/admin/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

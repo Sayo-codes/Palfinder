@@ -3,7 +3,7 @@ import { ShieldCheckIcon } from 'lucide-react'
 
 const ADMIN_PASSWORD = '1234555'
 const STORAGE_KEY = 'pf_admin_access'
-const ADMIN_URL = 'http://localhost:3000' // Admin panel runs on port 3000
+const ADMIN_URL = '/admin' // Admin panel path via Vercel rewrite
 
 interface AdminSecretAccessProps {
   children: React.ReactNode
