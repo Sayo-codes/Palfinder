@@ -108,8 +108,8 @@ export default function Settings() {
       <SectionCard title="Appearance" icon={<Palette size={16} />}>
         <div className="flex gap-3 flex-wrap">
           {['#FF1B8D', '#B026FF', '#00D4FF', '#00FF7F', '#FFD600'].map((c) => (
-            <button key={c} className="w-9 h-9 rounded-xl transition hover:scale-110 ring-2 ring-offset-2 ring-offset-[#0f0f1a]"
-              style={{ background: c, ringColor: c }} />
+            <button key={c} className="w-9 h-9 rounded-xl transition hover:scale-110 ring-offset-2 ring-offset-[#0f0f1a]"
+              style={{ background: c, boxShadow: `0 0 0 2px ${c}` }} />
           ))}
         </div>
         <p className="text-xs text-white/30">Choose primary accent colour for the admin panel</p>
