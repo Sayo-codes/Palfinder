@@ -98,7 +98,7 @@ export default function Sidebar() {
         {/* External Link to Home */}
         <div className="px-3 py-3">
           <a
-            href="http://localhost:5173"
+            href="/"
             className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold text-white/60 hover:text-white hover:bg-white/5 transition-all group border border-white/5"
           >
             <div className="w-6 h-6 rounded-lg flex items-center justify-center bg-white/5 group-hover:bg-[#FF1B8D]/20 transition-colors">
