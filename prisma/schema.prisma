@@ -18,6 +18,7 @@ model Profile {
   platforms    String[]
   links        Json
   photo        String?
+  profileImage String?
   media        String[]
   online       Boolean  @default(false)
   verified     Boolean  @default(false)

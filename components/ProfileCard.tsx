@@ -40,13 +40,17 @@ export default function ProfileCard({ profile }: Props) {
     <div className="card card-hover rounded-2xl overflow-hidden flex flex-col animate-in">
       {/* Photo */}
       <div className="relative h-44 sm:h-52 bg-white/5 flex-shrink-0">
-        <Image
-          src={profile.photo}
-          alt={profile.name}
-          fill
-          className="object-cover"
-          sizes="(max-width: 640px) 100vw, 300px"
-        />
+        {profile.photo ? (
+          <Image
+            src={profile.photo}
+            alt={profile.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, 300px"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-[#D41A75] to-[#8E20D1]" />
+        )}
         {/* Overlay gradient */}
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,16,0.85) 0%, transparent 50%)' }} />
 

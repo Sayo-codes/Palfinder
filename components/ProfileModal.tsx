@@ -51,6 +51,8 @@ export default function ProfileModal() {
   const [countrySearch, setCountrySearch] = useState('')
   const [showCountryList, setShowCountryList] = useState(false)
   const [photoPreview, setPhotoPreview] = useState<string>('')
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [isUploading, setIsUploading] = useState(false)
   const [error, setError] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
   const countryRef = useRef<HTMLDivElement>(null)
@@ -63,6 +65,7 @@ export default function ProfileModal() {
     } else {
       setForm(BLANK)
       setPhotoPreview('')
+      setSelectedFile(null)
     }
     setCountrySearch('')
     setError('')
@@ -88,7 +91,7 @@ export default function ProfileModal() {
     if (!file) return
     const url = URL.createObjectURL(file)
     setPhotoPreview(url)
-    set('photo', url)
+    setSelectedFile(file)
   }
 
   const handleDrop = (e: React.DragEvent) => {
@@ -97,7 +100,7 @@ export default function ProfileModal() {
     if (!file) return
     const url = URL.createObjectURL(file)
     setPhotoPreview(url)
-    set('photo', url)
+    setSelectedFile(file)
   }
 
   const filteredCountries = COUNTRIES.filter((c) =>
@@ -109,20 +112,50 @@ export default function ProfileModal() {
       setError('Full Name is required')
       return
     }
-    if (editingProfile) {
-      updateProfile(editingProfile.id, form)
-    } else {
-      // Save to real database
-      const res = await createProfile(form)
-      if (res.success && res.profile) {
-        // Also update local store so it appears instantly without full refresh
-        addProfile(res.profile as unknown as Profile)
-      } else {
-        setError(res.error || 'Failed to create profile')
-        return
+
+    setIsUploading(true)
+    let finalForm = { ...form }
+
+    try {
+      if (selectedFile) {
+        const formData = new FormData()
+        formData.append('file', selectedFile)
+        
+        // Import uploadImage at the top of the file, assuming it's available in @/lib/actions
+        const { uploadImage } = await import('@/lib/actions')
+        const { url } = await uploadImage(formData)
+        
+        finalForm.profileImage = url
+        finalForm.photo = url // keep both for backwards compatibility
       }
+
+      if (editingProfile) {
+        // Save edit to real database
+        const { updateProfileDb } = await import('@/lib/actions')
+        const res = await updateProfileDb(editingProfile.id, finalForm)
+        if (res.success && res.profile) {
+          updateProfile(editingProfile.id, res.profile as unknown as Profile)
+        } else {
+          setError(res.error || 'Failed to update profile')
+          setIsUploading(false)
+          return
+        }
+      } else {
+        const res = await createProfile(finalForm)
+        if (res.success && res.profile) {
+          addProfile(res.profile as unknown as Profile)
+        } else {
+          setError(res.error || 'Failed to create profile')
+          setIsUploading(false)
+          return
+        }
+      }
+      closeProfileModal()
+    } catch (err: any) {
+      setError(err.message || 'Image upload failed')
+    } finally {
+      setIsUploading(false)
     }
-    closeProfileModal()
   }
 
   return (
@@ -292,15 +325,22 @@ export default function ProfileModal() {
 
         {/* Footer */}
         <div className="px-5 py-4 border-t border-white/5 flex gap-2.5 flex-shrink-0">
-          <button onClick={closeProfileModal}
-            className="flex-1 py-3 rounded-xl text-sm font-semibold text-white/60 hover:text-white transition"
+          <button onClick={closeProfileModal} disabled={isUploading}
+            className="flex-1 py-3 rounded-xl text-sm font-semibold text-white/60 hover:text-white transition disabled:opacity-50"
             style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
             Cancel
           </button>
-          <button onClick={handleSave}
-            className="flex-1 py-3 rounded-xl text-sm font-bold text-white transition hover:scale-[1.02] active:scale-[0.98]"
+          <button onClick={handleSave} disabled={isUploading}
+            className="flex-1 py-3 rounded-xl text-sm font-bold text-white transition hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             style={{ background: 'linear-gradient(135deg,#FF1B8D,#B026FF)', boxShadow: '0 0 24px rgba(255,27,141,0.4)' }}>
-            {editingProfile ? 'Save Changes' : 'Create Profile'}
+            {isUploading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              editingProfile ? 'Save Changes' : 'Create Profile'
+            )}
           </button>
         </div>
       </div>
