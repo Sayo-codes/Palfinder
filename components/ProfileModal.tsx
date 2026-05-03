@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { createProfile } from '@/lib/actions'
 import { useAdminStore } from '@/lib/store'
 import { Profile, Platform, Gender, InterestedIn } from '@/lib/types'
 import { COUNTRIES } from '@/lib/fakeData'
@@ -103,7 +104,7 @@ export default function ProfileModal() {
     c.toLowerCase().includes(countrySearch.toLowerCase())
   )
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.name.trim()) {
       setError('Full Name is required')
       return
@@ -111,11 +112,15 @@ export default function ProfileModal() {
     if (editingProfile) {
       updateProfile(editingProfile.id, form)
     } else {
-      addProfile({
-        ...form,
-        id: `p${Date.now()}`,
-        createdAt: new Date().toISOString(),
-      })
+      // Save to real database
+      const res = await createProfile(form)
+      if (res.success && res.profile) {
+        // Also update local store so it appears instantly without full refresh
+        addProfile(res.profile as unknown as Profile)
+      } else {
+        setError(res.error || 'Failed to create profile')
+        return
+      }
     }
     closeProfileModal()
   }

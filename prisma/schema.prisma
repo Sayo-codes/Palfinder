@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id           String   @id @default(cuid())
+  name         String
+  username     String   @unique
+  age          Int
+  country      String
+  gender       String
+  interestedIn String
+  bio          String?
+  platforms    String[]
+  links        Json
+  photo        String?
+  media        String[]
+  online       Boolean  @default(false)
+  verified     Boolean  @default(false)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
