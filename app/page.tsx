@@ -275,24 +275,6 @@ export default function Home() {
       {/* Sections */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mb-2">
         <Section
-          title="WhatsApp"
-          accent="Girls"
-          accentColor="#00D168"
-          description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
-          ctaLabel="Find WhatsApp Numbers"
-          ctaTo="/whatsapp"
-          icon={<WhatsAppIcon className="w-6 h-6" />}
-        />
-        <Section
-          title="OnlyFans"
-          accent="Creators"
-          accentColor="#00A3C4"
-          description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
-          ctaLabel="Explore All Creators"
-          ctaTo="/onlyfans"
-          icon={<OnlyFansIcon className="w-6 h-6" />}
-        />
-        <Section
           title="Snapchat"
           accent="Models"
           accentColor="#E6C100"
@@ -309,6 +291,24 @@ export default function Home() {
           ctaLabel="Explore All Creators"
           ctaTo="/telegram"
           icon={<TelegramIcon className="w-6 h-6" />}
+        />
+        <Section
+          title="WhatsApp"
+          accent="Girls"
+          accentColor="#00D168"
+          description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
+          ctaLabel="Find WhatsApp Numbers"
+          ctaTo="/whatsapp"
+          icon={<WhatsAppIcon className="w-6 h-6" />}
+        />
+        <Section
+          title="OnlyFans"
+          accent="Creators"
+          accentColor="#00A3C4"
+          description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
+          ctaLabel="Explore All Creators"
+          ctaTo="/onlyfans"
+          icon={<OnlyFansIcon className="w-6 h-6" />}
         />
       </div>
 
