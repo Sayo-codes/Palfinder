@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import { Profile, Member, Payment, MediaItem, Platform, NavSection } from './types'
 import {
   SEED_PROFILES,
@@ -50,7 +51,9 @@ interface AdminStore {
   setPlatformFilter: (p: Platform | 'all') => void
 }
 
-export const useAdminStore = create<AdminStore>((set, get) => ({
+export const useAdminStore = create<AdminStore>()(
+  persist(
+    (set, get) => ({
   // ── Navigation ────────────────────────────────────────────────────────────
   activeSection: 'overview',
   sidebarOpen: false,
@@ -100,4 +103,4 @@ export const useAdminStore = create<AdminStore>((set, get) => ({
   platformFilter: 'all',
   setSearchQuery: (q) => set({ searchQuery: q }),
   setPlatformFilter: (p) => set({ platformFilter: p }),
-}))
+}), { name: 'palfinder-admin-storage' }))

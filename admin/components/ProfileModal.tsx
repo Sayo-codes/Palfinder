@@ -50,6 +50,7 @@ export default function ProfileModal() {
   const [countrySearch, setCountrySearch] = useState('')
   const [showCountryList, setShowCountryList] = useState(false)
   const [photoPreview, setPhotoPreview] = useState<string>('')
+  const [error, setError] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
   const countryRef = useRef<HTMLDivElement>(null)
 
@@ -63,11 +64,15 @@ export default function ProfileModal() {
       setPhotoPreview('')
     }
     setCountrySearch('')
+    setError('')
   }, [editingProfile, showProfileModal])
 
   if (!showProfileModal) return null
 
-  const set = (key: keyof typeof form, val: unknown) => setForm((f) => ({ ...f, [key]: val }))
+  const set = (key: keyof typeof form, val: unknown) => {
+    setError('')
+    setForm((f) => ({ ...f, [key]: val }))
+  }
 
   const togglePlatform = (p: Platform) => {
     const has = form.platforms.includes(p)
@@ -99,7 +104,10 @@ export default function ProfileModal() {
   )
 
   const handleSave = () => {
-    if (!form.name.trim()) return
+    if (!form.name.trim()) {
+      setError('Full Name is required')
+      return
+    }
     if (editingProfile) {
       updateProfile(editingProfile.id, form)
     } else {
@@ -167,8 +175,9 @@ export default function ProfileModal() {
           {/* Name & Username */}
           <div className="grid grid-cols-2 gap-3">
             <Field label="Full Name">
-              <input className="input-base" placeholder="Lana Rose" value={form.name}
+              <input className={`input-base ${error ? '!border-red-500' : ''}`} placeholder="Lana Rose" value={form.name}
                 onChange={(e) => set('name', e.target.value)} />
+              {error && <span className="text-red-500 text-xs mt-1 block">{error}</span>}
             </Field>
             <Field label="Username">
               <input className="input-base" placeholder="lana_rose" value={form.username}
