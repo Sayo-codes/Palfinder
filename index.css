@@ -8,12 +8,12 @@
 html, body, #root {
   min-height: 100%;
   background: #0a0a0a;
-  /* Prevent horizontal scroll and allow smooth edge swipe for back gesture */
   width: 100%;
-  overflow-x: hidden;
-  overscroll-behavior-y: none;
-  overscroll-behavior-x: auto;
   scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 body {
@@ -44,8 +44,4 @@ body {
 /* Mobile Gesture Optimizations */
 * {
   -webkit-tap-highlight-color: transparent;
-}
-
-main, section, header {
-  touch-action: pan-y;
 }
