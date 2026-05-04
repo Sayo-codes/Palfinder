@@ -1,6 +1,6 @@
 import React from 'react'
-import WhatsAppIcon from '../components/icons/WhatsAppIcon'
-import { PlatformPage } from '../components/PlatformPage'
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon'
+import { PlatformPage } from '@/components/PlatformPage'
 
 export default function WhatsApp() {
   return (

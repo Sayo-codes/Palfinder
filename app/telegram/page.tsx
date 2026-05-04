@@ -1,6 +1,6 @@
 import React from 'react'
-import TelegramIcon from '../components/icons/TelegramIcon'
-import { PlatformPage } from '../components/PlatformPage'
+import TelegramIcon from '@/components/icons/TelegramIcon'
+import { PlatformPage } from '@/components/PlatformPage'
 
 export default function Telegram() {
   return (

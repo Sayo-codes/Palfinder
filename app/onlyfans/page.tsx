@@ -1,6 +1,6 @@
 import React from 'react'
-import OnlyFansIcon from '../components/icons/OnlyFansIcon'
-import { PlatformPage } from '../components/PlatformPage'
+import OnlyFansIcon from '@/components/icons/OnlyFansIcon'
+import { PlatformPage } from '@/components/PlatformPage'
 
 export default function OnlyFans() {
   return (

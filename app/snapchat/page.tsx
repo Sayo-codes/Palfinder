@@ -1,6 +1,6 @@
 import React from 'react'
-import SnapchatIcon from '../components/icons/SnapchatIcon'
-import { PlatformPage } from '../components/PlatformPage'
+import SnapchatIcon from '@/components/icons/SnapchatIcon'
+import { PlatformPage } from '@/components/PlatformPage'
 
 export default function Snapchat() {
   return (

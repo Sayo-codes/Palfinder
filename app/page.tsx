@@ -17,11 +17,11 @@ import {
   InstagramIcon,
   MailIcon,
 } from 'lucide-react'
-import SnapchatIcon from '../components/icons/SnapchatIcon'
-import TelegramIcon from '../components/icons/TelegramIcon'
-import WhatsAppIcon from '../components/icons/WhatsAppIcon'
-import OnlyFansIcon from '../components/icons/OnlyFansIcon'
-import AdminSecretAccess from '../components/AdminSecretAccess'
+import SnapchatIcon from '@/components/icons/SnapchatIcon'
+import TelegramIcon from '@/components/icons/TelegramIcon'
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon'
+import OnlyFansIcon from '@/components/icons/OnlyFansIcon'
+import AdminSecretAccess from '@/components/AdminSecretAccess'
 
 const filters = [
   'All',
