@@ -23,7 +23,7 @@ export default function PlatformProfiles({ platform }: Props) {
   const { label, color, icon, desc } = META[platform]
 
   const filtered = profiles
-    .filter((p) => p.platforms.includes(platform))
+    .filter((p) => p.platforms.includes(platform) || !!p.links[platform as keyof typeof p.links])
     .filter((p) =>
       !searchQuery ||
       p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

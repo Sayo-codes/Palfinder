@@ -33,7 +33,7 @@ export default function ProfilesList() {
       p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.country.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchPlatform = platformFilter === 'all' || p.platforms.includes(platformFilter)
+    const matchPlatform = platformFilter === 'all' || p.platforms.includes(platformFilter) || !!p.links[platformFilter as keyof typeof p.links]
     return matchSearch && matchPlatform
   })
 
