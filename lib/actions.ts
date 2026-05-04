@@ -72,6 +72,17 @@ export async function getProfiles() {
   })
 }
 
+export async function getProfilesByPlatform(platform: string) {
+  return await db.profile.findMany({
+    where: {
+      platforms: {
+        has: platform
+      }
+    },
+    orderBy: { createdAt: 'desc' }
+  })
+}
+
 export async function uploadImage(formData: FormData) {
   const file = formData.get('file') as File;
   if (!file) {

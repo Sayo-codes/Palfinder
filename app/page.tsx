@@ -69,13 +69,13 @@ const tags = [
 ]
 
 function PlatformPill({
-  to,
+  href,
   label,
   color,
   textColor,
   icon,
 }: {
-  to: string
+  href: string
   label: string
   color: string
   textColor: string
@@ -83,7 +83,7 @@ function PlatformPill({
 }) {
   return (
     <Link
-      href={to}
+      href={href}
       className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm whitespace-nowrap transition-transform hover:scale-105"
       style={{
         backgroundColor: color,
@@ -157,7 +157,9 @@ export default function Home() {
   const [dbModels, setDbModels] = useState<Profile[]>([])
 
   useEffect(() => {
-    getProfiles().then(data => setDbModels(data as any[]))
+    getProfiles()
+      .then(data => setDbModels(data as any[]))
+      .catch(() => setDbModels([]))
   }, [])
 
   return (
