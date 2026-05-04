@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { BadgeCheckIcon, ChevronLeftIcon } from 'lucide-react'
 import { PROFILES } from './data'
 
@@ -34,7 +34,7 @@ export function PlatformPage({
       {/* Top bar */}
       <div className="flex justify-between items-center mb-8">
         <Link
-          to="/"
+          href="/"
           className="flex items-center gap-1 text-white/70 hover:text-white text-sm"
         >
           <ChevronLeftIcon className="w-4 h-4" /> Back
