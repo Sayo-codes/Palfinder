@@ -37,12 +37,12 @@ export function PlatformPage({
       <div className="flex justify-between items-center mb-8">
         <Link
           href="/"
-          className="flex items-center gap-1 text-white/70 hover:text-white text-sm"
+          className="flex items-center gap-1 text-white/70 hover:text-white text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
         >
           <ChevronLeftIcon className="w-4 h-4" /> Back
         </Link>
         <button
-          className="px-5 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105"
+          className="px-5 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           style={{
             ...colorStyle,
             ...glowStyle,
@@ -81,9 +81,10 @@ export function PlatformPage({
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
         {profiles.length > 0 ? (
           profiles.map((p) => (
-            <div
+            <Link
               key={p.id}
-              className="bg-black/60 rounded-2xl p-4 flex flex-col items-center"
+              href={`/profile/${p.username}`}
+              className="bg-black/60 rounded-2xl p-4 flex flex-col items-center group transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF1B8D]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               style={{
                 boxShadow: `0 0 18px ${color}33, inset 0 0 0 1px rgba(255,255,255,0.05)`,
               }}
@@ -122,16 +123,16 @@ export function PlatformPage({
                   />
                 )}
               </div>
-              <button
-                className="w-full py-2 rounded-full font-bold text-sm transition-transform hover:scale-[1.03]"
+              <div
+                className="w-full py-2 rounded-full font-bold text-sm transition-transform group-hover:scale-[1.03] text-center"
                 style={{
                   ...colorStyle,
                   ...glowStyle,
                 }}
               >
                 {buttonLabel}
-              </button>
-            </div>
+              </div>
+            </Link>
           ))
         ) : (
           <div className="col-span-full text-center py-20 text-white/40">
@@ -144,7 +145,7 @@ export function PlatformPage({
       {profiles.length > 0 && (
         <div className="flex justify-center">
           <button
-            className="px-12 py-3 rounded-full font-bold text-base transition-transform hover:scale-105"
+            className="px-12 py-3 rounded-full font-bold text-base transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             style={{
               ...colorStyle,
               ...glowStyle,

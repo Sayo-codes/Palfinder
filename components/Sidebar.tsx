@@ -11,6 +11,8 @@ import SnapchatIcon from './icons/SnapchatIcon'
 import TelegramIcon from './icons/TelegramIcon'
 import WhatsAppIcon from './icons/WhatsAppIcon'
 import OnlyFansIcon from './icons/OnlyFansIcon'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 // ─── Nav item definition ───────────────────────────────────────────────────────
 interface NavItem {
@@ -42,7 +44,8 @@ const NAV_GROUPS = [
 ]
 
 export default function Sidebar() {
-  const { activeSection, setActiveSection, sidebarOpen, setSidebarOpen } = useAdminStore()
+  const { sidebarOpen, setSidebarOpen } = useAdminStore()
+  const pathname = usePathname()
 
   return (
     <>
@@ -97,7 +100,7 @@ export default function Sidebar() {
 
         {/* External Link to Home */}
         <div className="px-3 py-3">
-          <a
+          <Link
             href="/"
             className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold text-white/60 hover:text-white hover:bg-white/5 transition-all group border border-white/5"
           >
@@ -107,7 +110,7 @@ export default function Sidebar() {
               </svg>
             </div>
             View Website
-          </a>
+          </Link>
         </div>
 
         {/* Navigation */}
@@ -119,14 +122,16 @@ export default function Sidebar() {
               </div>
               <div className="space-y-0.5">
                 {group.items.map((item) => {
-                  const isActive = activeSection === item.id
+                  const isActive = pathname === `/admin/${item.id}`
                   return (
-                    <button
+                    <Link
                       key={item.id}
-                      onClick={() => setActiveSection(item.id)}
+                      href={`/admin/${item.id}`}
+                      prefetch={true}
+                      onClick={() => setSidebarOpen(false)}
                       className={`
                         w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
-                        transition-all duration-150 text-left
+                        transition-all duration-150 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50
                         ${isActive
                           ? 'text-white'
                           : 'text-white/45 hover:text-white/80 hover:bg-white/5'
@@ -153,7 +158,7 @@ export default function Sidebar() {
                           style={{ background: item.accent || '#FF1B8D' }}
                         />
                       )}
-                    </button>
+                    </Link>
                   )
                 })}
               </div>

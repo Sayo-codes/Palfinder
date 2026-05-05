@@ -2,6 +2,7 @@
 
 import { useAdminStore } from '@/lib/store'
 import { Menu, Bell, Plus, Search } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 const SECTION_TITLES: Record<string, string> = {
   overview:     'Overview Dashboard',
@@ -19,9 +20,11 @@ const SECTION_TITLES: Record<string, string> = {
 }
 
 export default function Topbar() {
-  const { activeSection, toggleSidebar, openCreateModal, setSearchQuery, searchQuery } = useAdminStore()
+  const { toggleSidebar, openCreateModal, setSearchQuery, searchQuery } = useAdminStore()
+  const pathname = usePathname()
+  const section = pathname.split('/').pop() || 'overview'
 
-  const showAddButton = ['models', 'snapchat', 'telegram', 'whatsapp', 'onlyfans'].includes(activeSection)
+  const showAddButton = ['models', 'snapchat', 'telegram', 'whatsapp', 'onlyfans'].includes(section)
 
   return (
     <header
@@ -35,7 +38,7 @@ export default function Topbar() {
       {/* Hamburger (mobile) */}
       <button
         onClick={toggleSidebar}
-        className="lg:hidden text-white/60 hover:text-white transition-colors p-1 -ml-1 flex-shrink-0"
+        className="lg:hidden text-white/60 hover:text-white transition-colors p-1 -ml-1 flex-shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
         aria-label="Open menu"
       >
         <Menu size={22} />
@@ -43,7 +46,7 @@ export default function Topbar() {
 
       {/* Title */}
       <h1 className="font-bold text-white text-base sm:text-lg flex-shrink-0">
-        {SECTION_TITLES[activeSection] ?? 'Admin'}
+        {SECTION_TITLES[section] ?? 'Admin'}
       </h1>
 
       {/* Search bar – hidden on smallest mobile */}
@@ -63,7 +66,7 @@ export default function Topbar() {
 
       <div className="flex items-center gap-2 ml-auto">
         {/* Notification bell */}
-        <button className="relative text-white/50 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-white/5">
+        <button className="relative text-white/50 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50">
           <Bell size={18} />
           <span
             className="absolute top-1 right-1 w-2 h-2 rounded-full"
@@ -75,7 +78,7 @@ export default function Topbar() {
         {showAddButton && (
           <button
             onClick={openCreateModal}
-            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:scale-105 active:scale-95"
+            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             style={{
               background: 'linear-gradient(135deg, #FF1B8D, #B026FF)',
               boxShadow: '0 0 20px rgba(255,27,141,0.4)',

@@ -2,7 +2,6 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { Profile, Member, Payment, MediaItem, Platform, NavSection } from './types'
 import {
-  SEED_PROFILES,
   SEED_MEMBERS,
   SEED_PAYMENTS,
   SEED_MEDIA,
@@ -18,8 +17,9 @@ interface AdminStore {
   toggleSidebar: () => void
   setSidebarOpen: (v: boolean) => void
 
-  // Profiles
+  // Profiles — always loaded fresh from DB, never persisted
   profiles: Profile[]
+  setProfiles: (profiles: Profile[]) => void
   addProfile: (p: Profile) => void
   updateProfile: (id: string, data: Partial<Profile>) => void
   deleteProfile: (id: string) => void
@@ -61,8 +61,9 @@ export const useAdminStore = create<AdminStore>()(
   toggleSidebar: () => set((st) => ({ sidebarOpen: !st.sidebarOpen })),
   setSidebarOpen: (v) => set({ sidebarOpen: v }),
 
-  // ── Profiles ──────────────────────────────────────────────────────────────
-  profiles: SEED_PROFILES,
+  // ── Profiles — DB is source of truth ──────────────────────────────────────
+  profiles: [],
+  setProfiles: (profiles) => set({ profiles }),
   addProfile: (p) => set((st) => ({ profiles: [p, ...st.profiles] })),
   updateProfile: (id, data) =>
     set((st) => ({
@@ -103,4 +104,11 @@ export const useAdminStore = create<AdminStore>()(
   platformFilter: 'all',
   setSearchQuery: (q) => set({ searchQuery: q }),
   setPlatformFilter: (p) => set({ platformFilter: p }),
-}), { name: 'palfinder-admin-storage' }))
+}), {
+  name: 'palfinder-admin-storage',
+  // Only persist UI state — never profiles (DB is the source of truth)
+  partialize: (state) => ({
+    activeSection: state.activeSection,
+    platformFilter: state.platformFilter,
+  }),
+}))

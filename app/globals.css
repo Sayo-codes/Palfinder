@@ -19,16 +19,23 @@
 
 * { box-sizing: border-box; }
 
-html, body {
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: auto; /* explicit — prevents overflow-x:hidden from blocking scroll on iOS */
+  height: 100%;
+}
+
+body {
   background-color: var(--bg);
   color: #fff;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
-  scroll-behavior: smooth;
   overscroll-behavior-y: none;
-  overscroll-behavior-x: auto;
   width: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100%;
 }
 
 /* Scrollbar */

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 
 interface AgeGateModalProps {
   onVerify: () => void;
@@ -115,12 +116,11 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
           <span className="age-gate-btn__arrow" aria-hidden="true">→</span>
         </button>
 
-        {/* Footer */}
         <p className="age-gate-footer">
           By entering you accept our{" "}
-          <a href="/terms" className="age-gate-link">Terms of Service</a>
+          <Link href="/terms" className="age-gate-link">Terms of Service</Link>
           {" "}and{" "}
-          <a href="/privacy" className="age-gate-link">Privacy Policy</a>
+          <Link href="/privacy" className="age-gate-link">Privacy Policy</Link>
         </p>
       </div>
 

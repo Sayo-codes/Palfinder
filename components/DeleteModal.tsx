@@ -1,14 +1,37 @@
 'use client'
 
+import { useState } from 'react'
 import { useAdminStore } from '@/lib/store'
-import { AlertTriangle, Trash2, X } from 'lucide-react'
+import { AlertTriangle, Trash2, X, Loader2 } from 'lucide-react'
+import { deleteProfileDb } from '@/lib/actions'
 
 export default function DeleteModal() {
-  const { deletingProfileId, closeDeleteConfirm, confirmDelete, profiles } = useAdminStore()
+  const { deletingProfileId, closeDeleteConfirm, deleteProfile, profiles } = useAdminStore()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   if (!deletingProfileId) return null
 
   const profile = profiles.find((p) => p.id === deletingProfileId)
+
+  const handleConfirm = async () => {
+    if (!deletingProfileId) return
+    setLoading(true)
+    setError('')
+    try {
+      const res = await deleteProfileDb(deletingProfileId)
+      if (res.success) {
+        deleteProfile(deletingProfileId)
+        closeDeleteConfirm()
+      } else {
+        setError(res.error || 'Failed to delete profile')
+      }
+    } catch (e: any) {
+      setError(e.message || 'Unexpected error')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="modal-backdrop" onClick={closeDeleteConfirm}>
@@ -28,7 +51,7 @@ export default function DeleteModal() {
               <p className="text-xs text-white/40">This action cannot be undone</p>
             </div>
           </div>
-          <button onClick={closeDeleteConfirm} className="text-white/30 hover:text-white transition-colors">
+          <button onClick={closeDeleteConfirm} className="text-white/30 hover:text-white transition-colors" disabled={loading}>
             <X size={18} />
           </button>
         </div>
@@ -41,16 +64,23 @@ export default function DeleteModal() {
               All links, photos, and data will be removed.
             </p>
           </div>
+          {error && (
+            <p className="text-red-400 text-xs mb-3 text-center">{error}</p>
+          )}
           <div className="flex gap-2.5">
-            <button onClick={closeDeleteConfirm}
-              className="flex-1 py-3 rounded-xl text-sm font-semibold text-white/60 hover:text-white transition"
+            <button onClick={closeDeleteConfirm} disabled={loading}
+              className="flex-1 py-3 rounded-xl text-sm font-semibold text-white/60 hover:text-white transition disabled:opacity-50"
               style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
               Cancel
             </button>
-            <button onClick={confirmDelete}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold text-white hover:scale-[1.02] active:scale-[0.98] transition"
+            <button onClick={handleConfirm} disabled={loading}
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold text-white hover:scale-[1.02] active:scale-[0.98] transition disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ background: 'linear-gradient(135deg,#e53e3e,#c53030)', boxShadow: '0 0 20px rgba(229,62,62,0.35)' }}>
-              <Trash2 size={14} /> Delete Profile
+              {loading ? (
+                <><Loader2 size={14} className="animate-spin" /> Deleting...</>
+              ) : (
+                <><Trash2 size={14} /> Delete Profile</>
+              )}
             </button>
           </div>
         </div>

@@ -83,15 +83,31 @@ export async function getProfilesByPlatform(platform: string) {
   })
 }
 
+export async function deleteProfileDb(id: string) {
+  try {
+    await db.profile.delete({ where: { id } })
+    revalidatePath('/')
+    revalidatePath('/snapchat')
+    revalidatePath('/telegram')
+    revalidatePath('/whatsapp')
+    revalidatePath('/onlyfans')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Failed to delete profile', error)
+    return { success: false, error: error.message }
+  }
+}
+
 export async function uploadImage(formData: FormData) {
   const file = formData.get('file') as File;
   if (!file) {
-    throw new Error('No file found in formData');
+    throw new Error('No file found in formData')
   }
 
   const blob = await put(`profiles/${Date.now()}-${file.name}`, file, {
     access: 'public',
-  });
+  })
 
-  return { url: blob.url };
+  return { url: blob.url }
 }
