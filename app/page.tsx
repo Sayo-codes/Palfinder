@@ -118,6 +118,25 @@ export default function Home() {
   // Only show verified models
   const verifiedModels = dbModels.filter(m => m.verified && m.active)
 
+  // Filter logic for model grid
+  const filteredModels = dbModels.filter(m => {
+    if (!m.active) return false
+    // search filter
+    if (searchValue) {
+      const q = searchValue.toLowerCase()
+      if (!m.name.toLowerCase().includes(q) && !m.username.toLowerCase().includes(q) && !m.country.toLowerCase().includes(q)) return false
+    }
+    switch (activeFilter) {
+      case 'Girls': return m.gender === 'Female'
+      case 'Guys': return m.gender === 'Male'
+      case 'Verified': return m.verified
+      case 'Online Now': return m.online
+      case '18-25': return m.age >= 18 && m.age <= 25
+      case '25-35': return m.age >= 25 && m.age <= 35
+      default: return true
+    }
+  })
+
   return (
     <div className="min-h-screen w-full">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
@@ -208,7 +227,7 @@ export default function Home() {
         </div>
 
         {/* ── Filters ──────────────────────────────────────────────── */}
-        <div className="flex flex-wrap gap-2 justify-center mb-12">
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
           <button className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-white/8"
             style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)', color: 'rgba(255,255,255,0.7)' }}>
             <SlidersHorizontalIcon className="w-3.5 h-3.5" /> Filters
@@ -219,7 +238,7 @@ export default function Home() {
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
-                className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all hover:scale-105 active:scale-95"
+                className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:scale-105 active:scale-95"
                 style={active
                   ? { background: '#D41A75', color: '#fff', boxShadow: '0 4px 16px rgba(212,26,117,0.4)' }
                   : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }
@@ -230,6 +249,55 @@ export default function Home() {
             )
           })}
         </div>
+
+        {/* ── Filtered Model Grid ──────────────────────────────────── */}
+        {modelsLoading ? (
+          <div className="flex justify-center py-12 mb-12">
+            <div className="w-8 h-8 border-2 border-white/10 border-t-[#D41A75] rounded-full animate-spin" />
+          </div>
+        ) : filteredModels.length > 0 ? (
+          <div className="mb-12">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-xs text-white/40 font-medium">{filteredModels.length} model{filteredModels.length !== 1 ? 's' : ''} found</p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {filteredModels.map((p) => (
+                <Link
+                  key={p.id}
+                  href={`/profile/${p.username}`}
+                  className="group bg-black/60 rounded-2xl p-4 flex flex-col items-center transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D41A75]/50"
+                  style={{ border: '1px solid rgba(255,255,255,0.06)', animation: 'fadeSlideIn 0.3s ease-out both' }}
+                >
+                  <div className="relative mb-3">
+                    <div className="rounded-full p-[2.5px]" style={{ background: 'linear-gradient(135deg, #D41A75, #8E20D1)', boxShadow: '0 0 8px rgba(212,26,117,0.3)' }}>
+                      {p.photo ? (
+                        <img src={p.photo} alt={p.name} className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover bg-black" />
+                      ) : (
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#D41A75] to-[#8E20D1]" />
+                      )}
+                    </div>
+                    {p.online && <span className="absolute bottom-0.5 right-0.5 w-3 h-3 rounded-full bg-[#00D168] border-2 border-black" />}
+                  </div>
+                  <div className="flex items-center gap-1 mb-0.5">
+                    <span className="font-bold text-white text-xs sm:text-sm">{p.name}</span>
+                    {p.verified && <BadgeCheckIcon className="w-3.5 h-3.5 text-[#0082C5]" />}
+                  </div>
+                  <p className="text-[11px] text-white/40 mb-0.5">{p.age} · {p.country}</p>
+                  <div className="flex gap-1 mt-1">
+                    {p.platforms.slice(0, 3).map(pl => (
+                      <span key={pl} className="px-1.5 py-0.5 rounded text-[9px] font-semibold" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.5)' }}>{pl}</span>
+                    ))}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : dbModels.length > 0 ? (
+          <div className="flex flex-col items-center py-12 mb-12 text-center">
+            <p className="text-white/40 font-medium">No models match this filter</p>
+            <button onClick={() => { setActiveFilter('All'); setSearchValue('') }} className="mt-3 text-xs text-[#D41A75] hover:underline">Clear filters</button>
+          </div>
+        ) : null}
 
         {/* ── Platform sections ────────────────────────────────────── */}
         <div className="mb-14">
@@ -292,7 +360,7 @@ export default function Home() {
               </div>
             ) : verifiedModels.length > 0 ? (
               <ul className="space-y-2 mb-4">
-                {verifiedModels.slice(0, 5).map((m) => (
+                {verifiedModels.slice(0, 3).map((m) => (
                   <li key={m.id}>
                     <Link href={`/profile/${m.username}`}
                       className="flex items-center justify-between group p-2 -mx-2 rounded-xl transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30">
@@ -331,10 +399,11 @@ export default function Home() {
             )}
 
             {verifiedModels.length > 0 && (
-              <button className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-[#00A3C4]/15 mt-auto"
+              <Link href="/verified"
+                className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-[#00A3C4]/15 mt-auto text-center block"
                 style={{ background: 'rgba(0,163,196,0.08)', border: '1px solid rgba(0,163,196,0.18)', color: '#00A3C4' }}>
                 View All Verified
-              </button>
+              </Link>
             )}
           </div>
 

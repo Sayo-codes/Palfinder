@@ -41,15 +41,6 @@ export function PlatformPage({
         >
           <ChevronLeftIcon className="w-4 h-4" /> Back
         </Link>
-        <button
-          className="px-5 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-          style={{
-            ...colorStyle,
-            ...glowStyle,
-          }}
-        >
-          Join Now
-        </button>
       </div>
 
       {/* Header pill */}
