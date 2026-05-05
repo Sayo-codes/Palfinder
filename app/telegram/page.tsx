@@ -3,6 +3,8 @@ import TelegramIcon from '@/components/icons/TelegramIcon'
 import { PlatformPage } from '@/components/PlatformPage'
 import { getProfilesByPlatform } from '@/lib/actions'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Telegram() {
   let profiles = []
   try {

@@ -27,6 +27,10 @@ export async function createProfile(data: any) {
     })
     
     revalidatePath('/')
+    revalidatePath('/snapchat')
+    revalidatePath('/telegram')
+    revalidatePath('/whatsapp')
+    revalidatePath('/onlyfans')
     revalidatePath('/admin')
     return { success: true, profile }
   } catch (error: any) {
@@ -58,6 +62,10 @@ export async function updateProfileDb(id: string, data: any) {
       }
     })
     revalidatePath('/')
+    revalidatePath('/snapchat')
+    revalidatePath('/telegram')
+    revalidatePath('/whatsapp')
+    revalidatePath('/onlyfans')
     revalidatePath('/admin')
     return { success: true, profile }
   } catch (error: any) {

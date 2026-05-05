@@ -3,6 +3,8 @@ import SnapchatIcon from '@/components/icons/SnapchatIcon'
 import { PlatformPage } from '@/components/PlatformPage'
 import { getProfilesByPlatform } from '@/lib/actions'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Snapchat() {
   let profiles = []
   try {

@@ -3,6 +3,8 @@ import WhatsAppIcon from '@/components/icons/WhatsAppIcon'
 import { PlatformPage } from '@/components/PlatformPage'
 import { getProfilesByPlatform } from '@/lib/actions'
 
+export const dynamic = 'force-dynamic'
+
 export default async function WhatsApp() {
   let profiles = []
   try {
