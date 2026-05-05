@@ -274,7 +274,7 @@ export default function Home() {
         </div>
 
         {/* ── Filtered Model Grid ──────────────────────────────────── */}
-        {modelsLoading ? (
+        {filtersOpen && (modelsLoading ? (
           <div className="flex justify-center py-12 mb-12">
             <div className="w-8 h-8 border-2 border-white/10 border-t-[#D41A75] rounded-full animate-spin" />
           </div>
@@ -320,7 +320,7 @@ export default function Home() {
             <p className="text-white/40 font-medium">No models match this filter</p>
             <button onClick={() => { setActiveFilter('All'); setSearchValue('') }} className="mt-3 text-xs text-[#D41A75] hover:underline">Clear filters</button>
           </div>
-        ) : null}
+        ) : null)}
 
         {/* ── Platform sections ────────────────────────────────────── */}
         <div className="mb-14">
