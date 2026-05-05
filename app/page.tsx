@@ -106,6 +106,7 @@ export default function Home() {
   const [dbModels, setDbModels] = useState<Profile[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [modelsLoading, setModelsLoading] = useState(true)
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   useEffect(() => {
     setModelsLoading(true)
@@ -227,27 +228,49 @@ export default function Home() {
         </div>
 
         {/* ── Filters ──────────────────────────────────────────────── */}
-        <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <button className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-white/8"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)', color: 'rgba(255,255,255,0.7)' }}>
-            <SlidersHorizontalIcon className="w-3.5 h-3.5" /> Filters
+        <div className="flex flex-col items-center mb-6 gap-2">
+          <button
+            onClick={() => setFiltersOpen(o => !o)}
+            className="relative flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
+            style={{
+              background: filtersOpen ? 'rgba(212,26,117,0.12)' : 'rgba(255,255,255,0.06)',
+              border: filtersOpen ? '1px solid rgba(212,26,117,0.3)' : '1px solid rgba(255,255,255,0.09)',
+              color: filtersOpen ? '#FF1B8D' : 'rgba(255,255,255,0.7)',
+            }}
+          >
+            <SlidersHorizontalIcon className="w-3.5 h-3.5" />
+            {filtersOpen ? 'Hide Filters' : 'Filters'}
+            {activeFilter !== 'All' && !filtersOpen && (
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#D41A75] border-2 border-[#050508]" />
+            )}
           </button>
-          {filters.map((f) => {
-            const active = activeFilter === f
-            return (
-              <button
-                key={f}
-                onClick={() => setActiveFilter(f)}
-                className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-                style={active
-                  ? { background: '#D41A75', color: '#fff', boxShadow: '0 4px 16px rgba(212,26,117,0.4)' }
-                  : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }
-                }
-              >
-                {f}
-              </button>
-            )
-          })}
+
+          <div
+            className="overflow-hidden transition-all duration-300 ease-out"
+            style={{
+              maxHeight: filtersOpen ? '120px' : '0px',
+              opacity: filtersOpen ? 1 : 0,
+            }}
+          >
+            <div className="flex flex-wrap gap-2 justify-center pt-1 pb-1">
+              {filters.map((f) => {
+                const active = activeFilter === f
+                return (
+                  <button
+                    key={f}
+                    onClick={() => setActiveFilter(f)}
+                    className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+                    style={active
+                      ? { background: '#D41A75', color: '#fff', boxShadow: '0 4px 16px rgba(212,26,117,0.4)' }
+                      : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }
+                    }
+                  >
+                    {f}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
         </div>
 
         {/* ── Filtered Model Grid ──────────────────────────────────── */}
