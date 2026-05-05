@@ -92,9 +92,9 @@ export const useAdminStore = create<AdminStore>()(
   },
 
   // ── Members / Payments / Media ────────────────────────────────────────────
-  members: SEED_MEMBERS,
-  payments: SEED_PAYMENTS,
-  media: SEED_MEDIA,
+  members: [],
+  payments: [],
+  media: [],
   addMedia: (item) => set((st) => ({ media: [item, ...st.media] })),
   deleteMedia: (id) =>
     set((st) => ({ media: st.media.filter((m) => m.id !== id) })),
