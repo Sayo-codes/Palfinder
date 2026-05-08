@@ -17,6 +17,7 @@ import {
   MailIcon,
   ChevronRightIcon,
   SparklesIcon,
+  HeartIcon,
 } from 'lucide-react'
 import SnapchatIcon from '@/components/icons/SnapchatIcon'
 import TelegramIcon from '@/components/icons/TelegramIcon'
@@ -164,6 +165,7 @@ export default function Home() {
               { href: '/telegram', label: 'Telegram', color: '#0082C5' },
               { href: '/whatsapp', label: 'WhatsApp', color: '#00D168' },
               { href: '/onlyfans', label: 'OnlyFans', color: '#00A3C4' },
+              { href: '/palfinder', label: 'Palfinder', color: '#6B1F2A' },
             ].map(({ href, label, color }) => (
               <Link key={href} href={href} prefetch={true}
                 className="px-3 py-1.5 rounded-lg text-sm font-medium text-white/60 hover:text-white transition-colors hover:bg-white/5">
@@ -200,6 +202,8 @@ export default function Home() {
             icon={<WhatsAppIcon className="w-4 h-4" />} />
           <PlatformPill href="/onlyfans" label="OnlyFans" color="#00A3C4" textColor="#001a26"
             icon={<OnlyFansIcon className="w-4 h-4" />} />
+          <PlatformPill href="/palfinder" label="Palfinder" color="#6B1F2A" textColor="#fff"
+            icon={<HeartIcon className="w-4 h-4" />} />
         </div>
 
         {/* ── Search ───────────────────────────────────────────────── */}
