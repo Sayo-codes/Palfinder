@@ -20,9 +20,11 @@ import PayWithCryptoButton from '@/components/palfinder/PayWithCryptoButton'
 /* ─── Profile Detail Modal ──────────────────────────────────────────────────── */
 function ProfileModal({
   profile,
+  profileId,
   onClose,
 }: {
   profile: PalfinderProfile
+  profileId: number
   onClose: () => void
 }) {
   const [activeMedia, setActiveMedia] = useState(0)
@@ -167,13 +169,9 @@ function ProfileModal({
           </div>
 
           <PayWithCryptoButton
+            profileId={profileId}
             amount={profile.price}
-            profileName={profile.name}
             label={`BUY — $${profile.price}`}
-            onSuccess={(paymentId, orderId) => {
-              console.log(`Payment ${paymentId} completed for order ${orderId}`)
-              // TODO: Unlock profile content here
-            }}
           />
         </div>
       </div>
@@ -183,7 +181,7 @@ function ProfileModal({
 
 /* ─── Main Page ─────────────────────────────────────────────────────────────── */
 export default function PalfinderPage() {
-  const [selectedProfile, setSelectedProfile] = useState<PalfinderProfile | null>(null)
+  const [selectedProfile, setSelectedProfile] = useState<{ profile: PalfinderProfile; idx: number } | null>(null)
 
   return (
     <div className="min-h-screen w-full">
@@ -294,7 +292,7 @@ export default function PalfinderPage() {
               {/* Image */}
               <div 
                 className="w-full aspect-[4/5] relative overflow-hidden cursor-pointer"
-                onClick={() => setSelectedProfile(profile)}
+                onClick={() => setSelectedProfile({ profile, idx: index })}
               >
                 <img
                   src={profile.imageUrl}
@@ -376,12 +374,8 @@ export default function PalfinderPage() {
 
                   {/* CTA — Pay with Crypto */}
                   <PayWithCryptoButton
+                    profileId={index}
                     amount={profile.price}
-                    profileName={profile.name}
-                    onSuccess={(paymentId, orderId) => {
-                      console.log(`Payment ${paymentId} completed for order ${orderId}`)
-                      // TODO: Unlock profile content here
-                    }}
                   />
                 </div>
               </div>
@@ -413,7 +407,8 @@ export default function PalfinderPage() {
       {/* ── Profile Modal ─────────────────────────────────────── */}
       {selectedProfile && (
         <ProfileModal
-          profile={selectedProfile}
+          profile={selectedProfile.profile}
+          profileId={selectedProfile.idx}
           onClose={() => setSelectedProfile(null)}
         />
       )}
