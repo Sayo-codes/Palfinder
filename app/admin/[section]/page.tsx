@@ -10,6 +10,7 @@ import MediaLibrary    from '@/components/sections/MediaLibrary'
 import Settings        from '@/components/sections/Settings'
 import Verification    from '@/components/sections/Verification'
 import Affiliates      from '@/components/sections/Affiliates'
+import PalfinderManagement from '@/components/sections/PalfinderManagement'
 import { NavSection } from '@/lib/types'
 
 function ChatPlaceholder() {
@@ -31,6 +32,7 @@ function SectionRenderer({ section }: { section: string }) {
   switch (section) {
     case 'overview':     return <Overview />
     case 'models':       return <ProfilesList />
+    case 'palfinder':    return <PalfinderManagement />
     case 'snapchat':     return <PlatformProfiles platform="snapchat" />
     case 'telegram':     return <PlatformProfiles platform="telegram" />
     case 'whatsapp':     return <PlatformProfiles platform="whatsapp" />

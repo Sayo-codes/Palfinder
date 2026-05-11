@@ -15,6 +15,7 @@ import {
   FilmIcon,
 } from 'lucide-react'
 import { PALFINDER_PROFILES, PalfinderProfile } from '@/components/palfinder/palfinderData'
+import PayWithCryptoButton from '@/components/palfinder/PayWithCryptoButton'
 
 /* ─── Profile Detail Modal ──────────────────────────────────────────────────── */
 function ProfileModal({
@@ -165,16 +166,15 @@ function ProfileModal({
             ))}
           </div>
 
-          <button
-            className="w-full font-bold text-sm py-3 rounded-full transition-all duration-200 hover:brightness-110 hover:scale-[1.01] active:scale-95"
-            style={{
-              background: '#6B1F2A',
-              color: '#fff',
-              boxShadow: '0 4px 20px rgba(107,31,42,0.5)',
+          <PayWithCryptoButton
+            amount={profile.price}
+            profileName={profile.name}
+            label={`BUY — $${profile.price}`}
+            onSuccess={(paymentId, orderId) => {
+              console.log(`Payment ${paymentId} completed for order ${orderId}`)
+              // TODO: Unlock profile content here
             }}
-          >
-            BUY — ${profile.price}
-          </button>
+          />
         </div>
       </div>
     </div>
@@ -186,7 +186,7 @@ export default function PalfinderPage() {
   const [selectedProfile, setSelectedProfile] = useState<PalfinderProfile | null>(null)
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div className="min-h-screen w-full">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
 
         {/* ── Top nav ────────────────────────────────────────────── */}
@@ -374,17 +374,15 @@ export default function PalfinderPage() {
                     <span className="text-xl font-bold text-white">${profile.price}</span>
                   </div>
 
-                  {/* CTA */}
-                  <button
-                    className="w-full font-bold text-sm py-2.5 rounded-full text-center transition-all duration-200 hover:brightness-110 active:scale-95"
-                    style={{
-                      background: '#6B1F2A',
-                      color: '#fff',
-                      boxShadow: '0 4px 16px rgba(107,31,42,0.4)',
+                  {/* CTA — Pay with Crypto */}
+                  <PayWithCryptoButton
+                    amount={profile.price}
+                    profileName={profile.name}
+                    onSuccess={(paymentId, orderId) => {
+                      console.log(`Payment ${paymentId} completed for order ${orderId}`)
+                      // TODO: Unlock profile content here
                     }}
-                  >
-                    BUY
-                  </button>
+                  />
                 </div>
               </div>
             </div>

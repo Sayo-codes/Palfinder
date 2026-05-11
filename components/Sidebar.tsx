@@ -5,7 +5,7 @@ import { NavSection } from '@/lib/types'
 import {
   LayoutDashboard, Users, Send, Phone, Key,
   CreditCard, UserCheck, Shield, Network, Image, Settings,
-  X, MessageCircle,
+  X, MessageCircle, Heart,
 } from 'lucide-react'
 import SnapchatIcon from './icons/SnapchatIcon'
 import TelegramIcon from './icons/TelegramIcon'
@@ -25,6 +25,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { id: 'overview',      label: 'Overview',      icon: <LayoutDashboard size={18} /> },
   { id: 'models',        label: 'All Profiles',  icon: <Users size={18} /> },
+  { id: 'palfinder',     label: 'PalFinder',     icon: <Heart size={18} /> },
   { id: 'snapchat',      label: 'Snapchat',       icon: <SnapchatIcon size={18} />,   accent: '#E6C100' },
   { id: 'telegram',      label: 'Telegram',       icon: <TelegramIcon size={18} />,    accent: '#0082C5' },
   { id: 'whatsapp',      label: 'WhatsApp',       icon: <WhatsAppIcon size={18} />,   accent: '#00D168' },
@@ -38,9 +39,9 @@ const NAV_ITEMS: NavItem[] = [
 ]
 
 const NAV_GROUPS = [
-  { label: 'MAIN',      items: NAV_ITEMS.slice(0, 2) },
-  { label: 'PLATFORMS', items: NAV_ITEMS.slice(2, 6) },
-  { label: 'MANAGE',    items: NAV_ITEMS.slice(6) },
+  { label: 'MAIN',      items: NAV_ITEMS.slice(0, 3) },
+  { label: 'PLATFORMS', items: NAV_ITEMS.slice(3, 7) },
+  { label: 'MANAGE',    items: NAV_ITEMS.slice(7) },
 ]
 
 export default function Sidebar() {

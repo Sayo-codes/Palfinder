@@ -53,6 +53,7 @@ export interface MediaItem {
 export type NavSection =
   | 'overview'
   | 'models'
+  | 'palfinder'
   | 'snapchat'
   | 'telegram'
   | 'whatsapp'

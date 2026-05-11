@@ -27,3 +27,27 @@ model Profile {
   active       Boolean  @default(true)
   createdAt    DateTime @default(now())
 }
+
+/// Stores crypto payment records from NOWPayments gateway.
+/// Each record tracks one payment from creation through completion/expiry.
+model CryptoPayment {
+  id              String    @id @default(cuid())
+  paymentId       String    @unique              // NOWPayments payment_id
+  orderId         String    @unique              // Our internal order reference (e.g. PAL-xxx)
+  profileName     String                         // Name of the profile being purchased
+  priceAmount     Float                          // Amount in fiat (USD)
+  priceCurrency   String    @default("usd")      // Fiat currency
+  payAmount       Float                          // Amount in crypto
+  payCurrency     String    @default("usdttrc20")// Crypto currency
+  payAddress      String                         // Wallet address for payment
+  status          String    @default("waiting")  // waiting, confirming, confirmed, finished, expired, failed
+  actuallyPaid    Float     @default(0)          // Amount actually received (in crypto)
+  actuallyPaidFiat Float    @default(0)          // Amount actually received (in fiat)
+  expiresAt       DateTime?                      // When the payment window expires
+  completedAt     DateTime?                      // When payment was confirmed/finished
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([status])
+  @@index([orderId])
+}
