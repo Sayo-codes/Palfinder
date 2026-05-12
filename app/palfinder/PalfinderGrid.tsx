@@ -120,8 +120,8 @@ function ProfileModal({
             ))}
           </div>
 
-          {/* Buy button → full pay page */}
-          <a href={`/palfinder/pay/${profile.id}`}
+          {/* Buy button → checkout / payment selection page */}
+          <a href={`/palfinder/checkout/${profile.id}`}
             className="flex w-full items-center justify-center gap-2 py-3 rounded-full text-sm font-bold text-white transition-all hover:brightness-110 hover:scale-[1.01] active:scale-95"
             style={{ background: '#6B1F2A', boxShadow: '0 4px 16px rgba(107,31,42,0.4)' }}>
             💳 BUY — ${profile.price}
