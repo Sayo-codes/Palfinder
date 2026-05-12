@@ -5,8 +5,9 @@ import { AlertTriangleIcon } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
-export default async function PayPage({ params }: { params: { profileId: string } }) {
-  const profile = await getPalfinderProfileById(params.profileId)
+export default async function PayPage({ params }: { params: Promise<{ profileId: string }> }) {
+  const { profileId } = await params
+  const profile = await getPalfinderProfileById(profileId)
 
   if (!profile) {
     return (
