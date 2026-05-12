@@ -8,6 +8,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// ============================================================
+/// PalfinderProfile — companion profiles shown on /palfinder
+/// Managed via the admin panel (PalfinderManagement.tsx) and
+/// displayed on the public PalFinder page.
+/// ============================================================
+model PalfinderProfile {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  bio       String   @default("")
+  price     Float
+  rating    Float    @default(5.0)
+  /// Age of the companion (must be 18+)
+  age       Int
+  /// Interest tags e.g. ["Fitness", "Travel"]
+  tags      String[]
+  /// URL of the main portrait photo (uploaded to Vercel Blob)
+  mainPhoto String   @default("")
+  /// Array of gallery media URLs (photos + videos)
+  gallery   String[]
+  /// "active" | "inactive" — only active profiles show on public page
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
 model Profile {
   id           String   @id @default(cuid())
   name         String

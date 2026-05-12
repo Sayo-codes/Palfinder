@@ -119,3 +119,113 @@ export async function uploadImage(formData: FormData) {
 
   return { url: blob.url }
 }
+
+// ─────────────────────────────────────────────────────────────
+// PalFinder Profile CRUD
+// These actions manage the separate PalfinderProfile model
+// (companion profiles shown on /palfinder — distinct from the
+//  social-platform Profile model used by Snapchat/Telegram/etc.)
+// ─────────────────────────────────────────────────────────────
+
+/** Data shape expected when creating or updating a PalFinder profile */
+interface PalfinderProfileInput {
+  name: string
+  location: string
+  bio?: string
+  price: number
+  rating?: number
+  age: number
+  tags?: string[]
+  mainPhoto?: string
+  gallery?: string[]
+  status?: string
+}
+
+/** Fetch all PalFinder profiles, newest first */
+export async function getPalfinderProfiles() {
+  return await db.palfinderProfile.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
+}
+
+/** Fetch only active PalFinder profiles for the public page */
+export async function getActivePalfinderProfiles() {
+  return await db.palfinderProfile.findMany({
+    where: { status: 'active' },
+    orderBy: { createdAt: 'desc' },
+  })
+}
+
+/** Fetch a single PalFinder profile by ID */
+export async function getPalfinderProfileById(id: string) {
+  return await db.palfinderProfile.findUnique({
+    where: { id },
+  })
+}
+
+/** Create a new PalFinder profile and revalidate the public page */
+export async function createPalfinderProfile(data: PalfinderProfileInput) {
+  try {
+    const profile = await db.palfinderProfile.create({
+      data: {
+        name: data.name,
+        location: data.location,
+        bio: data.bio ?? '',
+        price: data.price,
+        rating: data.rating ?? 5.0,
+        age: data.age,
+        tags: data.tags ?? [],
+        mainPhoto: data.mainPhoto ?? '',
+        gallery: data.gallery ?? [],
+        status: data.status ?? 'active',
+      },
+    })
+    // Revalidate so the public page reflects the new profile immediately
+    revalidatePath('/palfinder')
+    revalidatePath('/admin')
+    return { success: true, profile }
+  } catch (error: any) {
+    console.error('[PalFinder] Failed to create profile:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+/** Update an existing PalFinder profile by ID */
+export async function updatePalfinderProfile(id: string, data: PalfinderProfileInput) {
+  try {
+    const profile = await db.palfinderProfile.update({
+      where: { id },
+      data: {
+        name: data.name,
+        location: data.location,
+        bio: data.bio ?? '',
+        price: data.price,
+        rating: data.rating ?? 5.0,
+        age: data.age,
+        tags: data.tags ?? [],
+        mainPhoto: data.mainPhoto ?? '',
+        gallery: data.gallery ?? [],
+        status: data.status ?? 'active',
+      },
+    })
+    revalidatePath('/palfinder')
+    revalidatePath('/admin')
+    return { success: true, profile }
+  } catch (error: any) {
+    console.error('[PalFinder] Failed to update profile:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+/** Delete a PalFinder profile by ID */
+export async function deletePalfinderProfile(id: string) {
+  try {
+    await db.palfinderProfile.delete({ where: { id } })
+    revalidatePath('/palfinder')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    console.error('[PalFinder] Failed to delete profile:', error)
+    return { success: false, error: error.message }
+  }
+}

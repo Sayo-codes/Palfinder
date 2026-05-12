@@ -1,195 +1,168 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
-import { Plus, Edit2, Trash2, X, Upload, GripVertical, Play, ImageIcon, Heart } from 'lucide-react'
-import Image from 'next/image'
+import React, { useState, useRef, useEffect } from 'react'
+import { Plus, Edit2, Trash2, X, Upload, GripVertical, Play, ImageIcon, Heart, Loader2, AlertCircle } from 'lucide-react'
+import {
+  getPalfinderProfiles,
+  createPalfinderProfile,
+  updatePalfinderProfile,
+  deletePalfinderProfile,
+  uploadImage,
+} from '@/lib/actions'
+
+/* ── Types ───────────────────────────────────────────────── */
+interface DBProfile {
+  id: string; name: string; location: string; bio: string
+  price: number; rating: number; age: number; tags: string[]
+  mainPhoto: string; gallery: string[]; status: string
+  createdAt: Date; updatedAt: Date
+}
 
 interface GalleryItem {
-  id: string
-  url: string
-  type: 'photo' | 'video'
-  file?: File
+  id: string; url: string; type: 'photo' | 'video'; uploading?: boolean
 }
 
-interface PalfinderProfile {
-  id: string
-  name: string
-  location: string
-  bio: string
-  price: number
-  rating: number
-  tags: string[]
-  mainPhoto: string | null
-  gallery: GalleryItem[]
-  status: 'active' | 'inactive'
+interface FormState {
+  name: string; location: string; bio: string
+  price: number; rating: number; age: number
+  tags: string[]; mainPhoto: string
+  gallery: GalleryItem[]; status: 'active' | 'inactive'
 }
 
-const MOCK_PROFILES: PalfinderProfile[] = [
-  {
-    id: 'PF-001',
-    name: 'Sarah Jenkins',
-    location: 'Lagos, Nigeria',
-    bio: 'Fun, outgoing, and ready to explore the city! I love finding new cafes and attending live music events.',
-    price: 150,
-    rating: 4.8,
-    tags: ['Coffee', 'Music', 'Travel'],
-    mainPhoto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
-    gallery: [],
-    status: 'active',
-  },
-  {
-    id: 'PF-002',
-    name: 'David Okafor',
-    location: 'Abuja, Nigeria',
-    bio: 'Fitness enthusiast. Always up for a gym session or an outdoor hike. Let\'s get active!',
-    price: 100,
-    rating: 4.5,
-    tags: ['Fitness', 'Outdoors'],
-    mainPhoto: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
-    gallery: [],
-    status: 'active',
-  }
-]
+const BLANK: FormState = {
+  name: '', location: '', bio: '', price: 0, rating: 5.0,
+  age: 18, tags: [], mainPhoto: '', gallery: [], status: 'active',
+}
 
+function urlType(url: string): 'photo' | 'video' {
+  return /\.(mp4|mov|webm|avi|mkv)($|\?)/i.test(url) ? 'video' : 'photo'
+}
+
+/* ── Component ───────────────────────────────────────────── */
 export default function PalfinderManagement() {
-  const [profiles, setProfiles] = useState<PalfinderProfile[]>(MOCK_PROFILES)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingId, setEditingId] = useState<string | null>(null)
+  const [profiles, setProfiles]       = useState<DBProfile[]>([])
+  const [loading, setLoading]         = useState(true)
+  const [isOpen, setIsOpen]           = useState(false)
+  const [editingId, setEditingId]     = useState<string | null>(null)
+  const [form, setForm]               = useState<FormState>(BLANK)
+  const [tagInput, setTagInput]       = useState('')
+  const [dragIdx, setDragIdx]         = useState<number | null>(null)
+  const [mainUploading, setMainUploading] = useState(false)
+  const [saving, setSaving]           = useState(false)
+  const [error, setError]             = useState<string | null>(null)
+  const mainRef    = useRef<HTMLInputElement>(null)
+  const galleryRef = useRef<HTMLInputElement>(null)
 
-  const [formData, setFormData] = useState<Omit<PalfinderProfile, 'id'>>({
-    name: '',
-    location: '',
-    bio: '',
-    price: 0,
-    rating: 5.0,
-    tags: [],
-    mainPhoto: null,
-    gallery: [],
-    status: 'active'
-  })
+  /* Load from DB */
+  const load = async () => {
+    setLoading(true)
+    try { setProfiles((await getPalfinderProfiles()) as DBProfile[]) }
+    catch (e) { console.error(e) }
+    finally { setLoading(false) }
+  }
+  useEffect(() => { load() }, [])
 
-  const [tagInput, setTagInput] = useState('')
-  const [draggedItemIndex, setDraggedItemIndex] = useState<number | null>(null)
-
-  const mainPhotoInputRef = useRef<HTMLInputElement>(null)
-  const galleryInputRef = useRef<HTMLInputElement>(null)
-
-  const handleOpenModal = (profile?: PalfinderProfile) => {
-    if (profile) {
-      setEditingId(profile.id)
-      setFormData({
-        name: profile.name,
-        location: profile.location,
-        bio: profile.bio,
-        price: profile.price,
-        rating: profile.rating,
-        tags: [...profile.tags],
-        mainPhoto: profile.mainPhoto,
-        gallery: [...profile.gallery],
-        status: profile.status
+  /* Open modal */
+  const openModal = (p?: DBProfile) => {
+    setError(null)
+    if (p) {
+      setEditingId(p.id)
+      setForm({
+        name: p.name, location: p.location, bio: p.bio,
+        price: p.price, rating: p.rating, age: p.age,
+        tags: [...p.tags], mainPhoto: p.mainPhoto,
+        gallery: p.gallery.map(url => ({ id: crypto.randomUUID(), url, type: urlType(url) })),
+        status: p.status as 'active' | 'inactive',
       })
     } else {
-      setEditingId(null)
-      setFormData({
-        name: '',
-        location: '',
-        bio: '',
-        price: 0,
-        rating: 5.0,
-        tags: [],
-        mainPhoto: null,
-        gallery: [],
-        status: 'active'
-      })
+      setEditingId(null); setForm(BLANK)
     }
-    setIsModalOpen(true)
+    setIsOpen(true)
   }
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-  }
+  /* Save */
+  const handleSave = async () => {
+    if (!form.name.trim())        { setError('Name is required.');              return }
+    if (!form.location.trim())    { setError('Location is required.');          return }
+    if (form.price <= 0)          { setError('Price must be greater than 0.');  return }
+    if (form.age < 18 || form.age > 80) { setError('Age must be 18–80.');      return }
+    if (form.gallery.some(i => i.uploading)) { setError('Wait for uploads to finish.'); return }
 
-  const handleDeleteProfile = (id: string) => {
-    if (confirm('Are you sure you want to delete this profile?')) {
-      setProfiles(profiles.filter(p => p.id !== id))
+    setSaving(true); setError(null)
+    const payload = {
+      name: form.name, location: form.location, bio: form.bio,
+      price: form.price, rating: form.rating, age: form.age,
+      tags: form.tags, mainPhoto: form.mainPhoto,
+      gallery: form.gallery.map(i => i.url), status: form.status,
     }
+    try {
+      const res = editingId
+        ? await updatePalfinderProfile(editingId, payload)
+        : await createPalfinderProfile(payload)
+      if (res.success) { await load(); setIsOpen(false) }
+      else setError(res.error || 'Save failed.')
+    } catch (e: any) { setError(e.message) }
+    finally { setSaving(false) }
   }
 
-  const handleSave = () => {
-    if (editingId) {
-      setProfiles(profiles.map(p => p.id === editingId ? { ...formData, id: editingId } : p))
-    } else {
-      const newProfile: PalfinderProfile = {
-        ...formData,
-        id: `PF-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`
-      }
-      setProfiles([newProfile, ...profiles])
-    }
-    handleCloseModal()
+  /* Delete */
+  const handleDelete = async (id: string) => {
+    if (!confirm('Delete this profile?')) return
+    const res = await deletePalfinderProfile(id)
+    if (res.success) setProfiles(p => p.filter(x => x.id !== id))
+    else alert(`Delete failed: ${res.error}`)
   }
 
-  // Tags Logic
-  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      const val = tagInput.trim()
-      if (val && !formData.tags.includes(val)) {
-        setFormData({ ...formData, tags: [...formData.tags, val] })
-      }
-      setTagInput('')
-    }
-  }
-  const removeTag = (tag: string) => {
-    setFormData({ ...formData, tags: formData.tags.filter(t => t !== tag) })
-  }
-
-  // File Upload Logic
-  const handleMainPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const url = URL.createObjectURL(e.target.files[0])
-      setFormData({ ...formData, mainPhoto: url })
-    }
-  }
-
-  const handleGalleryUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files)
-      const newItems: GalleryItem[] = files.map(file => ({
-        id: Math.random().toString(36).substring(7),
-        url: URL.createObjectURL(file),
-        type: file.type.startsWith('video/') ? 'video' : 'photo',
-        file
-      }))
-      setFormData({ ...formData, gallery: [...formData.gallery, ...newItems] })
-    }
-  }
-
-  const removeGalleryItem = (id: string) => {
-    setFormData({ ...formData, gallery: formData.gallery.filter(item => item.id !== id) })
-  }
-
-  // Drag and Drop Logic
-  const handleDragStart = (index: number) => {
-    setDraggedItemIndex(index)
-  }
-
-  const handleDragOver = (e: React.DragEvent, index: number) => {
+  /* Tags */
+  const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return
     e.preventDefault()
-    // Could implement live visual feedback here
+    const v = tagInput.trim()
+    if (v && !form.tags.includes(v)) setForm(f => ({ ...f, tags: [...f.tags, v] }))
+    setTagInput('')
   }
 
-  const handleDrop = (e: React.DragEvent, index: number) => {
-    e.preventDefault()
-    if (draggedItemIndex === null) return
-
-    const newGallery = [...formData.gallery]
-    const draggedItem = newGallery[draggedItemIndex]
-    newGallery.splice(draggedItemIndex, 1)
-    newGallery.splice(index, 0, draggedItem)
-
-    setFormData({ ...formData, gallery: newGallery })
-    setDraggedItemIndex(null)
+  /* Main photo upload */
+  const handleMainUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; if (!file) return
+    setForm(f => ({ ...f, mainPhoto: URL.createObjectURL(file) }))
+    setMainUploading(true)
+    try {
+      const fd = new FormData(); fd.append('file', file)
+      const { url } = await uploadImage(fd)
+      setForm(f => ({ ...f, mainPhoto: url }))
+    } catch { setError('Main photo upload failed.'); setForm(f => ({ ...f, mainPhoto: '' })) }
+    finally { setMainUploading(false) }
   }
+
+  /* Gallery upload */
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []); if (!files.length) return
+    const placeholders: GalleryItem[] = files.map(f => ({
+      id: crypto.randomUUID(), url: URL.createObjectURL(f),
+      type: f.type.startsWith('video/') ? 'video' : 'photo', uploading: true,
+    }))
+    setForm(f => ({ ...f, gallery: [...f.gallery, ...placeholders] }))
+    for (const [i, file] of files.entries()) {
+      try {
+        const fd = new FormData(); fd.append('file', file)
+        const { url } = await uploadImage(fd)
+        setForm(f => ({ ...f, gallery: f.gallery.map(g => g.id === placeholders[i].id ? { ...g, url, uploading: false } : g) }))
+      } catch {
+        setForm(f => ({ ...f, gallery: f.gallery.filter(g => g.id !== placeholders[i].id) }))
+      }
+    }
+  }
+
+  /* Drag & drop */
+  const onDrop = (e: React.DragEvent, to: number) => {
+    e.preventDefault(); if (dragIdx === null) return
+    const g = [...form.gallery]; const [item] = g.splice(dragIdx, 1); g.splice(to, 0, item)
+    setForm(f => ({ ...f, gallery: g })); setDragIdx(null)
+  }
+
+  /* ── Render ─────────────────────────────────────────────── */
+  const inputCls = 'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-[#FF1B8D] transition'
 
   return (
     <div className="space-y-6 animate-in">
@@ -199,330 +172,225 @@ export default function PalfinderManagement() {
           <h1 className="text-2xl font-bold text-white flex items-center gap-2">
             <Heart className="text-[#FF1B8D]" /> PalFinder Management
           </h1>
-          <p className="text-white/40 text-sm mt-1">Manage all PalFinder companion profiles.</p>
+          <p className="text-white/40 text-sm mt-1">Profiles saved here appear live on the public PalFinder page.</p>
         </div>
-        <button
-          onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition hover:scale-105"
-          style={{ background: 'linear-gradient(135deg,#FF1B8D,#B026FF)', boxShadow: '0 0 20px rgba(255,27,141,0.3)' }}
-        >
-          <Plus size={16} /> Add New PalFinder Profile
+        <button onClick={() => openModal()}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white hover:scale-105 transition"
+          style={{ background: 'linear-gradient(135deg,#FF1B8D,#B026FF)', boxShadow: '0 0 20px rgba(255,27,141,0.3)' }}>
+          <Plus size={16} /> Add New Profile
         </button>
       </div>
 
       {/* Table */}
       <div className="bg-[#0A0A14] border border-white/5 rounded-2xl overflow-hidden shadow-xl">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-white/5 text-white/50 text-xs uppercase font-medium">
-              <tr>
-                <th className="px-6 py-4">Profile</th>
-                <th className="px-6 py-4">Location</th>
-                <th className="px-6 py-4">Price</th>
-                <th className="px-6 py-4">Rating</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5">
-              {profiles.map(profile => (
-                <tr key={profile.id} className="hover:bg-white/[0.02] transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full overflow-hidden bg-white/10 relative flex-shrink-0">
-                        {profile.mainPhoto ? (
-                          <img src={profile.mainPhoto} alt={profile.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <ImageIcon className="w-5 h-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/30" />
-                        )}
-                      </div>
-                      <div>
-                        <div className="text-white font-semibold">{profile.name}</div>
-                        <div className="text-white/40 text-xs">{profile.id}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-white/70">{profile.location}</td>
-                  <td className="px-6 py-4 font-medium text-[#FF1B8D]">${profile.price}</td>
-                  <td className="px-6 py-4 text-white/70">⭐ {profile.rating.toFixed(1)}</td>
-                  <td className="px-6 py-4">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${profile.status === 'active'
-                      ? 'bg-[#00FF7F]/10 text-[#00FF7F] border border-[#00FF7F]/20'
-                      : 'bg-white/10 text-white/50 border border-white/10'
-                      }`}>
-                      {profile.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => handleOpenModal(profile)}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition"
-                      >
-                        <Edit2 size={14} />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteProfile(profile.id)}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 hover:bg-red-500/20 text-white/60 hover:text-red-400 transition"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {profiles.length === 0 && (
+        {loading ? (
+          <div className="flex items-center justify-center py-16 gap-3">
+            <Loader2 className="w-6 h-6 text-[#FF1B8D] animate-spin" />
+            <span className="text-white/40 text-sm">Loading profiles…</span>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-white/5 text-white/50 text-xs uppercase font-medium">
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-white/40">
-                    No PalFinder profiles found. Click "Add New" to create one.
-                  </td>
+                  {['Profile', 'Location', 'Age', 'Price', 'Rating', 'Status', ''].map(h => (
+                    <th key={h} className="px-6 py-4">{h}</th>
+                  ))}
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {profiles.map(p => (
+                  <tr key={p.id} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-white/10 flex-shrink-0 relative">
+                          {p.mainPhoto
+                            ? <img src={p.mainPhoto} alt={p.name} className="w-full h-full object-cover" />
+                            : <ImageIcon className="w-5 h-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/30" />}
+                        </div>
+                        <div>
+                          <div className="text-white font-semibold">{p.name}</div>
+                          <div className="text-white/30 text-xs font-mono">{p.id.slice(0, 12)}…</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-white/70">{p.location}</td>
+                    <td className="px-6 py-4 text-white/70">{p.age} yrs</td>
+                    <td className="px-6 py-4 font-semibold text-[#FF1B8D]">${p.price}</td>
+                    <td className="px-6 py-4 text-white/70">⭐ {p.rating.toFixed(1)}</td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${p.status === 'active' ? 'bg-[#00FF7F]/10 text-[#00FF7F] border border-[#00FF7F]/20' : 'bg-white/10 text-white/50 border border-white/10'}`}>
+                        {p.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button onClick={() => openModal(p)} className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition"><Edit2 size={14} /></button>
+                        <button onClick={() => handleDelete(p.id)} className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 hover:bg-red-500/20 text-white/60 hover:text-red-400 transition"><Trash2 size={14} /></button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {!profiles.length && (
+                  <tr><td colSpan={7} className="px-6 py-14 text-center text-white/30">No profiles yet — click &quot;Add New Profile&quot; to get started.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
-      {/* Modal Overlay */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 backdrop-blur-md bg-black/60">
-          {/* Modal Container */}
-          <div className="bg-[#0A0A14] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            {/* Modal Header */}
+      {/* ── Modal ─────────────────────────────────────────── */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/60">
+          <div className="bg-[#0A0A14] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+
+            {/* Modal header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#05050A]">
-              <h2 className="text-lg font-bold text-white">
-                {editingId ? 'Edit PalFinder Profile' : 'Add New PalFinder Profile'}
-              </h2>
-              <button
-                onClick={handleCloseModal}
-                className="text-white/40 hover:text-white transition"
-              >
-                <X size={20} />
-              </button>
+              <h2 className="text-lg font-bold text-white">{editingId ? 'Edit Profile' : 'New PalFinder Profile'}</h2>
+              <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white transition"><X size={20} /></button>
             </div>
 
-            {/* Modal Body */}
-            <div className="flex-1 overflow-y-auto p-6 scrollbar-thin">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Modal body */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {error && (
+                <div className="flex items-center gap-2 mb-5 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                  <AlertCircle size={16} className="flex-shrink-0" /> {error}
+                </div>
+              )}
 
-                {/* Left Column: Basic Info */}
-                <div className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Left — Basic Info */}
+                <div className="space-y-4">
+                  <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/5 pb-2">Basic Info</h3>
+
                   <div>
-                    <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4 border-b border-white/5 pb-2">Basic Info</h3>
+                    <label className="block text-sm font-medium text-white/70 mb-1">Full Name <span className="text-[#FF1B8D]">*</span></label>
+                    <input type="text" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className={inputCls} placeholder="e.g. Aisha Okafor" />
                   </div>
 
-                  <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-white/70 mb-1">Location <span className="text-[#FF1B8D]">*</span></label>
+                    <input type="text" value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className={inputCls} placeholder="e.g. Lagos, Nigeria" />
+                  </div>
+
+                  {/* Price + Age */}
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-sm font-medium text-white/70 mb-1">Full Name</label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={e => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#FF1B8D] transition"
-                        placeholder="e.g. Sarah Jenkins"
-                      />
+                      <label className="block text-sm font-medium text-white/70 mb-1">Price (USD) <span className="text-[#FF1B8D]">*</span></label>
+                      <input type="number" min="1" value={form.price} onChange={e => setForm(f => ({ ...f, price: +e.target.value }))} className={inputCls} />
                     </div>
-
                     <div>
-                      <label className="block text-sm font-medium text-white/70 mb-1">Location</label>
-                      <input
-                        type="text"
-                        value={formData.location}
-                        onChange={e => setFormData({ ...formData, location: e.target.value })}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#FF1B8D] transition"
-                        placeholder="e.g. Lagos, Nigeria"
-                      />
+                      <label className="block text-sm font-medium text-white/70 mb-1">Age (18–80) <span className="text-[#FF1B8D]">*</span></label>
+                      <input type="number" min="18" max="80" value={form.age} onChange={e => setForm(f => ({ ...f, age: +e.target.value }))} className={inputCls} />
                     </div>
+                  </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-white/70 mb-1">Price (USD)</label>
-                        <input
-                          type="number"
-                          value={formData.price}
-                          onChange={e => setFormData({ ...formData, price: Number(e.target.value) })}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#FF1B8D] transition"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-white/70 mb-1">Rating (1.0 - 5.0)</label>
-                        <input
-                          type="number"
-                          step="0.1"
-                          min="1"
-                          max="5"
-                          value={formData.rating}
-                          onChange={e => setFormData({ ...formData, rating: Number(e.target.value) })}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#FF1B8D] transition"
-                        />
-                      </div>
+                  {/* Rating + Status */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-white/70 mb-1">Rating (1–5)</label>
+                      <input type="number" step="0.1" min="1" max="5" value={form.rating} onChange={e => setForm(f => ({ ...f, rating: +e.target.value }))} className={inputCls} />
                     </div>
-
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-1">Status</label>
-                      <select
-                        value={formData.status}
-                        onChange={e => setFormData({ ...formData, status: e.target.value as 'active' | 'inactive' })}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#FF1B8D] transition appearance-none"
-                      >
+                      <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value as 'active' | 'inactive' }))}
+                        className="w-full bg-[#0A0A14] border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#FF1B8D] transition appearance-none">
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                       </select>
                     </div>
+                  </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-white/70 mb-1">Bio / Description</label>
-                      <textarea
-                        value={formData.bio}
-                        onChange={e => setFormData({ ...formData, bio: e.target.value })}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#FF1B8D] transition h-24 resize-none"
-                        placeholder="Tell us about the Pal..."
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-white/70 mb-1">Bio</label>
+                    <textarea value={form.bio} onChange={e => setForm(f => ({ ...f, bio: e.target.value }))}
+                      className={`${inputCls} h-24 resize-none`} placeholder="Tell us about this companion…" />
+                  </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-white/70 mb-1">Tags / Interests</label>
-                      <div className="p-3 bg-white/5 border border-white/10 rounded-xl flex flex-wrap gap-2">
-                        {formData.tags.map(tag => (
-                          <span key={tag} className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FF1B8D]/20 text-[#FF1B8D] border border-[#FF1B8D]/30">
-                            {tag}
-                            <button onClick={() => removeTag(tag)} className="hover:text-white transition"><X size={12} /></button>
-                          </span>
-                        ))}
-                        <input
-                          type="text"
-                          value={tagInput}
-                          onChange={e => setTagInput(e.target.value)}
-                          onKeyDown={handleAddTag}
-                          className="bg-transparent text-white text-sm focus:outline-none flex-1 min-w-[120px]"
-                          placeholder="Type & press Enter..."
-                        />
-                      </div>
+                  <div>
+                    <label className="block text-sm font-medium text-white/70 mb-1">Tags</label>
+                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl flex flex-wrap gap-2 min-h-[48px]">
+                      {form.tags.map(t => (
+                        <span key={t} className="flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-[#FF1B8D]/20 text-[#FF1B8D] border border-[#FF1B8D]/30">
+                          {t} <button onClick={() => setForm(f => ({ ...f, tags: f.tags.filter(x => x !== t) }))}><X size={10} /></button>
+                        </span>
+                      ))}
+                      <input type="text" value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={addTag}
+                        className="bg-transparent text-white text-sm focus:outline-none flex-1 min-w-[100px]" placeholder="Type & Enter…" />
                     </div>
                   </div>
                 </div>
 
-                {/* Right Column: Media */}
-                <div className="space-y-5">
-                  <div>
-                    <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4 border-b border-white/5 pb-2">Media</h3>
-                  </div>
+                {/* Right — Media */}
+                <div className="space-y-4">
+                  <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/5 pb-2">Media</h3>
 
-                  {/* Main Photo */}
+                  {/* Main photo */}
                   <div>
-                    <label className="block text-sm font-medium text-white/70 mb-2">Main Profile Photo (Portrait)</label>
-                    <div
-                      onClick={() => mainPhotoInputRef.current?.click()}
-                      className="relative w-full h-64 rounded-xl border-2 border-dashed border-white/10 bg-white/5 flex flex-col items-center justify-center cursor-pointer hover:border-[#FF1B8D]/50 hover:bg-white/10 transition overflow-hidden group"
-                    >
-                      {formData.mainPhoto ? (
+                    <label className="block text-sm font-medium text-white/70 mb-2">Main Profile Photo</label>
+                    <div onClick={() => mainRef.current?.click()}
+                      className="relative w-full h-52 rounded-xl border-2 border-dashed border-white/10 bg-white/5 flex flex-col items-center justify-center cursor-pointer hover:border-[#FF1B8D]/50 hover:bg-white/10 transition overflow-hidden group">
+                      {form.mainPhoto ? (
                         <>
-                          <img src={formData.mainPhoto} alt="Main" className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <span className="text-white font-medium flex items-center gap-2"><Upload size={16} /> Change Photo</span>
-                          </div>
+                          <img src={form.mainPhoto} alt="" className="w-full h-full object-cover" />
+                          {mainUploading
+                            ? <div className="absolute inset-0 bg-black/60 flex items-center justify-center"><Loader2 className="w-8 h-8 text-[#FF1B8D] animate-spin" /></div>
+                            : <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span className="text-white flex items-center gap-2 text-sm font-medium"><Upload size={16}/> Change</span></div>
+                          }
                         </>
                       ) : (
-                        <>
-                          <Upload size={32} className="text-white/20 mb-3" />
-                          <span className="text-sm text-white/40">Click to upload main photo</span>
-                        </>
+                        <><Upload size={30} className="text-white/20 mb-2" /><span className="text-sm text-white/40">Click to upload</span></>
                       )}
                     </div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      ref={mainPhotoInputRef}
-                      onChange={handleMainPhotoUpload}
-                    />
+                    <input type="file" accept="image/*" className="hidden" ref={mainRef} onChange={handleMainUpload} />
                   </div>
 
                   {/* Gallery */}
-                  <div className="pt-2">
+                  <div>
                     <div className="flex items-center justify-between mb-2">
-                      <label className="block text-sm font-medium text-white/70">Gallery Media (Photos & Videos)</label>
-                      <button
-                        onClick={() => galleryInputRef.current?.click()}
-                        className="text-xs font-semibold text-[#FF1B8D] hover:text-white transition flex items-center gap-1"
-                      >
-                        <Plus size={14} /> Add Media
+                      <label className="text-sm font-medium text-white/70">Gallery</label>
+                      <button onClick={() => galleryRef.current?.click()} className="text-xs font-semibold text-[#FF1B8D] hover:text-white transition flex items-center gap-1">
+                        <Plus size={13}/> Add
                       </button>
                     </div>
-
-                    <input
-                      type="file"
-                      accept="image/*,video/*"
-                      multiple
-                      className="hidden"
-                      ref={galleryInputRef}
-                      onChange={handleGalleryUpload}
-                    />
-
-                    <div className="grid grid-cols-3 gap-3">
-                      {formData.gallery.map((item, index) => (
-                        <div
-                          key={item.id}
-                          draggable
-                          onDragStart={() => handleDragStart(index)}
-                          onDragOver={(e) => handleDragOver(e, index)}
-                          onDrop={(e) => handleDrop(e, index)}
-                          className={`group relative aspect-[3/4] rounded-xl overflow-hidden bg-white/5 border ${draggedItemIndex === index ? 'border-[#FF1B8D] opacity-50' : 'border-white/10'} cursor-grab active:cursor-grabbing transition-all`}
-                        >
-                          {item.type === 'video' ? (
-                            <div className="w-full h-full relative">
-                              <video src={item.url} className="w-full h-full object-cover" />
-                              <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                                <div className="w-8 h-8 rounded-full bg-[#FF1B8D] flex items-center justify-center pl-0.5">
-                                  <Play size={14} className="text-white" />
-                                </div>
-                              </div>
+                    <input type="file" accept="image/*,video/*" multiple className="hidden" ref={galleryRef} onChange={handleGalleryUpload} />
+                    <div className="grid grid-cols-3 gap-2">
+                      {form.gallery.map((item, i) => (
+                        <div key={item.id} draggable={!item.uploading}
+                          onDragStart={() => setDragIdx(i)} onDragOver={e => e.preventDefault()} onDrop={e => onDrop(e, i)}
+                          className={`group relative aspect-[3/4] rounded-xl overflow-hidden bg-white/5 border ${dragIdx === i ? 'border-[#FF1B8D] opacity-50' : 'border-white/10'} transition-all`}>
+                          {item.type === 'video'
+                            ? <><video src={item.url} className="w-full h-full object-cover" /><div className="absolute inset-0 flex items-center justify-center bg-black/20"><div className="w-7 h-7 rounded-full bg-[#FF1B8D] flex items-center justify-center pl-0.5"><Play size={12} className="text-white"/></div></div></>
+                            : <img src={item.url} alt="" className="w-full h-full object-cover" />}
+                          {item.uploading && <div className="absolute inset-0 bg-black/60 flex items-center justify-center"><Loader2 className="w-5 h-5 text-[#FF1B8D] animate-spin"/></div>}
+                          {!item.uploading && (
+                            <div className="absolute inset-x-0 top-0 p-1.5 flex justify-between opacity-0 group-hover:opacity-100 transition bg-gradient-to-b from-black/60 to-transparent">
+                              <GripVertical size={14} className="text-white/60 cursor-move"/>
+                              <button onClick={e => { e.stopPropagation(); setForm(f => ({ ...f, gallery: f.gallery.filter(g => g.id !== item.id) })) }} className="text-white hover:text-red-400 bg-black/40 rounded-full p-0.5"><X size={12}/></button>
                             </div>
-                          ) : (
-                            <img src={item.url} alt="Gallery" className="w-full h-full object-cover" />
                           )}
-
-                          {/* Overlays */}
-                          <div className="absolute inset-x-0 top-0 p-2 flex justify-between opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-black/60 to-transparent">
-                            <div className="text-white/70 cursor-move">
-                              <GripVertical size={16} />
-                            </div>
-                            <button
-                              onClick={(e) => { e.stopPropagation(); removeGalleryItem(item.id); }}
-                              className="text-white hover:text-red-400 bg-black/40 rounded-full p-1 transition"
-                            >
-                              <X size={14} />
-                            </button>
-                          </div>
                         </div>
                       ))}
-
-                      {formData.gallery.length === 0 && (
-                        <div className="col-span-3 py-8 text-center border border-dashed border-white/10 rounded-xl bg-white/5">
-                          <p className="text-sm text-white/30">No gallery media added yet.<br />Click "Add Media" to upload photos and videos.</p>
+                      {!form.gallery.length && (
+                        <div className="col-span-3 py-8 text-center border border-dashed border-white/10 rounded-xl text-white/30 text-sm">
+                          No media — click &quot;Add&quot; to upload photos &amp; videos
                         </div>
                       )}
                     </div>
-                    <p className="text-xs text-white/30 mt-3 text-center">Drag and drop items to reorder them.</p>
+                    <p className="text-xs text-white/25 mt-2 text-center">Drag to reorder</p>
                   </div>
                 </div>
-
               </div>
             </div>
 
-            {/* Modal Footer */}
+            {/* Modal footer */}
             <div className="px-6 py-4 border-t border-white/10 bg-[#05050A] flex justify-end gap-3">
-              <button
-                onClick={handleCloseModal}
-                className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white/70 hover:text-white hover:bg-white/5 transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition hover:scale-105"
-                style={{ background: 'linear-gradient(135deg,#FF1B8D,#B026FF)', boxShadow: '0 0 20px rgba(255,27,141,0.3)' }}
-              >
+              <button onClick={() => setIsOpen(false)} className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white/60 hover:text-white hover:bg-white/5 transition">Cancel</button>
+              <button onClick={handleSave} disabled={saving}
+                className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
+                style={{ background: 'linear-gradient(135deg,#FF1B8D,#B026FF)', boxShadow: '0 0 20px rgba(255,27,141,0.3)' }}>
+                {saving && <Loader2 size={15} className="animate-spin"/>}
                 {editingId ? 'Save Changes' : 'Create Profile'}
               </button>
             </div>
