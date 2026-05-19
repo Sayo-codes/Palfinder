@@ -9,6 +9,7 @@ import {
   ShieldCheckIcon,
   LockIcon,
   StarIcon,
+  ChevronRightIcon,
 } from 'lucide-react'
 
 interface Profile {
@@ -127,38 +128,43 @@ export default function CheckoutClient({ profile }: { profile: Profile }) {
           {/* 1. Pay with Crypto — LIVE ✅ */}
           <CryptoPayButton profileId={profile.id} />
 
-          {/* 2. Pay with Card — Coming Soon */}
-          <button
-            disabled
-            className="group relative flex w-full items-center gap-4 p-4 rounded-2xl transition-all duration-200 opacity-50 cursor-not-allowed"
+          {/* 2. Pay with Card — LIVE ✅ */}
+          <Link
+            id="pay-with-card-btn"
+            href={`/palfinder/pay/${profile.id}/card`}
+            className="group relative flex w-full items-center gap-4 p-4 rounded-2xl transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]"
             style={{
               background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.06)',
+              border: '1px solid rgba(232,181,71,0.15)',
+            }}
+            onMouseEnter={e => {
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(232,181,71,0.05)'
+              ;(e.currentTarget as HTMLElement).style.border = '1px solid rgba(232,181,71,0.35)'
+              ;(e.currentTarget as HTMLElement).style.boxShadow = '0 0 24px rgba(232,181,71,0.08)'
+            }}
+            onMouseLeave={e => {
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.03)'
+              ;(e.currentTarget as HTMLElement).style.border = '1px solid rgba(232,181,71,0.15)'
+              ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
             }}
           >
             <div
-              className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ background: 'rgba(255,255,255,0.06)' }}
+              className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200"
+              style={{
+                background: 'linear-gradient(135deg, rgba(107,31,42,0.6), rgba(232,181,71,0.3))',
+                border: '1px solid rgba(232,181,71,0.2)',
+              }}
             >
-              <CreditCardIcon className="w-5 h-5 text-white/50" />
+              <CreditCardIcon className="w-5 h-5 text-[#E8B547]" />
             </div>
             <div className="flex-1 text-left">
-              <span className="block text-sm font-bold text-white/60">Pay with Card</span>
-              <span className="block text-[10px] text-white/30 font-medium uppercase tracking-wider mt-0.5">
+              <span className="block text-sm font-bold text-white">Pay with Card</span>
+              <span className="block text-[10px] text-white/40 font-medium uppercase tracking-wider mt-0.5">
                 Visa · Mastercard · Amex
               </span>
             </div>
-            <span
-              className="text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide flex-shrink-0"
-              style={{
-                background: 'rgba(255,255,255,0.05)',
-                color: 'rgba(255,255,255,0.3)',
-                border: '1px solid rgba(255,255,255,0.08)',
-              }}
-            >
-              Soon
-            </span>
-          </button>
+            <ChevronRightIcon className="w-4 h-4 text-white/30 group-hover:text-[#E8B547] transition-colors" />
+          </Link>
 
           {/* 3. PayPal — Coming Soon */}
           <button

@@ -16,7 +16,7 @@ import Link from 'next/link'
 import {
   ChevronLeftIcon, WalletIcon, ClockIcon, CopyIcon, CheckIcon,
   ShieldCheckIcon, QrCodeIcon, StarIcon, HeartIcon, CheckCircle2Icon,
-  ChevronDownIcon, AlertTriangleIcon, InfoIcon,
+  ChevronDownIcon, AlertTriangleIcon, InfoIcon, Loader2Icon, DownloadIcon, LinkIcon
 } from 'lucide-react'
 import { SORTED_WALLETS, generatePaymentRef, type CryptoWallet } from '@/lib/config/crypto'
 
@@ -47,18 +47,79 @@ const PAYMENT_WINDOW = 30 * 60 // 30 minutes in seconds
 export default function PaymentClient({ profile }: { profile: DBProfile }) {
   const [selectedWallet, setSelectedWallet] = useState<CryptoWallet>(SORTED_WALLETS[0])
   const [showDrop, setShowDrop]             = useState(false)
-  const [paymentRef]                        = useState(() => generatePaymentRef(profile.id))
+  const [paymentRef, setPaymentRef]         = useState(() => generatePaymentRef(profile.id))
   const [timeLeft, setTimeLeft]             = useState(PAYMENT_WINDOW)
   const [expired, setExpired]               = useState(false)
+  const [paymentStatus, setPaymentStatus]   = useState<'waiting' | 'confirming' | 'confirmed' | 'expired'>('waiting')
   const [copiedField, setCopiedField]       = useState<string | null>(null)
+  const [megaLink, setMegaLink]             = useState<string | null>(null)
+  const [unlockLink, setUnlockLink]         = useState<string | null>(null)
+  
   const dropRef                             = useRef<HTMLDivElement>(null)
   const timerRef                            = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  // ── 1. Init Session when paymentRef changes ───────────────────────────────
+  useEffect(() => {
+    let active = true
+    async function initSession() {
+      try {
+        await fetch('/api/payments/init-direct', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            profileId: profile.id,
+            profileName: profile.name,
+            priceUsd: profile.price,
+            coinId: selectedWallet.id,
+            walletAddress: selectedWallet.address,
+            paymentRef
+          })
+        })
+      } catch (e) {
+        console.error('Init failed', e)
+      }
+    }
+    initSession()
+    return () => { active = false }
+  }, [paymentRef, profile.id, profile.name, profile.price, selectedWallet.id, selectedWallet.address])
+
+  // ── 2. Poll every 5s if waiting and not expired ───────────────────────────
+  useEffect(() => {
+    if (paymentStatus === 'confirmed' || paymentStatus === 'expired' || expired) return
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/payments/check-direct/${paymentRef}`)
+        const data = await res.json()
+        if (data.success) {
+          if (data.status === 'expired') {
+            setExpired(true)
+            setPaymentStatus('expired')
+          } else if (data.status === 'confirmed') {
+            setPaymentStatus('confirmed')
+            if (data.megaLink) setMegaLink(data.megaLink)
+            if (data.unlockLink) setUnlockLink(data.unlockLink)
+          } else {
+            setPaymentStatus(data.status)
+          }
+        }
+      } catch (e) {
+        console.error('Check failed', e)
+      }
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [paymentRef, paymentStatus, expired])
 
   // ── Countdown ──────────────────────────────────────────────────────────────
   useEffect(() => {
     timerRef.current = setInterval(() => {
       setTimeLeft(prev => {
-        if (prev <= 1) { setExpired(true); return 0 }
+        if (prev <= 1) { 
+          setExpired(true)
+          setPaymentStatus('expired')
+          return 0 
+        }
         return prev - 1
       })
     }, 1000)
@@ -83,17 +144,77 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
     setTimeout(() => setCopiedField(null), 2000)
   }, [])
 
-  // ── Reset timer when coin changes ─────────────────────────────────────────
+  // ── Reset timer & generate new ref when coin changes ─────────────────────
   const handleSelectWallet = (wallet: CryptoWallet) => {
     setSelectedWallet(wallet)
     setShowDrop(false)
     setTimeLeft(PAYMENT_WINDOW)
     setExpired(false)
+    setPaymentStatus('waiting')
+    setPaymentRef(generatePaymentRef(profile.id))
   }
 
   const handleRefresh = () => {
     setTimeLeft(PAYMENT_WINDOW)
     setExpired(false)
+    setPaymentStatus('waiting')
+    setPaymentRef(generatePaymentRef(profile.id))
+  }
+
+  // ── Success State ─────────────────────────────────────────────────────────
+  if (paymentStatus === 'confirmed') {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(160deg,#08080F 0%,#0D0A14 60%,#0A0510 100%)' }}>
+        <div className="max-w-md w-full rounded-2xl p-8 text-center space-y-6 relative overflow-hidden" style={{ background: '#0F0F1E', border: '1px solid #00D168', boxShadow: '0 0 50px rgba(0,209,104,0.1)' }}>
+          <div className="w-20 h-20 bg-[#00D168]/20 rounded-full flex items-center justify-center mx-auto">
+            <CheckCircle2Icon className="w-10 h-10 text-[#00D168]" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-2">Payment Confirmed!</h2>
+            <p className="text-sm text-white/60">Your payment for {profile.name} was successfully received on the blockchain.</p>
+          </div>
+          
+          <div className="rounded-xl p-5 text-left space-y-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <p className="text-xs font-semibold text-white/40 uppercase tracking-wider">Unlocked Content</p>
+            
+            {megaLink && (
+              <a href={megaLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-white transition-all transform hover:scale-[1.02] active:scale-95" style={{ background: 'linear-gradient(135deg, #D9272E 0%, #A31D22 100%)', boxShadow: '0 8px 25px rgba(217, 39, 46, 0.3)' }}>
+                <DownloadIcon className="w-5 h-5" />
+                Download Mega.nz Pack
+              </a>
+            )}
+
+            {unlockLink && (
+              <a href={unlockLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-[#00D168] bg-[#00D168]/10 hover:bg-[#00D168]/20 transition border border-[#00D168]/30">
+                <LinkIcon className="w-4 h-4" />
+                Additional Private Access
+              </a>
+            )}
+
+            {!megaLink && !unlockLink && (
+              <Link href={`/palfinder/${profile.id}/gallery`} className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-[#00D168] bg-[#00D168]/10 hover:bg-[#00D168]/20 transition border border-[#00D168]/30">
+                Access Private Gallery
+              </Link>
+            )}
+
+            <div className="pt-4 pb-1 flex flex-col gap-3 border-t border-white/5 mt-2">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-white/60">Contact info:</span>
+                <span className="text-sm font-semibold text-white">Available in Dashboard</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-white/60">Receipt:</span>
+                <span className="text-xs font-mono text-white/40 bg-black/30 px-2 py-1 rounded">{paymentRef}</span>
+              </div>
+            </div>
+          </div>
+          
+          <Link href="/palfinder" className="inline-block mt-4 text-sm font-medium text-white/40 hover:text-white transition-colors underline decoration-white/20 underline-offset-4">
+            Return to Palfinder
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   // ── QR code URL (free, no API key needed) ─────────────────────────────────
@@ -183,8 +304,8 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
                 '1. Select your preferred coin from the dropdown.',
                 '2. Send the exact USD amount shown to the wallet address.',
                 '3. Include your Payment Reference as the memo (if supported).',
-                '4. After sending, contact us via Telegram/WhatsApp with your reference.',
-                '5. Access will be granted within 30 minutes of confirmation.',
+                '4. We monitor the blockchain directly for your transfer.',
+                '5. Access is granted instantly once confirmed.',
               ].map((step, i) => (
                 <p key={i} className="text-xs text-white/55 leading-relaxed">{step}</p>
               ))}
@@ -221,7 +342,7 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
                   style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${selectedWallet.color}40` }}
                 >
                   <span className="flex items-center gap-2.5">
-                    <span className="text-xl leading-none">{selectedWallet.icon}</span>
+                    <img src={selectedWallet.logo} alt={selectedWallet.name} className="w-6 h-6 object-contain" />
                     <span className="flex flex-col text-left">
                       <span className="font-semibold text-white text-sm">{selectedWallet.name}</span>
                       <span className="text-[10px] text-white/40">{selectedWallet.network}</span>
@@ -235,22 +356,22 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
                     style={{ background: '#0F0F1E', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 16px 50px rgba(0,0,0,0.8)' }}>
                     {SORTED_WALLETS.map((w, i) => (
                       <button
-                        key={w.id}
-                        onClick={() => handleSelectWallet(w)}
-                        className="w-full flex items-center gap-3 px-3.5 py-3 text-sm text-white/80 hover:bg-white/5 transition text-left"
-                        style={{
-                          borderBottom: i < SORTED_WALLETS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
-                          ...(w.id === selectedWallet.id ? { background: `${w.color}18`, color: w.color } : {}),
-                        }}
+                         key={w.id}
+                         onClick={() => handleSelectWallet(w)}
+                         className="w-full flex items-center gap-3 px-3.5 py-3 text-sm text-white/80 hover:bg-white/5 transition text-left"
+                         style={{
+                           borderBottom: i < SORTED_WALLETS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                           ...(w.id === selectedWallet.id ? { background: `${w.color}18`, color: w.color } : {}),
+                         }}
                       >
-                        <span className="text-lg leading-none">{w.icon}</span>
-                        <span className="flex flex-col">
-                          <span className="font-semibold text-sm">{w.name}</span>
-                          <span className="text-[10px] text-white/40">{w.network}</span>
-                        </span>
-                        {w.priority && (
-                          <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded uppercase" style={{ background: `${w.color}25`, color: w.color }}>⭐ Top</span>
-                        )}
+                         <img src={w.logo} alt={w.name} className="w-5 h-5 object-contain" />
+                         <span className="flex flex-col">
+                           <span className="font-semibold text-sm">{w.name}</span>
+                           <span className="text-[10px] text-white/40">{w.network}</span>
+                         </span>
+                         {w.priority && (
+                           <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded uppercase" style={{ background: `${w.color}25`, color: w.color }}>⭐ Top</span>
+                         )}
                       </button>
                     ))}
                   </div>
@@ -343,6 +464,18 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
                   <p className="text-[10px] text-white/30 mt-1.5 px-1">
                     Include this reference when contacting us after payment
                   </p>
+                </div>
+              )}
+
+              {/* ── Status Indicator ──────────────────────────────────────── */}
+              {!expired && (
+                <div className="flex items-center justify-center gap-2 p-3 rounded-xl mt-4" style={{ background: paymentStatus === 'confirming' ? 'rgba(232,181,71,0.1)' : 'rgba(255,255,255,0.03)' }}>
+                  {paymentStatus === 'waiting' && <Loader2Icon className="w-4 h-4 text-white/40 animate-spin" />}
+                  {paymentStatus === 'confirming' && <Loader2Icon className="w-4 h-4 text-[#E8B547] animate-spin" />}
+                  <span className="text-sm font-medium" style={{ color: paymentStatus === 'confirming' ? '#E8B547' : 'rgba(255,255,255,0.6)' }}>
+                    {paymentStatus === 'waiting' ? 'Waiting for transfer...' : 
+                     paymentStatus === 'confirming' ? 'Confirming on blockchain...' : 'Checking status...'}
+                  </span>
                 </div>
               )}
 

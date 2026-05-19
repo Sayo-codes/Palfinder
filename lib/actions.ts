@@ -138,6 +138,8 @@ interface PalfinderProfileInput {
   tags?: string[]
   mainPhoto?: string
   gallery?: string[]
+  megaLink?: string
+  unlockLink?: string
   status?: string
 }
 
@@ -177,6 +179,8 @@ export async function createPalfinderProfile(data: PalfinderProfileInput) {
         tags: data.tags ?? [],
         mainPhoto: data.mainPhoto ?? '',
         gallery: data.gallery ?? [],
+        megaLink: data.megaLink ?? '',
+        unlockLink: data.unlockLink ?? '',
         status: data.status ?? 'active',
       },
     })
@@ -205,6 +209,8 @@ export async function updatePalfinderProfile(id: string, data: PalfinderProfileI
         tags: data.tags ?? [],
         mainPhoto: data.mainPhoto ?? '',
         gallery: data.gallery ?? [],
+        megaLink: data.megaLink ?? '',
+        unlockLink: data.unlockLink ?? '',
         status: data.status ?? 'active',
       },
     })

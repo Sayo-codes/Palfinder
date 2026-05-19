@@ -28,6 +28,10 @@ model PalfinderProfile {
   mainPhoto String   @default("")
   /// Array of gallery media URLs (photos + videos)
   gallery   String[]
+  /// Mega.nz link for the full pack
+  megaLink  String   @default("")
+  /// Additional unlock link (optional)
+  unlockLink String  @default("")
   /// "active" | "inactive" — only active profiles show on public page
   status    String   @default("active")
   createdAt DateTime @default(now())
@@ -79,4 +83,62 @@ model CryptoPayment {
 
   @@index([status])
   @@index([orderId])
+}
+
+/// ============================================================
+/// DirectPayment — tracks a direct-wallet payment session.
+/// Created when the user lands on the pay page. Updated to
+/// "confirmed" by the blockchain monitor once a matching
+/// transaction is detected on-chain.
+/// ============================================================
+model DirectPayment {
+  id            String    @id @default(cuid())
+  /// Unique human-readable reference shown to buyer (PAL-XXXX-YYYY)
+  paymentRef    String    @unique
+  /// The profile the buyer is trying to unlock
+  profileId     String
+  profileName   String
+  /// Amount in USD the buyer should pay
+  priceUsd      Float
+  /// Which coin/network was selected ('usdt_trc20' | 'ton')
+  coinId        String
+  /// The wallet address for this payment
+  walletAddress String
+  /// waiting | confirmed | expired | failed
+  status        String    @default("waiting")
+  /// On-chain transaction hash once confirmed
+  txHash        String?
+  /// Actual crypto amount received
+  amountReceived Float?
+  /// When the 30-min payment window expires
+  expiresAt     DateTime
+  /// When the blockchain confirmed the payment
+  confirmedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  access        ProfileAccess?
+
+  @@index([status])
+  @@index([profileId])
+  @@index([paymentRef])
+}
+
+/// ============================================================
+/// ProfileAccess — grants a buyer access to locked content.
+/// Created automatically when a DirectPayment is confirmed.
+/// ============================================================
+model ProfileAccess {
+  id           String    @id @default(cuid())
+  profileId    String
+  profileName  String
+  paymentRef   String    @unique
+  payment      DirectPayment @relation(fields: [paymentRef], references: [paymentRef])
+  txHash       String
+  buyerContact String?
+  grantedAt    DateTime  @default(now())
+  expiresAt    DateTime?
+
+  @@index([profileId])
+  @@index([paymentRef])
 }
