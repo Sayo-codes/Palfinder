@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/db'
 import { ClipboardListIcon } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -108,7 +108,7 @@ export default async function InputLogsPage() {
                 </tr>
               </thead>
               <tbody>
-                {logs.map((log, i) => (
+                {logs.map((log: any, i: number) => (
                   <tr
                     key={log.id}
                     style={{
