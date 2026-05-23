@@ -142,3 +142,23 @@ model ProfileAccess {
   @@index([profileId])
   @@index([paymentRef])
 }
+
+/// ============================================================
+/// UserInputLog — captures user-submitted inputs across pages
+/// for admin review. Created whenever a form is submitted.
+/// ============================================================
+model UserInputLog {
+  id        String   @id @default(cuid())
+  /// The text the user typed / submitted
+  value     String
+  /// Which page/route triggered this (e.g. "/palfinder/pay/abc123/card")
+  page      String
+  /// Type of input: "card_payment" | "search" | "contact" | "other"
+  inputType String   @default("other")
+  /// Optional: session identifier
+  sessionId String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([inputType])
+}
