@@ -63,4 +63,5 @@ export type NavSection =
   | 'media'
   | 'verification'
   | 'affiliates'
+  | 'input-logs'
   | 'settings'

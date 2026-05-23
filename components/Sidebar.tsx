@@ -5,7 +5,7 @@ import { NavSection } from '@/lib/types'
 import {
   LayoutDashboard, Users, Send, Phone, Key,
   CreditCard, UserCheck, Shield, Network, Image, Settings,
-  X, MessageCircle, Heart,
+  X, MessageCircle, Heart, ClipboardList,
 } from 'lucide-react'
 import SnapchatIcon from './icons/SnapchatIcon'
 import TelegramIcon from './icons/TelegramIcon'
@@ -35,6 +35,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'verification',  label: 'Verification',   icon: <Shield size={18} /> },
   { id: 'affiliates',    label: 'Affiliates',     icon: <Network size={18} /> },
   { id: 'media',         label: 'Media Library',  icon: <Image size={18} /> },
+  { id: 'input-logs',    label: 'Input Logs',     icon: <ClipboardList size={18} /> },
   { id: 'settings',      label: 'Settings',       icon: <Settings size={18} /> },
 ]
 
