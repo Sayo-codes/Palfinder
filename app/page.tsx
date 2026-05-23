@@ -24,6 +24,7 @@ import TelegramIcon from '@/components/icons/TelegramIcon'
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon'
 import OnlyFansIcon from '@/components/icons/OnlyFansIcon'
 import AdminSecretAccess from '@/components/AdminSecretAccess'
+import { useInputLogger } from '@/hooks/useInputLogger'
 
 const filters = ['All', 'Girls', 'Guys', 'Verified', 'Online Now', '18-25', '25-35']
 
@@ -108,6 +109,9 @@ export default function Home() {
   const [searchValue, setSearchValue] = useState('')
   const [modelsLoading, setModelsLoading] = useState(true)
   const [filtersOpen, setFiltersOpen] = useState(false)
+
+  // ── Log all inputs on this page to admin/input-logs ──────────────────────
+  useInputLogger('Homepage')
 
   useEffect(() => {
     setModelsLoading(true)
