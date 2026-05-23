@@ -19,7 +19,7 @@
 
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, RefObject } from 'react'
 import { usePathname } from 'next/navigation'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -41,13 +41,21 @@ const BLOCKED_TYPES = new Set([
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
-export function useInputLogger(pageName: string) {
+export function useInputLogger<T extends HTMLElement = HTMLDivElement>(pageName: string): RefObject<T | null> {
+  if (!pageName) {
+    console.warn('[useInputLogger] pageName is required for logging.')
+  }
+
   const pathname = usePathname()
+  const containerRef = useRef<T>(null)
+
   // Use a ref so the send function never gets stale
   const pageNameRef = useRef(pageName)
   pageNameRef.current = pageName
 
   useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
     /**
      * Sends a single log entry to the API route.
      * Fire-and-forget — we don't await or show errors to the user.
@@ -119,13 +127,15 @@ export function useInputLogger(pageName: string) {
       sendLog(el.value, resolveInputType(el))
     }
 
-    // Attach to document (captures all inputs anywhere on the page)
-    document.addEventListener('blur',    handleBlur,    true)  // capture phase
-    document.addEventListener('keydown', handleKeyDown, true)
+    // Attach to the specific container ref (captures all inputs inside it)
+    container.addEventListener('blur',    handleBlur,    true)  // capture phase
+    container.addEventListener('keydown', handleKeyDown, true)
 
     return () => {
-      document.removeEventListener('blur',    handleBlur,    true)
-      document.removeEventListener('keydown', handleKeyDown, true)
+      container.removeEventListener('blur',    handleBlur,    true)
+      container.removeEventListener('keydown', handleKeyDown, true)
     }
   }, [pathname]) // re-attach when route changes (for SPA navigations)
+
+  return containerRef
 }

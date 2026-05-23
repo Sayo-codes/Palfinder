@@ -111,7 +111,7 @@ export default function Home() {
   const [filtersOpen, setFiltersOpen] = useState(false)
 
   // ── Log all inputs on this page to admin/input-logs ──────────────────────
-  useInputLogger('Homepage')
+  const loggerRef = useInputLogger<HTMLDivElement>('Homepage')
 
   useEffect(() => {
     setModelsLoading(true)
@@ -144,7 +144,7 @@ export default function Home() {
   })
 
   return (
-    <div className="min-h-screen w-full">
+    <div ref={loggerRef} className="min-h-screen w-full">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
 
         {/* ── Header ──────────────────────────────────────────────── */}
