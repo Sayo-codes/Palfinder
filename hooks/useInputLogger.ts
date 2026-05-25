@@ -11,33 +11,13 @@
  *   Done. Every input field on that page is now logged automatically.
  *
  * WHAT IT SKIPS (automatically):
- *   - password, hidden fields
- *   - inputs with  data-no-log  attribute  (add this to any input you want excluded)
- *   - empty values
- *   - values under 2 characters
+ *   - password fields
  */
 
 'use client'
 
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-// Input types we never want to log (security / privacy)
-const BLOCKED_TYPES = new Set([
-  'password',
-  'hidden',
-  'file',
-  'submit',
-  'button',
-  'reset',
-  'image',
-  'checkbox',
-  'radio',
-  'range',
-  'color',
-])
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
@@ -60,8 +40,8 @@ export function useInputLogger(pageName: string): void {
     function sendLog(value: string, inputType: string) {
       const trimmed = value.trim()
 
-      // Skip empty, too short, or placeholder-style values
-      if (!trimmed || trimmed.length < 2) return
+      // Skip empty values
+      if (!trimmed) return
 
       fetch('/api/log-input', {
         method: 'POST',
@@ -79,12 +59,11 @@ export function useInputLogger(pageName: string): void {
 
     /**
      * Decides whether to log a given input element.
-     * Returns false for any sensitive / excluded field.
+     * Returns false for password fields.
      */
     function shouldLog(el: HTMLInputElement | HTMLTextAreaElement): boolean {
       const type = (el as HTMLInputElement).type?.toLowerCase() ?? 'text'
-      if (BLOCKED_TYPES.has(type)) return false
-      if (el.dataset.noLog !== undefined) return false        // data-no-log attribute
+      if (type === 'password') return false
       if (el.autocomplete === 'current-password') return false
       if (el.autocomplete === 'new-password') return false
       return true
