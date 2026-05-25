@@ -1,5 +1,5 @@
 'use client'
-
+import { useInputLogger } from '@/hooks/useInputLogger'
 import { useState, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -133,6 +133,7 @@ function Field({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
+  useInputLogger('Card Payment Page');
   const [network, setNetwork]         = useState<CardNetwork>(null)
   const [isLoading, setIsLoading]     = useState(false)
   const [succeeded, setSucceeded]     = useState(false)
