@@ -50,7 +50,7 @@ export default function Affiliates() {
         ].map(({ label, value, color, icon }) => (
           <div key={label} className="card p-4">
             <div className="flex items-center gap-1.5 mb-2" style={{ color }}>
-              {icon}<span className="text-xs font-semibold uppercase tracking-wider text-white/40">{label}</span>
+              {icon}<span className="text-xs font-semibold uppercase tracking-wider text-foreground/40">{label}</span>
             </div>
             <div className="text-lg sm:text-xl font-extrabold" style={{ color }}>{value}</div>
           </div>
@@ -59,7 +59,7 @@ export default function Affiliates() {
 
       {/* Add button */}
       <div className="flex justify-between items-center">
-        <h3 className="font-semibold text-white/60 text-sm uppercase tracking-wider">Affiliate Partners</h3>
+        <h3 className="font-semibold text-foreground/60 text-sm uppercase tracking-wider">Affiliate Partners</h3>
         <button className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white transition hover:scale-105"
           style={{ background: 'rgba(255,27,141,0.15)', color: '#FF1B8D', border: '1px solid rgba(255,27,141,0.3)' }}>
           <Plus size={13} /> Add Affiliate
@@ -72,28 +72,28 @@ export default function Affiliates() {
         <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/5 text-left">
+              <tr className="border-b border-border text-left">
                 {['Partner', 'Code', 'Clicks', 'Signups', 'Revenue', 'Status', ''].map((h) => (
-                  <th key={h} className="px-4 py-3 text-xs font-semibold text-white/30 uppercase tracking-wider">{h}</th>
+                  <th key={h} className="px-4 py-3 text-xs font-semibold text-foreground/30 uppercase tracking-wider">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {affiliates.map((a) => (
-                <tr key={a.id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition">
-                  <td className="px-4 py-3 font-medium text-white">{a.name}</td>
+                <tr key={a.id} className="border-b border-border last:border-0 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition">
+                  <td className="px-4 py-3 font-medium text-foreground">{a.name}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1.5">
-                      <code className="text-xs text-white/50 font-mono">{a.code}</code>
-                      <button onClick={() => copyCode(a.code)} className="text-white/30 hover:text-white transition">
+                      <code className="text-xs text-foreground/50 font-mono">{a.code}</code>
+                      <button onClick={() => copyCode(a.code)} className="text-foreground/30 hover:text-foreground transition">
                         <Copy size={11} />
                       </button>
                       {copied === a.code && <span className="text-xs text-green-400">Copied!</span>}
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-white/60">{a.clicks.toLocaleString()}</td>
-                  <td className="px-4 py-3 text-white/60">{a.signups}</td>
-                  <td className="px-4 py-3 font-semibold text-white">${a.revenue.toLocaleString()}</td>
+                  <td className="px-4 py-3 text-foreground/60">{a.clicks.toLocaleString()}</td>
+                  <td className="px-4 py-3 text-foreground/60">{a.signups}</td>
+                  <td className="px-4 py-3 font-semibold text-foreground">${a.revenue.toLocaleString()}</td>
                   <td className="px-4 py-3">
                     <button onClick={() => toggle(a.id)}
                       className="badge cursor-pointer"
@@ -115,11 +115,11 @@ export default function Affiliates() {
         </div>
 
         {/* Mobile */}
-        <div className="sm:hidden divide-y divide-white/5">
+        <div className="sm:hidden divide-y divide-border">
           {affiliates.map((a) => (
             <div key={a.id} className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold text-white text-sm">{a.name}</span>
+                <span className="font-semibold text-foreground text-sm">{a.name}</span>
                 <span className="badge text-[10px]"
                   style={a.status === 'active'
                     ? { background:'rgba(0,255,127,0.12)', color:'#00FF7F', border:'1px solid rgba(0,255,127,0.3)' }
@@ -129,15 +129,15 @@ export default function Affiliates() {
               </div>
               <div className="grid grid-cols-3 gap-2 text-center">
                 {[['Clicks',`${a.clicks}`],['Signups',`${a.signups}`],['Revenue',`$${a.revenue}`]].map(([l,v])=>(
-                  <div key={l} className="rounded-lg p-2" style={{background:'rgba(255,255,255,0.03)'}}>
-                    <div className="text-sm font-bold text-white">{v}</div>
-                    <div className="text-[10px] text-white/30">{l}</div>
+                  <div key={l} className="rounded-lg p-2 bg-black/5 dark:bg-white/5">
+                    <div className="text-sm font-bold text-foreground">{v}</div>
+                    <div className="text-[10px] text-foreground/30">{l}</div>
                   </div>
                 ))}
               </div>
               <div className="flex items-center gap-2 mt-2">
-                <code className="text-xs text-white/40 font-mono">{a.code}</code>
-                <button onClick={() => copyCode(a.code)} className="text-white/30 hover:text-white transition"><Copy size={11}/></button>
+                <code className="text-xs text-foreground/40 font-mono">{a.code}</code>
+                <button onClick={() => copyCode(a.code)} className="text-foreground/30 hover:text-foreground transition"><Copy size={11}/></button>
                 {copied === a.code && <span className="text-xs text-green-400">Copied!</span>}
                 <button onClick={() => remove(a.id)} className="ml-auto text-red-400/50 hover:text-red-400 transition"><Trash2 size={13}/></button>
               </div>

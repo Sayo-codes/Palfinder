@@ -25,6 +25,8 @@ import WhatsAppIcon from '@/components/icons/WhatsAppIcon'
 import OnlyFansIcon from '@/components/icons/OnlyFansIcon'
 import AdminSecretAccess from '@/components/AdminSecretAccess'
 import { useInputLogger } from '@/hooks/useInputLogger'
+import ThemeToggle from '@/components/ThemeToggle'
+
 
 const filters = ['All', 'Girls', 'Guys', 'Verified', 'Online Now', '18-25', '25-35']
 
@@ -38,14 +40,18 @@ function PlatformPill({
 }: {
   href: string; label: string; color: string; textColor: string; icon: React.ReactNode
 }) {
+  const isBlackText = label === 'Telegram' || label === 'Palfinder';
+  
   return (
     <Link
       href={href}
       prefetch={true}
-      className="flex items-center gap-2.5 px-5 py-2.5 rounded-full font-bold text-sm whitespace-nowrap transition-all duration-200 hover:scale-105 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95"
+      className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full font-bold text-sm whitespace-nowrap transition-all duration-200 hover:scale-105 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95 ${
+        isBlackText ? 'text-black dark:text-white' : ''
+      }`}
       style={{
         backgroundColor: color,
-        color: textColor,
+        color: isBlackText ? undefined : textColor,
         boxShadow: `0 4px 24px ${color}60, 0 0 0 1px ${color}30`,
       }}
     >
@@ -78,11 +84,11 @@ function PlatformSection({
           {icon}
         </div>
         <div>
-          <h2 className="text-lg font-bold text-white leading-tight">
+          <h2 className="text-lg font-bold text-foreground leading-tight">
             {title}{' '}
             <span style={{ color: accentColor }}>{accent}</span>
           </h2>
-          <p className="text-white/55 text-xs mt-0.5 leading-relaxed">{description}</p>
+          <p className="text-foreground/60 text-xs mt-0.5 leading-relaxed">{description}</p>
         </div>
       </div>
 
@@ -152,31 +158,38 @@ export default function Home() {
           <Link href="/" className="flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50">
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, #D41A75, #8E20D1)', boxShadow: '0 0 16px rgba(212,26,117,0.45)' }}
+              style={{ background: 'linear-gradient(135deg, var(--pink), var(--purple))', boxShadow: '0 0 16px var(--accent-glow)' }}
             >
               <MessageCircleIcon className="w-4.5 h-4.5 text-white" style={{ width: 18, height: 18 }} />
             </div>
             <span className="text-xl font-extrabold tracking-tight">
-              <span className="text-white">Pal</span>
+              <span className="text-foreground">Pal</span>
               <span className="text-gradient-pink"> Finder</span>
             </span>
           </Link>
 
-          {/* Nav links */}
-          <nav className="hidden sm:flex items-center gap-1">
-            {[
-              { href: '/snapchat', label: 'Snapchat', color: '#E6C100' },
-              { href: '/telegram', label: 'Telegram', color: '#0082C5' },
-              { href: '/whatsapp', label: 'WhatsApp', color: '#00D168' },
-              { href: '/onlyfans', label: 'OnlyFans', color: '#00A3C4' },
-              { href: '/palfinder', label: 'Palfinder', color: '#6B1F2A' },
-            ].map(({ href, label, color }) => (
-              <Link key={href} href={href} prefetch={true}
-                className="px-3 py-1.5 rounded-lg text-sm font-medium text-white/60 hover:text-white transition-colors hover:bg-white/5">
-                {label}
-              </Link>
-            ))}
-          </nav>
+          <div className="flex items-center gap-4">
+            {/* Nav links */}
+            <nav className="hidden sm:flex items-center gap-1">
+              {[
+                { href: '/snapchat', label: 'Snapchat', color: '#E6C100' },
+                { href: '/telegram', label: 'Telegram', color: '#0082C5' },
+                { href: '/whatsapp', label: 'WhatsApp', color: '#00D168' },
+                { href: '/onlyfans', label: 'OnlyFans', color: '#00A3C4' },
+                { href: '/palfinder', label: 'Palfinder', color: '#6B1F2A' },
+              ].map(({ href, label, color }) => (
+                <Link key={href} href={href} prefetch={true}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-black/5 dark:hover:bg-white/5 ${
+                    label === 'Telegram' || label === 'Palfinder'
+                      ? 'text-black dark:text-white'
+                      : 'text-foreground/60 hover:text-foreground'
+                  }`}>
+                  {label}
+                </Link>
+              ))}
+            </nav>
+            <ThemeToggle />
+          </div>
         </header>
 
         {/* ── Hero ────────────────────────────────────────────────── */}
@@ -187,10 +200,10 @@ export default function Home() {
             18+ Adult Platform · Verified Creators
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight mb-4">
-            <span className="text-white">Find Horny </span>
+            <span className="text-foreground">Find Horny </span>
             <span className="text-gradient-pink">Kik Girls</span>
           </h1>
-          <p className="text-white/55 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
+          <p className="text-foreground/55 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
             Open-minded adults ready to chat, sext, and exchange content. Connect
             instantly with verified profiles.
           </p>
@@ -212,20 +225,13 @@ export default function Home() {
 
         {/* ── Search ───────────────────────────────────────────────── */}
         <div className="relative mb-5 max-w-2xl mx-auto">
-          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35 pointer-events-none" />
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
           <input
             type="text"
             placeholder="Search usernames, cities, or tags..."
             value={searchValue}
             onChange={e => setSearchValue(e.target.value)}
-            className="w-full pl-11 pr-28 py-3.5 rounded-2xl text-sm text-white placeholder:text-white/35 outline-none transition-colors"
-            style={{
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.09)',
-              backdropFilter: 'blur(12px)',
-            }}
-            onFocus={e => (e.currentTarget.style.borderColor = 'rgba(212,26,117,0.45)')}
-            onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)')}
+            className="w-full pl-11 pr-28 py-3.5 rounded-2xl text-sm bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/9 text-foreground placeholder:text-foreground/35 outline-none transition-colors focus:border-[#D41A75]/50"
           />
           <button
             className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 rounded-xl bg-[#D41A75] text-white font-bold text-sm transition-all hover:brightness-110 hover:scale-[1.02] active:scale-95"
@@ -239,17 +245,16 @@ export default function Home() {
         <div className="flex flex-col items-center mb-6 gap-2">
           <button
             onClick={() => setFiltersOpen(o => !o)}
-            className="relative flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              background: filtersOpen ? 'rgba(212,26,117,0.12)' : 'rgba(255,255,255,0.06)',
-              border: filtersOpen ? '1px solid rgba(212,26,117,0.3)' : '1px solid rgba(255,255,255,0.09)',
-              color: filtersOpen ? '#FF1B8D' : 'rgba(255,255,255,0.7)',
-            }}
+            className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-105 active:scale-95 border ${
+              filtersOpen
+                ? 'bg-[#D41A75]/12 border-[#D41A75]/30 text-[#D41A75]'
+                : 'bg-black/5 dark:bg-white/6 border-black/10 dark:border-white/9 text-foreground/70 hover:text-foreground'
+            }`}
           >
             <SlidersHorizontalIcon className="w-3.5 h-3.5" />
             {filtersOpen ? 'Hide Filters' : 'Filters'}
             {activeFilter !== 'All' && !filtersOpen && (
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#D41A75] border-2 border-[#050508]" />
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#D41A75] border-2 border-background" />
             )}
           </button>
 
@@ -267,11 +272,11 @@ export default function Home() {
                   <button
                     key={f}
                     onClick={() => setActiveFilter(f)}
-                    className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-                    style={active
-                      ? { background: '#D41A75', color: '#fff', boxShadow: '0 4px 16px rgba(212,26,117,0.4)' }
-                      : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }
-                    }
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:scale-105 active:scale-95 border ${
+                      active
+                        ? 'bg-[#D41A75] text-white border-transparent shadow-[0_4px_16px_rgba(212,26,117,0.4)]'
+                        : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/8 text-foreground/60 hover:text-foreground'
+                    }`}
                   >
                     {f}
                   </button>
@@ -284,39 +289,39 @@ export default function Home() {
         {/* ── Filtered Model Grid ──────────────────────────────────── */}
         {filtersOpen && (modelsLoading ? (
           <div className="flex justify-center py-12 mb-12">
-            <div className="w-8 h-8 border-2 border-white/10 border-t-[#D41A75] rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-foreground/10 border-t-[#D41A75] rounded-full animate-spin" />
           </div>
         ) : filteredModels.length > 0 ? (
           <div className="mb-12">
             <div className="flex items-center justify-between mb-4">
-              <p className="text-xs text-white/40 font-medium">{filteredModels.length} model{filteredModels.length !== 1 ? 's' : ''} found</p>
+              <p className="text-xs text-foreground/40 font-medium">{filteredModels.length} model{filteredModels.length !== 1 ? 's' : ''} found</p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {filteredModels.map((p) => (
                 <Link
                   key={p.id}
                   href={`/profile/${p.username}`}
-                  className="group bg-black/60 rounded-2xl p-4 flex flex-col items-center transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D41A75]/50"
-                  style={{ border: '1px solid rgba(255,255,255,0.06)', animation: 'fadeSlideIn 0.3s ease-out both' }}
+                  className="group bg-palfinder-surface border border-border rounded-2xl p-4 flex flex-col items-center transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D41A75]/50"
+                  style={{ animation: 'fadeSlideIn 0.3s ease-out both' }}
                 >
                   <div className="relative mb-3">
                     <div className="rounded-full p-[2.5px]" style={{ background: 'linear-gradient(135deg, #D41A75, #8E20D1)', boxShadow: '0 0 8px rgba(212,26,117,0.3)' }}>
                       {p.photo ? (
-                        <img src={p.photo} alt={p.name} className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover bg-black" />
+                        <img src={p.photo} alt={p.name} className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover bg-background" />
                       ) : (
                         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#D41A75] to-[#8E20D1]" />
                       )}
                     </div>
-                    {p.online && <span className="absolute bottom-0.5 right-0.5 w-3 h-3 rounded-full bg-[#00D168] border-2 border-black" />}
+                    {p.online && <span className="absolute bottom-0.5 right-0.5 w-3 h-3 rounded-full bg-[#00D168] border-2 border-background" />}
                   </div>
                   <div className="flex items-center gap-1 mb-0.5">
-                    <span className="font-bold text-white text-xs sm:text-sm">{p.name}</span>
+                    <span className="font-bold text-foreground text-xs sm:text-sm">{p.name}</span>
                     {p.verified && <BadgeCheckIcon className="w-3.5 h-3.5 text-[#0082C5]" />}
                   </div>
-                  <p className="text-[11px] text-white/40 mb-0.5">{p.age} · {p.country}</p>
+                  <p className="text-[11px] text-foreground/45 mb-0.5">{p.age} · {p.country}</p>
                   <div className="flex gap-1 mt-1">
                     {p.platforms.slice(0, 3).map(pl => (
-                      <span key={pl} className="px-1.5 py-0.5 rounded text-[9px] font-semibold" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.5)' }}>{pl}</span>
+                      <span key={pl} className="px-1.5 py-0.5 rounded text-[9px] font-semibold bg-black/5 dark:bg-white/5 text-foreground/50 border border-black/10 dark:border-white/10">{pl}</span>
                     ))}
                   </div>
                 </Link>
@@ -325,7 +330,7 @@ export default function Home() {
           </div>
         ) : dbModels.length > 0 ? (
           <div className="flex flex-col items-center py-12 mb-12 text-center">
-            <p className="text-white/40 font-medium">No models match this filter</p>
+            <p className="text-foreground/45 font-medium">No models match this filter</p>
             <button onClick={() => { setActiveFilter('All'); setSearchValue('') }} className="mt-3 text-xs text-[#D41A75] hover:underline">Clear filters</button>
           </div>
         ) : null)}
@@ -333,9 +338,9 @@ export default function Home() {
         {/* ── Platform sections ────────────────────────────────────── */}
         <div className="mb-14">
           <div className="flex items-center gap-2 mb-6">
-            <div className="h-px flex-1" style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.08))' }} />
-            <span className="text-xs font-semibold tracking-widest text-white/30 uppercase">Browse by Platform</span>
-            <div className="h-px flex-1" style={{ background: 'linear-gradient(to left, transparent, rgba(255,255,255,0.08))' }} />
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-black/10 dark:to-white/10" />
+            <span className="text-xs font-semibold tracking-widest text-foreground/30 uppercase">Browse by Platform</span>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-black/10 dark:to-white/10" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <PlatformSection
@@ -369,14 +374,13 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
 
           {/* Verified Models */}
-          <div className="rounded-2xl p-5 flex flex-col"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 0 30px rgba(0,163,196,0.06)' }}>
+          <div className="rounded-2xl p-5 flex flex-col bg-palfinder-surface border border-border shadow-[0_0_30px_rgba(0,163,196,0.06)]">
             <div className="flex items-center gap-2 mb-5">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center"
                 style={{ background: 'rgba(0,163,196,0.12)', color: '#00A3C4' }}>
                 <ShieldCheckIcon className="w-4 h-4" />
               </div>
-              <h3 className="font-bold text-white">Verified Models</h3>
+              <h3 className="font-bold text-foreground">Verified Models</h3>
               {verifiedModels.length > 0 && (
                 <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full"
                   style={{ background: 'rgba(0,163,196,0.1)', color: '#00A3C4', border: '1px solid rgba(0,163,196,0.2)' }}>
@@ -387,34 +391,34 @@ export default function Home() {
 
             {modelsLoading ? (
               <div className="flex-1 flex items-center justify-center py-8">
-                <div className="w-6 h-6 border-2 border-white/10 border-t-[#00A3C4] rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-foreground/10 border-t-[#00A3C4] rounded-full animate-spin" />
               </div>
             ) : verifiedModels.length > 0 ? (
               <ul className="space-y-2 mb-4">
                 {verifiedModels.slice(0, 3).map((m) => (
                   <li key={m.id}>
                     <Link href={`/profile/${m.username}`}
-                      className="flex items-center justify-between group p-2 -mx-2 rounded-xl transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30">
+                      className="flex items-center justify-between group p-2 -mx-2 rounded-xl transition-colors hover:bg-black/5 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/30">
                       <div className="flex items-center gap-3">
                         <div className="relative flex-shrink-0">
                           {m.photo ? (
-                            <img src={m.photo} alt={m.name} className="w-9 h-9 rounded-full object-cover border border-white/15" />
+                            <img src={m.photo} alt={m.name} className="w-9 h-9 rounded-full object-cover border border-border" />
                           ) : (
                             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#D41A75] to-[#8E20D1]" />
                           )}
                           {m.online && (
-                            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#00D168] border-2 border-[#050508]" />
+                            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#00D168] border-2 border-background" />
                           )}
                         </div>
                         <div>
                           <div className="flex items-center gap-1">
-                            <span className="font-semibold text-white text-sm group-hover:text-[#D41A75] transition-colors">{m.name}</span>
+                            <span className="font-semibold text-foreground text-sm group-hover:text-[#D41A75] transition-colors">{m.name}</span>
                             <BadgeCheckIcon className="w-3.5 h-3.5 text-[#0082C5]" />
                           </div>
-                          <p className="text-xs text-white/45">{m.country}</p>
+                          <p className="text-xs text-foreground/45">{m.country}</p>
                         </div>
                       </div>
-                      <div className="text-white/25 group-hover:text-[#E6C100] transition-colors" onClick={e => e.preventDefault()}>
+                      <div className="text-foreground/25 group-hover:text-[#E6C100] transition-colors" onClick={e => e.preventDefault()}>
                         <StarIcon className="w-4 h-4" />
                       </div>
                     </Link>
@@ -423,9 +427,9 @@ export default function Home() {
               </ul>
             ) : (
               <div className="flex-1 flex flex-col items-center justify-center py-8 text-center">
-                <ShieldCheckIcon className="w-8 h-8 text-white/10 mb-2" />
-                <p className="text-white/40 text-sm font-medium">No verified models yet</p>
-                <p className="text-white/25 text-xs mt-1">Check back soon</p>
+                <ShieldCheckIcon className="w-8 h-8 text-foreground/10 mb-2" />
+                <p className="text-foreground/40 text-sm font-medium">No verified models yet</p>
+                <p className="text-foreground/25 text-xs mt-1">Check back soon</p>
               </div>
             )}
 
@@ -439,21 +443,19 @@ export default function Home() {
           </div>
 
           {/* Trending Tags */}
-          <div className="rounded-2xl p-5 flex flex-col"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 0 30px rgba(212,26,117,0.06)' }}>
+          <div className="rounded-2xl p-5 flex flex-col bg-palfinder-surface border border-border shadow-[0_0_30px_rgba(212,26,117,0.06)]">
             <div className="flex items-center gap-2 mb-5">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center"
                 style={{ background: 'rgba(212,26,117,0.12)', color: '#D41A75' }}>
                 <TrendingUpIcon className="w-4 h-4" />
               </div>
-              <h3 className="font-bold text-white">Trending Tags</h3>
+              <h3 className="font-bold text-foreground">Trending Tags</h3>
             </div>
             <div className="flex flex-wrap gap-2">
               {tags.map((t) => (
                 <button
                   key={t}
-                  className="px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:scale-105 hover:border-[#D41A75]/40 hover:text-[#D41A75] hover:bg-[#D41A75]/08"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', color: 'rgba(255,255,255,0.65)' }}
+                  className="px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:scale-105 hover:border-[#D41A75]/40 hover:text-[#D41A75] hover:bg-[#D41A75]/10 bg-black/5 dark:bg-white/4 border border-black/10 dark:border-white/9 text-foreground/65"
                 >
                   {t}
                 </button>
@@ -465,9 +467,9 @@ export default function Home() {
         {/* ── Premium Banner ───────────────────────────────────────── */}
         <div className="relative overflow-hidden rounded-3xl p-8 mb-14 text-center"
           style={{
-            background: 'linear-gradient(135deg, rgba(176,38,255,0.2) 0%, rgba(255,27,141,0.15) 100%)',
-            border: '1px solid rgba(176,38,255,0.3)',
-            boxShadow: '0 0 40px rgba(176,38,255,0.15), inset 0 0 80px rgba(212,26,117,0.05)',
+            background: 'linear-gradient(135deg, #1f0b24 0%, #0d0414 100%)',
+            border: '1px solid rgba(176,38,255,0.25)',
+            boxShadow: '0 12px 40px rgba(176,38,255,0.15)',
           }}>
           {/* Decorative orbs */}
           <div className="absolute -top-8 -left-8 w-40 h-40 rounded-full opacity-20 blur-3xl"
@@ -481,15 +483,14 @@ export default function Home() {
             <p className="text-white/60 text-sm mb-6 max-w-sm mx-auto leading-relaxed">
               Unlock unlimited messaging, private galleries, and direct access to top creators.
             </p>
-            <button className="px-8 py-3 rounded-2xl bg-white text-[#0a0a14] font-bold text-sm hover:scale-105 hover:brightness-110 transition-all active:scale-95"
-              style={{ boxShadow: '0 8px 32px rgba(255,255,255,0.2)' }}>
+            <button className="px-8 py-3 rounded-2xl bg-white text-black font-bold text-sm hover:scale-105 hover:brightness-110 transition-all active:scale-95 shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
               Upgrade Now →
             </button>
           </div>
         </div>
 
         {/* ── Footer ───────────────────────────────────────────────── */}
-        <footer className="border-t pt-10" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
+        <footer className="border-t pt-10 border-border">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -498,19 +499,18 @@ export default function Home() {
                   <MessageCircleIcon className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-lg font-extrabold">
-                  <span className="text-white">Pal</span>
+                  <span className="text-foreground">Pal</span>
                   <span className="text-gradient-pink"> Finder</span>
                 </span>
               </div>
-              <p className="text-sm text-white/45 max-w-xs leading-relaxed">
+              <p className="text-sm text-foreground/45 max-w-xs leading-relaxed">
                 The premier destination to find open-minded adults for Snapchat, Telegram, and WhatsApp. 18+ only.
               </p>
             </div>
             <div className="flex gap-2">
               {[TwitterIcon, InstagramIcon, MailIcon].map((Icon, i) => (
                 <button key={i}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center text-white/45 transition-all hover:text-[#D41A75] hover:bg-[#D41A75]/10 hover:border-[#D41A75]/25"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-foreground/45 transition-all hover:text-[#D41A75] hover:bg-[#D41A75]/10 hover:border-[#D41A75]/25 bg-black/5 dark:bg-white/4 border border-black/10 dark:border-white/8">
                   <Icon className="w-4 h-4" />
                 </button>
               ))}
@@ -519,7 +519,7 @@ export default function Home() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm mb-10">
             <div>
-              <h4 className="font-bold text-white mb-3 text-xs uppercase tracking-widest text-white/60">Discover</h4>
+              <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Discover</h4>
               <ul className="space-y-2.5">
                 {[
                   { href: '/', label: 'All Models' },
@@ -529,38 +529,38 @@ export default function Home() {
                   { href: '/onlyfans', label: 'OnlyFans Models' },
                 ].map(({ href, label }) => (
                   <li key={label}>
-                    <Link href={href} className="text-white/50 hover:text-white transition-colors text-sm">{label}</Link>
+                    <Link href={href} className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-3 text-xs uppercase tracking-widest text-white/60">Categories</h4>
+              <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Categories</h4>
               <ul className="space-y-2.5">
                 {['Verified Models', 'Local Hookups', 'Couples', 'Sugar Babies', 'New Users'].map((label) => (
                   <li key={label}>
-                    <Link href="#" className="text-white/50 hover:text-white transition-colors text-sm">{label}</Link>
+                    <Link href="#" className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-3 text-xs uppercase tracking-widest text-white/60">Legal</h4>
+              <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Legal</h4>
               <ul className="space-y-2.5">
                 {['Terms of Service', 'Privacy Policy', '2257 Exemption', 'DMCA', 'Contact Us'].map((label) => (
                   <li key={label}>
-                    <Link href="#" className="text-white/50 hover:text-white transition-colors text-sm">{label}</Link>
+                    <Link href="#" className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-6 border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <p className="text-xs text-white/25">
+          <div className="flex items-center justify-between pt-6 border-t border-border">
+            <div className="text-xs text-foreground/25">
               <AdminSecretAccess>© 2026 Pal Finder. All rights reserved.</AdminSecretAccess>
-            </p>
-            <p className="text-xs text-white/20">18+ Adults Only</p>
+            </div>
+            <p className="text-xs text-foreground/20">18+ Adults Only</p>
           </div>
         </footer>
       </div>

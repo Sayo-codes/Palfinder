@@ -3,6 +3,7 @@
 import { useAdminStore } from '@/lib/store'
 import { Menu, Bell, Plus, Search } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import ThemeToggle from '@/components/ThemeToggle'
 
 const SECTION_TITLES: Record<string, string> = {
   overview:     'Overview Dashboard',
@@ -28,24 +29,23 @@ export default function Topbar() {
 
   return (
     <header
-      className="sticky top-0 z-30 flex items-center gap-3 px-4 sm:px-6 py-3.5"
+      className="sticky top-0 z-30 flex items-center gap-3 px-4 sm:px-6 py-3.5 border-b border-border"
       style={{
-        background: 'rgba(8,8,16,0.85)',
+        background: 'var(--header-bg)',
         backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}
     >
       {/* Hamburger (mobile) */}
       <button
         onClick={toggleSidebar}
-        className="lg:hidden text-white/60 hover:text-white transition-colors p-1 -ml-1 flex-shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+        className="lg:hidden text-foreground/60 hover:text-foreground transition-colors p-1 -ml-1 flex-shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50"
         aria-label="Open menu"
       >
         <Menu size={22} />
       </button>
 
       {/* Title */}
-      <h1 className="font-bold text-white text-base sm:text-lg flex-shrink-0">
+      <h1 className="font-bold text-foreground text-base sm:text-lg flex-shrink-0">
         {SECTION_TITLES[section] ?? 'Admin'}
       </h1>
 
@@ -53,7 +53,7 @@ export default function Topbar() {
       <div className="relative flex-1 hidden sm:block max-w-xs">
         <Search
           size={14}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30"
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/30"
         />
         <input
           type="text"
@@ -65,12 +65,15 @@ export default function Topbar() {
       </div>
 
       <div className="flex items-center gap-2 ml-auto">
+        {/* Theme toggle */}
+        <ThemeToggle />
+
         {/* Notification bell */}
-        <button className="relative text-white/50 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50">
+        <button className="relative text-foreground/50 hover:text-foreground transition-colors p-2 rounded-xl bg-black/10 dark:bg-white/5 border border-black/5 dark:border-white/5 hover:bg-black/15 dark:hover:bg-white/10 hover:border-black/10 dark:hover:border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50">
           <Bell size={18} />
           <span
-            className="absolute top-1 right-1 w-2 h-2 rounded-full"
-            style={{ background: '#FF1B8D', boxShadow: '0 0 8px rgba(255,27,141,0.8)' }}
+            className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full"
+            style={{ background: 'var(--pink)', boxShadow: '0 0 8px var(--pink)' }}
           />
         </button>
 
@@ -78,10 +81,10 @@ export default function Topbar() {
         {showAddButton && (
           <button
             onClick={openCreateModal}
-            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             style={{
-              background: 'linear-gradient(135deg, #FF1B8D, #B026FF)',
-              boxShadow: '0 0 20px rgba(255,27,141,0.4)',
+              background: 'linear-gradient(135deg, var(--pink), var(--purple))',
+              boxShadow: '0 0 20px rgba(224,51,107,0.4)',
             }}
           >
             <Plus size={15} />

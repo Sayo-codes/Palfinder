@@ -20,6 +20,7 @@ import {
   ShieldCheckIcon, QrCodeIcon, StarIcon, HeartIcon, CheckCircle2Icon,
   ChevronDownIcon, AlertTriangleIcon, InfoIcon, Loader2Icon, DownloadIcon, LinkIcon
 } from 'lucide-react'
+import ThemeToggle from '@/components/ThemeToggle'
 import { SORTED_WALLETS, generatePaymentRef, type CryptoWallet } from '@/lib/config/crypto'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -230,10 +231,10 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(selectedWallet.address)}&bgcolor=FFFFFF&color=000000&margin=12`
 
   // ── Timer colour ──────────────────────────────────────────────────────────
-  const timerColor = timeLeft < 300 ? '#FF4444' : timeLeft < 600 ? '#E8B547' : 'rgba(255,255,255,0.75)'
+  const timerColor = timeLeft < 300 ? '#FF4444' : timeLeft < 600 ? 'var(--gold)' : 'var(--text-muted)'
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(160deg,#08080F 0%,#0D0A14 60%,#0A0510 100%)' }}>
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
 
       {/* Ambient glow */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden>
@@ -246,9 +247,12 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <Link href="/palfinder" className="inline-flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors mb-8">
-          <ChevronLeftIcon className="w-4 h-4" /> Back to Palfinder
-        </Link>
+        <div className="flex justify-between items-center mb-8">
+          <Link href="/palfinder" className="inline-flex items-center gap-1.5 text-sm text-foreground/50 hover:text-foreground transition-colors">
+            <ChevronLeftIcon className="w-4 h-4" /> Back to Palfinder
+          </Link>
+          <ThemeToggle />
+        </div>
 
         <div className="grid lg:grid-cols-[1fr_440px] gap-8 items-start">
 
@@ -256,58 +260,58 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
           <div className="space-y-6">
 
             {/* Profile card */}
-            <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
+            <div className="rounded-2xl overflow-hidden bg-palfinder-surface border border-border shadow-md">
               <div className="aspect-[16/9] relative overflow-hidden">
                 {profile.mainPhoto
                   ? <img src={profile.mainPhoto} alt={profile.name} className="w-full h-full object-cover" />
-                  : <div className="w-full h-full bg-white/5 flex items-center justify-center"><HeartIcon className="w-16 h-16 text-white/10" /></div>}
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(8,8,16,0.9) 0%,transparent 55%)' }} />
+                  : <div className="w-full h-full bg-black/5 dark:bg-white/5 flex items-center justify-center"><HeartIcon className="w-16 h-16 text-foreground/10" /></div>}
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--bg) 0%, transparent 55%)' }} />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <h1 className="text-2xl font-extrabold text-white">{profile.name}</h1>
-                  <p className="text-xs text-white/50 mt-0.5">{profile.location} · {profile.age} years old</p>
+                  <h1 className="text-2xl font-extrabold text-foreground">{profile.name}</h1>
+                  <p className="text-xs text-foreground/50 mt-0.5">{profile.location} · {profile.age} years old</p>
                 </div>
               </div>
               <div className="p-5 space-y-4">
                 <div className="flex items-center gap-1">
                   {[1,2,3,4,5].map(s => (
-                    <StarIcon key={s} className={`w-4 h-4 ${s <= profile.rating ? 'fill-[#E8B547] text-[#E8B547]' : 'fill-white/10 text-white/10'}`} />
+                    <StarIcon key={s} className={`w-4 h-4 ${s <= profile.rating ? 'fill-palfinder-gold text-palfinder-gold' : 'fill-foreground/10 text-foreground/10'}`} />
                   ))}
-                  <span className="text-xs text-white/40 ml-1">{profile.rating.toFixed(1)}</span>
+                  <span className="text-xs text-foreground/40 ml-1">{profile.rating.toFixed(1)}</span>
                 </div>
-                {profile.bio && <p className="text-sm text-white/55 italic leading-relaxed">&ldquo;{profile.bio}&rdquo;</p>}
+                {profile.bio && <p className="text-sm text-foreground/75 italic leading-relaxed">&ldquo;{profile.bio}&rdquo;</p>}
                 <div className="flex flex-wrap gap-1.5">
                   {profile.tags.map((t, i) => (
-                    <span key={i} className="text-[10px] font-medium px-2.5 py-1 rounded-full" style={{ background: 'rgba(107,31,42,0.15)', color: '#E8B547', border: '1px solid rgba(107,31,42,0.25)' }}>{t}</span>
+                    <span key={i} className="text-[10px] font-medium px-2.5 py-1 rounded-full" style={{ background: 'var(--tag-bg)', color: 'var(--tag-text)', border: '1px solid var(--tag-border)' }}>{t}</span>
                   ))}
                 </div>
               </div>
             </div>
 
             {/* What you unlock */}
-            <div className="rounded-2xl p-5 space-y-3" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <p className="text-xs font-semibold text-white/40 uppercase tracking-wider">What you unlock</p>
+            <div className="rounded-2xl p-5 space-y-3 bg-palfinder-surface border border-border shadow-sm">
+              <p className="text-xs font-semibold text-foreground/45 uppercase tracking-wider">What you unlock</p>
               {['Full media gallery access', 'Direct contact information', 'Priority messaging', 'Exclusive content'].map((item, i) => (
-                <div key={i} className="flex items-center gap-2.5 text-sm text-white/70">
+                <div key={i} className="flex items-center gap-2.5 text-sm text-foreground/75">
                   <CheckCircle2Icon className="w-4 h-4 text-[#00D168] flex-shrink-0" />{item}
                 </div>
               ))}
             </div>
 
             {/* Price box */}
-            <div className="rounded-2xl p-5 flex items-center justify-between" style={{ background: 'rgba(107,31,42,0.08)', border: '1px solid rgba(107,31,42,0.2)' }}>
+            <div className="rounded-2xl p-5 flex items-center justify-between" style={{ background: 'var(--tag-bg)', border: '1px solid var(--tag-border)' }}>
               <div>
-                <p className="text-xs text-white/40 mb-1">Total Amount</p>
-                <p className="text-3xl font-extrabold text-white">${profile.price.toFixed(2)} <span className="text-sm font-medium text-white/40">USD</span></p>
+                <p className="text-xs text-foreground/45 mb-1">Total Amount</p>
+                <p className="text-3xl font-extrabold text-foreground">${profile.price.toFixed(2)} <span className="text-sm font-medium text-foreground/45">USD</span></p>
               </div>
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#6B1F2A,#E8B547)', boxShadow: '0 0 20px rgba(107,31,42,0.4)' }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, var(--hero-grad-start), var(--hero-grad-end))', boxShadow: '0 0 20px rgba(107,31,42,0.2)' }}>
                 <HeartIcon className="w-5 h-5 text-white" />
               </div>
             </div>
 
             {/* Payment instructions */}
-            <div className="rounded-2xl p-5 space-y-3" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <p className="text-xs font-semibold text-white/40 uppercase tracking-wider flex items-center gap-2">
-                <InfoIcon className="w-3.5 h-3.5" /> Payment Instructions
+            <div className="rounded-2xl p-5 space-y-3 bg-palfinder-surface border border-border shadow-sm">
+              <p className="text-xs font-semibold text-foreground/45 uppercase tracking-wider flex items-center gap-2">
+                <InfoIcon className="w-3.5 h-3.5 text-foreground/40" /> Payment Instructions
               </p>
               {[
                 '1. Select your preferred coin from the dropdown.',
@@ -316,27 +320,25 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
                 '4. We monitor the blockchain directly for your transfer.',
                 '5. Access is granted instantly once confirmed.',
               ].map((step, i) => (
-                <p key={i} className="text-xs text-white/55 leading-relaxed">{step}</p>
+                <p key={i} className="text-xs text-foreground/60 leading-relaxed">{step}</p>
               ))}
             </div>
           </div>
 
           {/* ── RIGHT: Payment panel ──────────────────────────────────────── */}
-          <div className="rounded-2xl overflow-visible sticky top-8" style={{
-            background: 'linear-gradient(180deg,#0D0D1A 0%,#0A0A14 100%)',
-            border: `1px solid ${selectedWallet.color}30`,
-            boxShadow: `0 24px 80px rgba(0,0,0,0.6), 0 0 40px ${selectedWallet.color}15`,
+          <div className="rounded-2xl overflow-visible sticky top-8 bg-palfinder-surface border border-border shadow-md" style={{
+            borderLeft: `3px solid ${selectedWallet.color}`,
             transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
           }}>
 
             {/* Panel header */}
-            <div className="flex items-center gap-3 px-5 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
               <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `linear-gradient(135deg,${selectedWallet.color}60,${selectedWallet.color})`, boxShadow: `0 0 16px ${selectedWallet.color}50` }}>
                 <WalletIcon className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h2 className="text-sm font-bold text-white">Pay with Crypto</h2>
-                <p className="text-[10px] text-white/40">Manual transfer · Direct to wallet</p>
+                <h2 className="text-sm font-bold text-foreground">Pay with Crypto</h2>
+                <p className="text-[10px] text-foreground/45">Manual transfer · Direct to wallet</p>
               </div>
             </div>
 
@@ -344,39 +346,38 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
 
               {/* ── Coin selector ─────────────────────────────────────────── */}
               <div className="relative" ref={dropRef}>
-                <label className="block text-[11px] font-medium text-white/40 mb-1.5 uppercase tracking-wider">Select Coin</label>
+                <label className="block text-[11px] font-semibold text-foreground/45 mb-1.5 uppercase tracking-wider">Select Coin</label>
                 <button
                   onClick={() => setShowDrop(v => !v)}
-                  className="w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm text-white transition"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${selectedWallet.color}40` }}
+                  className="w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm text-foreground transition"
+                  style={{ background: 'var(--surface2)', border: '1px solid var(--border)' }}
                 >
                   <span className="flex items-center gap-2.5">
                     <img src={selectedWallet.logo} alt={selectedWallet.name} className="w-6 h-6 object-contain" />
                     <span className="flex flex-col text-left">
-                      <span className="font-semibold text-white text-sm">{selectedWallet.name}</span>
-                      <span className="text-[10px] text-white/40">{selectedWallet.network}</span>
+                      <span className="font-semibold text-foreground text-sm">{selectedWallet.name}</span>
+                      <span className="text-[10px] text-foreground/40">{selectedWallet.network}</span>
                     </span>
                   </span>
-                  <ChevronDownIcon className={`w-4 h-4 text-white/40 transition-transform ${showDrop ? 'rotate-180' : ''}`} />
+                  <ChevronDownIcon className={`w-4 h-4 text-foreground/40 transition-transform ${showDrop ? 'rotate-180' : ''}`} />
                 </button>
 
                 {showDrop && (
-                  <div className="absolute top-full left-0 right-0 mt-1 rounded-xl overflow-hidden z-30 max-h-64 overflow-y-auto"
-                    style={{ background: '#0F0F1E', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 16px 50px rgba(0,0,0,0.8)' }}>
+                  <div className="absolute top-full left-0 right-0 mt-1 rounded-xl overflow-hidden z-30 max-h-64 overflow-y-auto bg-palfinder-surface border border-border shadow-lg">
                     {SORTED_WALLETS.map((w, i) => (
                       <button
                          key={w.id}
                          onClick={() => handleSelectWallet(w)}
-                         className="w-full flex items-center gap-3 px-3.5 py-3 text-sm text-white/80 hover:bg-white/5 transition text-left"
+                         className="w-full flex items-center gap-3 px-3.5 py-3 text-sm text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition text-left"
                          style={{
-                           borderBottom: i < SORTED_WALLETS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                           borderBottom: i < SORTED_WALLETS.length - 1 ? '1px solid var(--border)' : 'none',
                            ...(w.id === selectedWallet.id ? { background: `${w.color}18`, color: w.color } : {}),
                          }}
                       >
                          <img src={w.logo} alt={w.name} className="w-5 h-5 object-contain" />
                          <span className="flex flex-col">
                            <span className="font-semibold text-sm">{w.name}</span>
-                           <span className="text-[10px] text-white/40">{w.network}</span>
+                           <span className="text-[10px] text-foreground/40">{w.network}</span>
                          </span>
                          {w.priority && (
                            <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded uppercase" style={{ background: `${w.color}25`, color: w.color }}>⭐ Top</span>
@@ -388,19 +389,19 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
               </div>
 
               {/* ── Amount ───────────────────────────────────────────────── */}
-              <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <p className="text-[11px] text-white/40 mb-1">Send exactly (USD equivalent)</p>
-                <p className="text-2xl font-bold text-white">
+              <div className="rounded-xl p-4 bg-palfinder-surface border border-border shadow-sm">
+                <p className="text-[11px] text-foreground/45 mb-1">Send exactly (USD equivalent)</p>
+                <p className="text-2xl font-bold text-foreground">
                   ${profile.price.toFixed(2)}{' '}
-                  <span className="text-sm font-medium text-white/50">USD</span>
+                  <span className="text-sm font-medium text-foreground/45">USD</span>
                 </p>
-                <p className="text-[11px] text-white/35 mt-1">in {selectedWallet.ticker} at current market rate</p>
+                <p className="text-[11px] text-foreground/35 mt-1">in {selectedWallet.ticker} at current market rate</p>
               </div>
 
               {/* ── QR Code ──────────────────────────────────────────────── */}
               {!expired && (
                 <div className="flex flex-col items-center gap-3">
-                  <div className="rounded-2xl p-3 inline-block" style={{ background: '#fff', boxShadow: `0 0 30px ${selectedWallet.color}30` }}>
+                  <div className="rounded-2xl p-3 inline-block bg-white shadow-sm" style={{ boxShadow: `0 0 30px ${selectedWallet.color}30` }}>
                     <img
                       src={qrUrl}
                       alt={`${selectedWallet.name} wallet QR code`}
@@ -408,7 +409,7 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
                       style={{ imageRendering: 'pixelated' }}
                     />
                   </div>
-                  <div className="flex items-center gap-1.5 text-[10px] text-white/30">
+                  <div className="flex items-center gap-1.5 text-[10px] text-foreground/35">
                     <QrCodeIcon className="w-3 h-3" /> Scan with your {selectedWallet.ticker} wallet
                   </div>
                 </div>
@@ -417,24 +418,24 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
               {/* ── Wallet Address ───────────────────────────────────────── */}
               {!expired && (
                 <div>
-                  <label className="block text-[11px] font-medium text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label className="block text-[11px] font-semibold text-foreground/45 mb-1.5 uppercase tracking-wider">
                     {selectedWallet.name} Address
                   </label>
-                  <div className="flex items-start gap-2 rounded-xl px-3 py-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                    <p className="flex-1 text-xs text-white/80 font-mono break-all leading-relaxed select-all">
+                  <div className="flex items-start gap-2 rounded-xl px-3 py-3 bg-palfinder-surface border border-border shadow-sm">
+                    <p className="flex-1 text-xs text-foreground/80 font-mono break-all leading-relaxed select-all">
                       {selectedWallet.address}
                     </p>
                     <button
                       onClick={() => copy(selectedWallet.address, 'address')}
                       className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition mt-0.5"
-                      style={{ background: copiedField === 'address' ? 'rgba(0,209,104,0.15)' : 'rgba(255,255,255,0.06)' }}
+                      style={{ background: copiedField === 'address' ? 'rgba(0,209,104,0.15)' : 'var(--border)' }}
                       aria-label="Copy address"
                     >
-                      {copiedField === 'address' ? <CheckIcon className="w-3.5 h-3.5 text-[#00D168]" /> : <CopyIcon className="w-3.5 h-3.5 text-white/50" />}
+                      {copiedField === 'address' ? <CheckIcon className="w-3.5 h-3.5 text-[#00D168]" /> : <CopyIcon className="w-3.5 h-3.5 text-foreground/50" />}
                     </button>
                   </div>
-                  <p className="text-[10px] text-white/30 mt-1.5 px-1">
-                    ⚠ Only send {selectedWallet.ticker} on the <span className="text-white/50">{selectedWallet.network}</span>
+                  <p className="text-[10px] text-foreground/35 mt-1.5 px-1">
+                    ⚠ Only send {selectedWallet.ticker} on the <span className="text-foreground/60">{selectedWallet.network}</span>
                   </p>
                 </div>
               )}
@@ -445,7 +446,7 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
                   <p className="text-[11px] font-semibold mb-1" style={{ color: selectedWallet.color }}>
                     ⚠ {selectedWallet.memoLabel}
                   </p>
-                  <p className="text-[11px] text-white/50 leading-relaxed">
+                  <p className="text-[11px] text-foreground/50 leading-relaxed">
                     If you&apos;re sending from an exchange, add the payment reference below as the comment/memo field — otherwise funds may be lost.
                   </p>
                 </div>
@@ -454,11 +455,11 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
               {/* ── Payment Reference ─────────────────────────────────────── */}
               {!expired && (
                 <div>
-                  <label className="block text-[11px] font-medium text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label className="block text-[11px] font-semibold text-foreground/45 mb-1.5 uppercase tracking-wider">
                     Payment Reference / Memo
                   </label>
-                  <div className="flex items-center gap-2 rounded-xl px-3 py-2.5" style={{ background: 'rgba(232,181,71,0.06)', border: '1px solid rgba(232,181,71,0.2)' }}>
-                    <p className="flex-1 text-sm text-[#E8B547] font-mono font-bold tracking-wider select-all">
+                  <div className="flex items-center gap-2 rounded-xl px-3 py-2.5 bg-palfinder-surface border border-palfinder-gold/20">
+                    <p className="flex-1 text-sm text-palfinder-gold font-mono font-bold tracking-wider select-all">
                       {paymentRef}
                     </p>
                     <button
@@ -467,10 +468,10 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
                       style={{ background: copiedField === 'ref' ? 'rgba(0,209,104,0.15)' : 'rgba(232,181,71,0.1)' }}
                       aria-label="Copy payment reference"
                     >
-                      {copiedField === 'ref' ? <CheckIcon className="w-3.5 h-3.5 text-[#00D168]" /> : <CopyIcon className="w-3.5 h-3.5 text-[#E8B547]/60" />}
+                      {copiedField === 'ref' ? <CheckIcon className="w-3.5 h-3.5 text-[#00D168]" /> : <CopyIcon className="w-3.5 h-3.5 text-palfinder-gold/60" />}
                     </button>
                   </div>
-                  <p className="text-[10px] text-white/30 mt-1.5 px-1">
+                  <p className="text-[10px] text-foreground/35 mt-1.5 px-1">
                     Include this reference when contacting us after payment
                   </p>
                 </div>
@@ -478,10 +479,10 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
 
               {/* ── Status Indicator ──────────────────────────────────────── */}
               {!expired && (
-                <div className="flex items-center justify-center gap-2 p-3 rounded-xl mt-4" style={{ background: paymentStatus === 'confirming' ? 'rgba(232,181,71,0.1)' : 'rgba(255,255,255,0.03)' }}>
-                  {paymentStatus === 'waiting' && <Loader2Icon className="w-4 h-4 text-white/40 animate-spin" />}
-                  {paymentStatus === 'confirming' && <Loader2Icon className="w-4 h-4 text-[#E8B547] animate-spin" />}
-                  <span className="text-sm font-medium" style={{ color: paymentStatus === 'confirming' ? '#E8B547' : 'rgba(255,255,255,0.6)' }}>
+                <div className="flex items-center justify-center gap-2 p-3 rounded-xl mt-4" style={{ background: paymentStatus === 'confirming' ? 'rgba(232,181,71,0.1)' : 'var(--surface2)' }}>
+                  {paymentStatus === 'waiting' && <Loader2Icon className="w-4 h-4 text-foreground/40 animate-spin" />}
+                  {paymentStatus === 'confirming' && <Loader2Icon className="w-4 h-4 text-palfinder-gold animate-spin" />}
+                  <span className="text-sm font-medium text-foreground/60">
                     {paymentStatus === 'waiting' ? 'Waiting for transfer...' : 
                      paymentStatus === 'confirming' ? 'Confirming on blockchain...' : 'Checking status...'}
                   </span>
@@ -491,26 +492,26 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
               {/* ── Countdown timer ───────────────────────────────────────── */}
               {!expired ? (
                 <div className="flex items-center justify-center gap-2 py-1">
-                  <ClockIcon className="w-3.5 h-3.5 text-white/40" />
+                  <ClockIcon className="w-3.5 h-3.5 text-foreground/40" />
                   <span className="text-lg font-mono font-bold" style={{ color: timerColor }}>
                     {fmt(timeLeft)}
                   </span>
-                  <span className="text-[11px] text-white/30">session remaining</span>
+                  <span className="text-[11px] text-foreground/35">session remaining</span>
                 </div>
               ) : (
                 /* ── Expired state ──────────────────────────────────────── */
-                <div className="flex flex-col items-center py-6 gap-4">
+                <div className="flex flex-col items-center py-6 gap-4 bg-palfinder-surface border border-border rounded-xl">
                   <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,68,68,0.1)', border: '2px solid rgba(255,68,68,0.25)' }}>
                     <AlertTriangleIcon className="w-7 h-7 text-red-400" />
                   </div>
                   <div className="text-center space-y-1">
-                    <p className="font-bold text-white">Session Expired</p>
-                    <p className="text-sm text-white/50">Your session timed out. Refresh to start a new one.</p>
+                    <p className="font-bold text-foreground">Session Expired</p>
+                    <p className="text-sm text-foreground/50">Your session timed out. Refresh to start a new one.</p>
                   </div>
                   <button
                     onClick={handleRefresh}
                     className="px-8 py-2.5 rounded-full text-sm font-bold text-white transition hover:brightness-110"
-                    style={{ background: '#6B1F2A', boxShadow: '0 4px 20px rgba(107,31,42,0.5)' }}
+                    style={{ background: '#6B1F2A', boxShadow: '0 4px 20px rgba(107,31,42,0.4)' }}
                   >
                     Refresh Session
                   </button>
@@ -519,9 +520,9 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
             </div>
 
             {/* Panel footer */}
-            <div className="px-5 py-3 flex items-center justify-center gap-1.5" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-              <ShieldCheckIcon className="w-3 h-3 text-white/20" />
-              <span className="text-[10px] text-white/20">Secure · Crypto transactions are irreversible</span>
+            <div className="px-5 py-3 flex items-center justify-center gap-1.5 border-t border-border">
+              <ShieldCheckIcon className="w-3 h-3 text-foreground/20" />
+              <span className="text-[10px] text-foreground/20">Secure · Crypto transactions are irreversible</span>
             </div>
           </div>
 

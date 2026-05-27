@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { BadgeCheckIcon, ChevronLeftIcon } from 'lucide-react'
 import { Profile } from '@/lib/types'
+import ThemeToggle from '@/components/ThemeToggle'
 
 type PlatformConfig = {
   platformName: string
@@ -37,10 +38,11 @@ export function PlatformPage({
       <div className="flex justify-between items-center mb-8">
         <Link
           href="/"
-          className="flex items-center gap-1 text-white/70 hover:text-white text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="flex items-center gap-1 text-foreground/70 hover:text-foreground text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <ChevronLeftIcon className="w-4 h-4" /> Back
         </Link>
+        <ThemeToggle />
       </div>
 
       {/* Header pill */}
@@ -64,7 +66,7 @@ export function PlatformPage({
         </div>
       </div>
 
-      <p className="text-center text-white/70 mb-8 text-sm">
+      <p className="text-center text-foreground/70 mb-8 text-sm">
         Ready to chat, sext, and have fun 🔥
       </p>
 
@@ -75,9 +77,9 @@ export function PlatformPage({
             <Link
               key={p.id}
               href={`/profile/${p.username}`}
-              className="bg-black/60 rounded-2xl p-4 flex flex-col items-center group transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF1B8D]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="bg-palfinder-surface border border-border rounded-2xl p-4 flex flex-col items-center group transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF1B8D]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               style={{
-                boxShadow: `0 0 18px ${color}33, inset 0 0 0 1px rgba(255,255,255,0.05)`,
+                boxShadow: `0 0 18px ${color}33`,
               }}
             >
               <div className="relative mb-3">
@@ -93,18 +95,18 @@ export function PlatformPage({
                     <img
                       src={p.photo}
                       alt={p.name}
-                      className="w-24 h-24 rounded-full object-cover bg-black"
+                      className="w-24 h-24 rounded-full object-cover bg-background"
                     />
                   ) : (
                     <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#D41A75] to-[#8E20D1]" />
                   )}
                 </div>
                 {p.online && (
-                  <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-[#00D168] border-2 border-black" />
+                  <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-[#00D168] border-2 border-background" />
                 )}
               </div>
               <div className="flex items-center gap-1 mb-3">
-                <span className="font-bold text-white text-sm">{p.name}</span>
+                <span className="font-bold text-foreground text-sm">{p.name}</span>
                 {p.verified && (
                   <BadgeCheckIcon
                     className="w-4 h-4 text-[#0082C5] fill-[#0082C5]"
@@ -126,7 +128,7 @@ export function PlatformPage({
             </Link>
           ))
         ) : (
-          <div className="col-span-full text-center py-20 text-white/40">
+          <div className="col-span-full text-center py-20 text-foreground/40">
             No models found for this platform.
           </div>
         )}
@@ -136,7 +138,7 @@ export function PlatformPage({
       {profiles.length > 0 && (
         <div className="flex justify-center">
           <button
-            className="px-12 py-3 rounded-full font-bold text-base transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            className="px-12 py-3 rounded-full font-bold text-base transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             style={{
               ...colorStyle,
               ...glowStyle,

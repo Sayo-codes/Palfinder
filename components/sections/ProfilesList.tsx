@@ -43,7 +43,7 @@ export default function ProfilesList() {
       <div className="flex flex-col sm:flex-row gap-2.5">
         {/* Search */}
         <div className="relative flex-1">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/30" />
           <input
             type="text"
             placeholder="Search by name, username, country…"
@@ -53,8 +53,7 @@ export default function ProfilesList() {
           />
         </div>
         {/* Filter button hint */}
-        <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white transition sm:flex-shrink-0"
-          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-foreground/50 hover:text-foreground transition sm:flex-shrink-0 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10">
           <SlidersHorizontal size={14} /> Filter
         </button>
       </div>
@@ -71,21 +70,21 @@ export default function ProfilesList() {
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all"
               style={active
                 ? { background: `${color}20`, color, border: `1px solid ${color}40`, boxShadow: `0 0 12px ${color}30` }
-                : { background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.45)', border: '1px solid rgba(255,255,255,0.07)' }}
+                : { background: 'var(--surface2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
             >
               {icon}{label}
             </button>
           )
         })}
-        <span className="ml-auto text-xs text-white/30 self-center">{filtered.length} profiles</span>
+        <span className="ml-auto text-xs text-foreground/30 self-center">{filtered.length} profiles</span>
       </div>
 
       {/* Grid */}
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <Users size={40} className="text-white/10 mb-3" />
-          <p className="text-white/40 font-medium">No profiles found</p>
-          <p className="text-xs text-white/25 mt-1">Try adjusting your search or filters</p>
+          <Users size={40} className="text-foreground/10 mb-3" />
+          <p className="text-foreground/40 font-medium">No profiles found</p>
+          <p className="text-xs text-foreground/25 mt-1">Try adjusting your search or filters</p>
           <button onClick={openCreateModal}
             className="mt-4 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition hover:scale-105"
             style={{ background: 'linear-gradient(135deg,#FF1B8D,#B026FF)', boxShadow: '0 0 20px rgba(255,27,141,0.3)' }}>

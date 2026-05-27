@@ -126,7 +126,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
 
       {/* Embedded styles — scoped, no Tailwind dependency for the modal itself */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+        /* Using preloaded fonts from layout */
 
         .age-gate-overlay {
           position: fixed;
@@ -213,7 +213,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
           align-items: center;
           gap: 0.5rem;
           margin-bottom: 1.75rem;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
         }
         .age-gate-brand__icon {
           font-size: 1.25rem;
@@ -236,7 +236,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
           background: rgba(192, 57, 90, 0.12);
           border: 1px solid rgba(192, 57, 90, 0.3);
           color: #e06080;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
           font-size: 0.72rem;
           font-weight: 500;
           letter-spacing: 0.1em;
@@ -248,7 +248,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
 
         /* Title */
         .age-gate-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: var(--font-playfair-display), serif;
           font-size: clamp(2rem, 6vw, 2.8rem);
           font-weight: 700;
           color: #ffffff;
@@ -268,7 +268,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
 
         /* Body */
         .age-gate-body {
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
           font-size: 0.95rem;
           font-weight: 300;
           color: rgba(255,255,255,0.62);
@@ -282,7 +282,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
 
         /* Legal */
         .age-gate-legal {
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
           font-size: 0.78rem;
           color: rgba(255,255,255,0.28);
           line-height: 1.55;
@@ -342,7 +342,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
           height: 10px;
         }
         .age-gate-checkbox-text {
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
           font-size: 0.88rem;
           font-weight: 400;
           color: rgba(255,255,255,0.65);
@@ -364,7 +364,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
           padding: 0.95rem 1.5rem;
           border-radius: 10px;
           border: none;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
           font-size: 0.95rem;
           font-weight: 500;
           letter-spacing: 0.02em;
@@ -401,7 +401,7 @@ export default function AgeGateModal({ onVerify }: AgeGateModalProps) {
 
         /* Footer */
         .age-gate-footer {
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
           font-size: 0.75rem;
           color: rgba(255,255,255,0.22);
           text-align: center;

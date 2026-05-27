@@ -23,14 +23,14 @@ function StatCard({ label, value, icon, color, sub }: StatCardProps) {
     <div className="stat-card" style={{ background: 'var(--surface)' }}>
       <div className="p-4 sm:p-5">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">{label}</span>
+          <span className="text-xs font-semibold text-foreground/40 uppercase tracking-wider">{label}</span>
           <div className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{ background: `${color}18`, color }}>
             {icon}
           </div>
         </div>
-        <div className="text-2xl sm:text-3xl font-extrabold text-white">{value}</div>
-        {sub && <div className="text-xs text-white/40 mt-1">{sub}</div>}
+        <div className="text-2xl sm:text-3xl font-extrabold text-foreground">{value}</div>
+        {sub && <div className="text-xs text-foreground/40 mt-1">{sub}</div>}
       </div>
     </div>
   )
@@ -47,14 +47,14 @@ interface RecentRowProps {
 function RecentRow({ photo, name, username, platforms, createdAt }: RecentRowProps) {
   const date = new Date(createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
   return (
-    <div className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
+    <div className="flex items-center gap-3 py-3 border-b border-border last:border-0">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={photo} alt={name} className="w-9 h-9 rounded-full object-cover flex-shrink-0" />
       <div className="flex-1 min-w-0">
-        <div className="font-semibold text-sm text-white truncate">{name}</div>
-        <div className="text-xs text-white/40">@{username} · {platforms.join(', ')}</div>
+        <div className="font-semibold text-sm text-foreground truncate">{name}</div>
+        <div className="text-xs text-foreground/40">@{username} · {platforms.join(', ')}</div>
       </div>
-      <span className="text-xs text-white/30 flex-shrink-0">{date}</span>
+      <span className="text-xs text-foreground/30 flex-shrink-0">{date}</span>
     </div>
   )
 }
@@ -77,10 +77,10 @@ export default function Overview() {
     <div className="space-y-6 animate-in">
       {/* Welcome */}
       <div>
-        <h2 className="text-xl sm:text-2xl font-extrabold text-white">
+        <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
           Good morning, <span className="text-gradient">Admin</span> 👋
         </h2>
-        <p className="text-sm text-white/40 mt-1">Here&apos;s what&apos;s happening with PalFinder today.</p>
+        <p className="text-sm text-foreground/40 mt-1">Here&apos;s what&apos;s happening with PalFinder today.</p>
       </div>
 
       {/* Main stats */}
@@ -93,7 +93,7 @@ export default function Overview() {
 
       {/* Platform breakdown */}
       <div>
-        <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">Platform Breakdown</h3>
+        <h3 className="text-sm font-semibold text-foreground/50 uppercase tracking-wider mb-3">Platform Breakdown</h3>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
             { label: 'Snapchat', count: snapCount, icon: <SnapchatIcon size={16} />, color: '#FFD600' },
@@ -107,8 +107,8 @@ export default function Overview() {
                 {icon}
               </div>
               <div>
-                <div className="text-lg font-bold text-white">{count}</div>
-                <div className="text-xs text-white/40">{label}</div>
+                <div className="text-lg font-bold text-foreground">{count}</div>
+                <div className="text-xs text-foreground/40">{label}</div>
               </div>
             </div>
           ))}
@@ -121,7 +121,7 @@ export default function Overview() {
         <div className="card p-5">
           <div className="flex items-center gap-2 mb-4">
             <Activity size={16} style={{ color: '#FF1B8D' }} />
-            <h3 className="font-semibold text-white text-sm">Platform Activity</h3>
+            <h3 className="font-semibold text-foreground text-sm">Platform Activity</h3>
           </div>
           <div className="space-y-3">
             {[
@@ -134,10 +134,10 @@ export default function Overview() {
               return (
                 <div key={label}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="text-white/60">{label}</span>
+                    <span className="text-foreground/60">{label}</span>
                     <span style={{ color }}>{count} profiles</span>
                   </div>
-                  <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                  <div className="h-1.5 rounded-full bg-black/5 dark:bg-white/5 overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-700"
                       style={{ width: `${pct}%`, background: color }} />
                   </div>
@@ -145,7 +145,7 @@ export default function Overview() {
               )
             })}
           </div>
-          <div className="mt-4 flex items-center gap-2 text-xs text-white/30">
+          <div className="mt-4 flex items-center gap-2 text-xs text-foreground/30">
             <TrendingUp size={12} style={{ color: '#00FF7F' }} />
             <span style={{ color: '#00FF7F' }}>+12%</span> growth this month
           </div>
@@ -155,7 +155,7 @@ export default function Overview() {
         <div className="card p-5">
           <div className="flex items-center gap-2 mb-3">
             <Users size={16} style={{ color: '#B026FF' }} />
-            <h3 className="font-semibold text-white text-sm">Recent Additions</h3>
+            <h3 className="font-semibold text-foreground text-sm">Recent Additions</h3>
           </div>
           <div>
             {recent.map((p) => (

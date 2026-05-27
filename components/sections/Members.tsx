@@ -29,27 +29,27 @@ export default function Members() {
         ].map(({ label, count, color, icon }) => (
           <div key={label} className="card p-4 text-center">
             <div className="flex justify-center mb-2" style={{ color }}>{icon}</div>
-            <div className="text-xl font-extrabold text-white">{count}</div>
-            <div className="text-xs text-white/40">{label}</div>
+            <div className="text-xl font-extrabold text-foreground">{count}</div>
+            <div className="text-xs text-foreground/40">{label}</div>
           </div>
         ))}
       </div>
 
       {/* Members table */}
       <div className="card overflow-hidden">
-        <div className="px-4 py-3 border-b border-white/5 flex items-center gap-2">
+        <div className="px-4 py-3 border-b border-border flex items-center gap-2">
           <UserCheck size={15} style={{ color: '#B026FF' }} />
-          <span className="font-semibold text-white text-sm">All Members</span>
-          <span className="ml-auto text-xs text-white/30">{members.length} total</span>
+          <span className="font-semibold text-foreground text-sm">All Members</span>
+          <span className="ml-auto text-xs text-foreground/30">{members.length} total</span>
         </div>
 
         {/* Desktop table */}
         <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-white/5">
+              <tr className="text-left border-b border-border">
                 {['Member', 'Plan', 'Joined', 'Last Seen'].map((h) => (
-                  <th key={h} className="px-4 py-3 text-xs font-semibold text-white/30 uppercase tracking-wider">{h}</th>
+                  <th key={h} className="px-4 py-3 text-xs font-semibold text-foreground/30 uppercase tracking-wider">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -57,7 +57,7 @@ export default function Members() {
               {members.map((m) => {
                 const meta = PLAN_META[m.plan]
                 return (
-                  <tr key={m.id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition">
+                  <tr key={m.id} className="border-b border-border last:border-0 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition animate-in">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
@@ -65,8 +65,8 @@ export default function Members() {
                           {m.email[0].toUpperCase()}
                         </div>
                         <div>
-                          <div className="font-medium text-white text-sm">{m.email}</div>
-                          <div className="text-xs text-white/30">{m.id}</div>
+                          <div className="font-medium text-foreground text-sm">{m.email}</div>
+                          <div className="text-xs text-foreground/30">{m.id}</div>
                         </div>
                       </div>
                     </td>
@@ -75,8 +75,8 @@ export default function Members() {
                         {PLAN_ICON[m.plan]} {meta.label}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-white/50">{m.joinedAt}</td>
-                    <td className="px-4 py-3 text-sm text-white/50">{m.lastSeen}</td>
+                    <td className="px-4 py-3 text-sm text-foreground/50">{m.joinedAt}</td>
+                    <td className="px-4 py-3 text-sm text-foreground/50">{m.lastSeen}</td>
                   </tr>
                 )
               })}
@@ -85,7 +85,7 @@ export default function Members() {
         </div>
 
         {/* Mobile cards */}
-        <div className="sm:hidden divide-y divide-white/5">
+        <div className="sm:hidden divide-y divide-border">
           {members.map((m) => {
             const meta = PLAN_META[m.plan]
             return (
@@ -95,17 +95,17 @@ export default function Members() {
                   {m.email[0].toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm text-white truncate">{m.email}</div>
+                  <div className="font-medium text-sm text-foreground truncate">{m.email}</div>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="badge text-[10px]" style={{ background: meta.bg, color: meta.color, border: `1px solid ${meta.color}30` }}>
                       {meta.label}
                     </span>
-                    <span className="text-xs text-white/30 flex items-center gap-1">
+                    <span className="text-xs text-foreground/30 flex items-center gap-1">
                       <Calendar size={10} /> {m.joinedAt}
                     </span>
                   </div>
                 </div>
-                <div className="text-xs text-white/30 flex-shrink-0 flex items-center gap-1">
+                <div className="text-xs text-foreground/30 flex-shrink-0 flex items-center gap-1">
                   <Mail size={10} />
                 </div>
               </div>

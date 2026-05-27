@@ -48,8 +48,7 @@ export default function MediaLibrary() {
     <div className="space-y-5 animate-in">
       {/* Upload zone */}
       <div
-        className="border-2 border-dashed border-white/10 rounded-2xl p-6 sm:p-10 text-center cursor-pointer hover:border-pink-500/30 transition-colors"
-        style={{ background: 'rgba(255,255,255,0.02)' }}
+        className="border-2 border-dashed border-border bg-black/5 dark:bg-white/5 rounded-2xl p-6 sm:p-10 text-center cursor-pointer hover:border-pink-500/30 transition-colors"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
         onClick={() => fileRef.current?.click()}
@@ -58,32 +57,32 @@ export default function MediaLibrary() {
           style={{ background: 'rgba(255,27,141,0.12)', color: '#FF1B8D' }}>
           <Upload size={22} />
         </div>
-        <p className="font-semibold text-white/70 text-sm">Drop photos here or tap to upload</p>
-        <p className="text-xs text-white/30 mt-1">PNG, JPG, WEBP — multiple files supported</p>
+        <p className="font-semibold text-foreground/70 text-sm">Drop photos here or tap to upload</p>
+        <p className="text-xs text-foreground/30 mt-1">PNG, JPG, WEBP — multiple files supported</p>
         <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={handleUpload} />
       </div>
 
       {/* Toolbar */}
       <div className="flex items-center gap-3">
         <div className="relative flex-1">
-          <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+          <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/30" />
           <input type="text" placeholder="Search by profile name…"
             value={search} onChange={(e) => setSearch(e.target.value)}
             className="input-base pl-9 text-sm" />
         </div>
-        <span className="text-xs text-white/30 flex-shrink-0">{filtered.length} items</span>
+        <span className="text-xs text-foreground/30 flex-shrink-0">{filtered.length} items</span>
       </div>
 
       {/* Grid */}
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center py-20 text-center">
-          <Image size={40} className="text-white/10 mb-3" />
-          <p className="text-white/40">No media found</p>
+          <Image size={40} className="text-foreground/10 mb-3" />
+          <p className="text-foreground/40">No media found</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
           {filtered.map((item) => (
-            <div key={item.id} className="relative group rounded-xl overflow-hidden aspect-square bg-white/5">
+            <div key={item.id} className="relative group rounded-xl overflow-hidden aspect-square bg-black/5 dark:bg-white/5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={item.url} alt="" className="w-full h-full object-cover" />
               {/* Hover overlay */}

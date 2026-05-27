@@ -22,8 +22,8 @@ function ChatPlaceholder() {
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
       </div>
-      <p className="font-semibold text-white/60 text-sm">Chat Coming Soon</p>
-      <p className="text-xs text-white/30 mt-1">Member chat management will be available in a future update</p>
+      <p className="font-semibold text-foreground/60 text-sm">Chat Coming Soon</p>
+      <p className="text-xs text-foreground/30 mt-1">Member chat management will be available in a future update</p>
     </div>
   )
 }

@@ -68,10 +68,10 @@ export default function CryptoPayButton({
 
       {/* Label + subtitle */}
       <div className="flex-1 text-left">
-        <span className="block text-sm font-bold text-white group-hover:text-[#E8B547] transition-colors">
+        <span className="block text-sm font-bold text-foreground group-hover:text-[#E8B547] transition-colors">
           {label}
         </span>
-        <span className="block text-[10px] text-white/40 font-medium uppercase tracking-wider mt-0.5">
+        <span className="block text-[10px] text-foreground/50 font-medium uppercase tracking-wider mt-0.5">
           Bitcoin · USDT · ETH · 50+ coins
         </span>
       </div>
@@ -88,7 +88,7 @@ export default function CryptoPayButton({
         >
           Instant
         </span>
-        <ChevronRightIcon className="w-4 h-4 text-white/30 group-hover:text-[#E8B547] transition-colors" />
+        <ChevronRightIcon className="w-4 h-4 text-foreground/30 group-hover:text-[#E8B547] transition-colors" />
       </div>
     </button>
   )

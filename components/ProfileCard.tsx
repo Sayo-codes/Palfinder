@@ -39,7 +39,7 @@ export default function ProfileCard({ profile }: Props) {
   return (
     <div className="card card-hover rounded-2xl overflow-hidden flex flex-col animate-in">
       {/* Photo */}
-      <div className="relative h-44 sm:h-52 bg-white/5 flex-shrink-0">
+      <div className="relative h-44 sm:h-52 bg-black/5 dark:bg-white/5 flex-shrink-0">
         {profile.photo ? (
           <Image
             src={profile.photo}
@@ -90,15 +90,14 @@ export default function ProfileCard({ profile }: Props) {
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
                 <div
-                  className="absolute right-0 bottom-9 z-20 w-36 rounded-xl overflow-hidden py-1"
-                  style={{ background: '#1a1a2e', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 8px 32px rgba(0,0,0,0.6)' }}
+                  className="absolute right-0 bottom-9 z-20 w-36 rounded-xl overflow-hidden py-1 bg-palfinder-surface2 border border-border shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
                 >
                   <button onClick={() => { openEditModal(profile); setMenuOpen(false) }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-white/70 hover:text-white hover:bg-white/5 transition">
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition">
                     <Edit2 size={12} /> Edit
                   </button>
                   <button onClick={copyLink}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-white/70 hover:text-white hover:bg-white/5 transition">
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition">
                     <Copy size={12} /> {copied ? 'Copied!' : 'Copy Link'}
                   </button>
                   <button
@@ -119,15 +118,15 @@ export default function ProfileCard({ profile }: Props) {
         <div className="flex items-center justify-between gap-2">
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="font-bold text-white text-sm truncate">{profile.name}</span>
+              <span className="font-bold text-foreground text-sm truncate">{profile.name}</span>
               {profile.verified && <BadgeCheck size={13} style={{ color: '#00A8FF', flexShrink: 0 }} />}
             </div>
-            <div className="text-[11px] text-white/40">@{profile.username} · {profile.age} · {profile.country}</div>
+            <div className="text-[11px] text-foreground/45">@{profile.username} · {profile.age} · {profile.country}</div>
           </div>
         </div>
 
         {/* Bio */}
-        <p className="text-xs text-white/50 leading-relaxed line-clamp-2">{profile.bio}</p>
+        <p className="text-xs text-foreground/50 leading-relaxed line-clamp-2">{profile.bio}</p>
 
         {/* Platform badges */}
         <div className="flex flex-wrap gap-1 mt-auto pt-1">
@@ -143,8 +142,7 @@ export default function ProfileCard({ profile }: Props) {
         <div className="flex gap-1.5 pt-1">
           <button
             onClick={() => openEditModal(profile)}
-            className="flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-xs font-medium text-white/60 hover:text-white transition"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)' }}
+            className="flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-xs font-medium text-foreground/60 hover:text-foreground bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/8 transition"
           >
             <Edit2 size={12} /> Edit
           </button>
@@ -152,15 +150,13 @@ export default function ProfileCard({ profile }: Props) {
             href={Object.values(profile.links)[0] ?? '#'}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-xs font-medium text-white/60 hover:text-white transition"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)' }}
+            className="flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-xs font-medium text-foreground/60 hover:text-foreground bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/8 transition"
           >
             <ExternalLink size={12} /> View
           </a>
           <button
             onClick={() => openDeleteConfirm(profile.id)}
-            className="flex items-center justify-center px-2.5 py-2 rounded-lg text-xs text-red-400/70 hover:text-red-300 hover:bg-red-500/10 transition"
-            style={{ border: '1px solid rgba(255,100,100,0.15)' }}
+            className="flex items-center justify-center px-2.5 py-2 rounded-lg text-xs text-red-400/70 hover:text-red-300 hover:bg-red-500/10 border border-red-500/20 hover:border-red-500/40 transition"
           >
             <Trash2 size={12} />
           </button>

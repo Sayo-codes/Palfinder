@@ -16,6 +16,7 @@ import {
   StarIcon,
   HeartIcon,
 } from 'lucide-react'
+import ThemeToggle from '@/components/ThemeToggle'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -119,7 +120,7 @@ function Field({
 }: { label: string; error?: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-[11px] font-semibold text-white/40 uppercase tracking-wider">{label}</label>
+      <label className="block text-[11px] font-semibold text-foreground/45 uppercase tracking-wider">{label}</label>
       {children}
       {error && (
         <p className="flex items-center gap-1 text-[11px] text-red-400">
@@ -174,41 +175,34 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
   if (succeeded) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center p-4"
-        style={{ background: 'linear-gradient(160deg,#08080F 0%,#0D0A14 60%,#0A0510 100%)' }}
+        className="min-h-screen flex items-center justify-center p-4 bg-background text-foreground transition-colors duration-300"
       >
         <div
-          className="max-w-sm w-full rounded-2xl p-8 text-center space-y-6"
-          style={{
-            background: '#0F0F1E',
-            border: '1px solid #00D168',
-            boxShadow: '0 0 60px rgba(0,209,104,0.12)',
-          }}
+          className="max-w-sm w-full rounded-2xl p-8 text-center space-y-6 bg-palfinder-surface border border-border shadow-md"
         >
           <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto"
             style={{ background: 'rgba(0,209,104,0.15)' }}>
             <CheckCircle2Icon className="w-10 h-10 text-[#00D168]" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white mb-2">Payment Successful!</h2>
-            <p className="text-sm text-white/55 leading-relaxed">
-              Your card payment for <span className="text-white font-semibold">{profile.name}</span> was processed. Access will be granted shortly.
+            <h2 className="text-2xl font-bold text-foreground mb-2">Payment Successful!</h2>
+            <p className="text-sm text-foreground/75 leading-relaxed">
+              Your card payment for <span className="text-foreground font-semibold">{profile.name}</span> was processed. Access will be granted shortly.
             </p>
           </div>
-          <div className="rounded-xl p-4 text-left space-y-2"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="rounded-xl p-4 text-left space-y-2 bg-palfinder-surface2 border border-border">
             <div className="flex justify-between text-sm">
-              <span className="text-white/40">Amount</span>
-              <span className="font-bold text-white">${profile.price.toFixed(2)} USD</span>
+              <span className="text-foreground/45">Amount</span>
+              <span className="font-bold text-foreground">${profile.price.toFixed(2)} USD</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-white/40">Profile</span>
-              <span className="font-semibold text-white">{profile.name}</span>
+              <span className="text-foreground/45">Profile</span>
+              <span className="font-semibold text-foreground">{profile.name}</span>
             </div>
           </div>
           <Link
             href="/palfinder"
-            className="inline-block text-sm text-white/40 hover:text-white transition-colors underline decoration-white/20 underline-offset-4"
+            className="inline-block text-sm text-foreground/45 hover:text-foreground transition-colors underline decoration-foreground/20 underline-offset-4"
           >
             Return to Palfinder
           </Link>
@@ -221,28 +215,30 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
 
   return (
     <div
-      className="min-h-screen"
-      style={{ background: 'linear-gradient(160deg,#08080F 0%,#0D0A14 60%,#0A0510 100%)' }}
+      className="min-h-screen bg-background text-foreground transition-colors duration-300"
     >
       {/* Ambient top glow */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden>
         <div style={{
           position: 'absolute', top: '-15%', left: '50%', transform: 'translateX(-50%)',
           width: '600px', height: '600px', borderRadius: '50%',
-          background: 'radial-gradient(circle,rgba(107,31,42,0.18) 0%,transparent 70%)',
+          background: 'radial-gradient(circle,rgba(107,31,42,0.10) 0%,transparent 70%)',
           filter: 'blur(60px)',
         }} />
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
-        {/* Back link */}
-        <Link
-          href={`/palfinder/checkout/${profile.id}`}
-          className="inline-flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors mb-8"
-        >
-          <ChevronLeftIcon className="w-4 h-4" /> Back to payment options
-        </Link>
+        {/* Back link & Theme toggle */}
+        <div className="flex justify-between items-center mb-8">
+          <Link
+            href={`/palfinder/checkout/${profile.id}`}
+            className="inline-flex items-center gap-1.5 text-sm text-foreground/50 hover:text-foreground transition-colors"
+          >
+            <ChevronLeftIcon className="w-4 h-4" /> Back to payment options
+          </Link>
+          <ThemeToggle />
+        </div>
 
         <div className="grid lg:grid-cols-[1fr_440px] gap-8 items-start">
 
@@ -251,37 +247,32 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
 
             {/* Profile card */}
             <div
-              className="rounded-2xl overflow-hidden"
-              style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.07)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-              }}
+              className="rounded-2xl overflow-hidden bg-palfinder-surface border border-border shadow-md"
             >
               <div className="aspect-[16/9] relative overflow-hidden">
                 {profile.mainPhoto
                   ? <img src={profile.mainPhoto} alt={profile.name} className="w-full h-full object-cover" />
-                  : <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#6B1F2A,#E8B547)' }}>
-                      <HeartIcon className="w-16 h-16 text-white/30" />
+                  : <div className="w-full h-full flex items-center justify-center bg-black/5 dark:bg-white/5">
+                      <HeartIcon className="w-16 h-16 text-foreground/10" />
                     </div>
                 }
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(8,8,16,0.9) 0%,transparent 50%)' }} />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--bg) 0%, transparent 50%)' }} />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <h1 className="text-2xl font-extrabold text-white">{profile.name}</h1>
-                  <p className="text-xs text-white/50 mt-0.5">{profile.location} · {profile.age} yrs</p>
+                  <h1 className="text-2xl font-extrabold text-foreground">{profile.name}</h1>
+                  <p className="text-xs text-foreground/50 mt-0.5">{profile.location} · {profile.age} yrs</p>
                 </div>
               </div>
               <div className="p-5 space-y-3">
                 <div className="flex items-center gap-1">
                   {[1,2,3,4,5].map(s => (
-                    <StarIcon key={s} className={`w-4 h-4 ${s <= profile.rating ? 'fill-[#E8B547] text-[#E8B547]' : 'fill-white/10 text-white/10'}`} />
+                    <StarIcon key={s} className={`w-4 h-4 ${s <= profile.rating ? 'fill-palfinder-gold text-palfinder-gold' : 'fill-foreground/10 text-foreground/10'}`} />
                   ))}
-                  <span className="text-xs text-white/40 ml-1">{profile.rating.toFixed(1)}</span>
+                  <span className="text-xs text-foreground/40 ml-1">{profile.rating.toFixed(1)}</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {profile.tags.map((t, i) => (
                     <span key={i} className="text-[10px] font-medium px-2.5 py-1 rounded-full"
-                      style={{ background: 'rgba(107,31,42,0.15)', color: '#E8B547', border: '1px solid rgba(107,31,42,0.25)' }}>
+                      style={{ background: 'var(--tag-bg)', color: 'var(--tag-text)', border: '1px solid var(--tag-border)' }}>
                       {t}
                     </span>
                   ))}
@@ -291,27 +282,25 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
 
             {/* Order summary */}
             <div
-              className="rounded-2xl p-5 space-y-3"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+              className="rounded-2xl p-5 space-y-3 bg-palfinder-surface border border-border shadow-sm"
             >
-              <p className="text-[11px] font-semibold text-white/40 uppercase tracking-wider">Order Summary</p>
+              <p className="text-[11px] font-semibold text-foreground/45 uppercase tracking-wider">Order Summary</p>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-white/60">{profile.name} — One-time access</span>
-                <span className="text-sm font-bold text-white">${profile.price.toFixed(2)}</span>
+                <span className="text-sm text-foreground/60">{profile.name} — One-time access</span>
+                <span className="text-sm font-bold text-foreground">${profile.price.toFixed(2)}</span>
               </div>
-              <div className="h-px" style={{ background: 'rgba(255,255,255,0.05)' }} />
+              <div className="h-px bg-border" />
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-white/80">Total</span>
+                <span className="text-sm font-semibold text-foreground/80">Total</span>
                 <div className="text-right">
-                  <span className="text-2xl font-extrabold text-white">${profile.price.toFixed(2)}</span>
-                  <span className="text-xs text-white/30 ml-1.5">USD</span>
+                  <span className="text-2xl font-extrabold text-foreground">${profile.price.toFixed(2)}</span>
+                  <span className="text-xs text-foreground/30 ml-1.5">USD</span>
                 </div>
               </div>
             </div>
 
             {/* Trust signals */}
-            <div className="rounded-2xl p-4 flex flex-wrap items-center gap-4"
-              style={{ background: 'rgba(0,209,104,0.04)', border: '1px solid rgba(0,209,104,0.12)' }}>
+            <div className="rounded-2xl p-4 flex flex-wrap items-center gap-4 border border-green-500/20 bg-green-500/5">
               <div className="flex items-center gap-2 text-[#00D168]">
                 <ShieldCheckIcon className="w-4 h-4" />
                 <span className="text-xs font-semibold">256-bit SSL Encryption</span>
@@ -325,24 +314,18 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
 
           {/* ── RIGHT: Card form ──────────────────────────────────── */}
           <div
-            className="rounded-2xl overflow-hidden sticky top-8"
-            style={{
-              background: 'linear-gradient(180deg,#0D0D1A 0%,#0A0A14 100%)',
-              border: '1px solid rgba(232,181,71,0.2)',
-              boxShadow: '0 24px 80px rgba(0,0,0,0.6), 0 0 40px rgba(107,31,42,0.1)',
-            }}
+            className="rounded-2xl overflow-hidden sticky top-8 bg-palfinder-surface border border-border shadow-md"
           >
             {/* Panel header */}
-            <div className="flex items-center justify-between px-5 py-4"
-              style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-border">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'linear-gradient(135deg,#6B1F2A,#E8B547)', boxShadow: '0 0 16px rgba(107,31,42,0.5)' }}>
+                  style={{ background: 'linear-gradient(135deg, var(--hero-grad-start), var(--hero-grad-end))', boxShadow: '0 0 16px rgba(107,31,42,0.3)' }}>
                   <CreditCardIcon className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-sm font-bold text-white">Pay with Card</h2>
-                  <p className="text-[10px] text-white/40">Visa · Mastercard · Amex</p>
+                  <h2 className="text-sm font-bold text-foreground">Pay with Card</h2>
+                  <p className="text-[10px] text-foreground/45">Visa · Mastercard · Amex</p>
                 </div>
               </div>
               {/* Network logos */}
@@ -413,13 +396,13 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
                   value={cardNumDisplay}
                   maxLength={23}
                   onChange={handleCardNumberChange}
-                  className="w-full px-4 py-3 rounded-xl text-sm text-white font-mono placeholder:text-white/25 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-palfinder-surface2 border border-border text-foreground font-mono placeholder:text-foreground/30 outline-none transition-all focus:border-palfinder-gold/50"
                   style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    border: errors.cardNumber ? '1px solid rgba(248,113,113,0.6)' : '1px solid rgba(255,255,255,0.1)',
+                    background: 'var(--surface2)',
+                    border: errors.cardNumber ? '1px solid rgba(248,113,113,0.6)' : '1px solid var(--border)',
                   }}
-                  onFocus={e => (e.target.style.border = '1px solid rgba(232,181,71,0.5)')}
-                  onBlur={e => (e.target.style.border = errors.cardNumber ? '1px solid rgba(248,113,113,0.6)' : '1px solid rgba(255,255,255,0.1)')}
+                  onFocus={e => (e.target.style.borderColor = 'var(--gold)')}
+                  onBlur={e => (e.target.style.borderColor = errors.cardNumber ? 'rgba(248,113,113,0.6)' : 'var(--border)')}
                 />
               </Field>
 
@@ -431,13 +414,13 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
                   autoComplete="cc-name"
                   placeholder="Jane Smith"
                   {...register('cardHolder')}
-                  className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-palfinder-surface2 border border-border text-foreground placeholder:text-foreground/30 outline-none transition-all focus:border-palfinder-gold/50"
                   style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    border: errors.cardHolder ? '1px solid rgba(248,113,113,0.6)' : '1px solid rgba(255,255,255,0.1)',
+                    background: 'var(--surface2)',
+                    border: errors.cardHolder ? '1px solid rgba(248,113,113,0.6)' : '1px solid var(--border)',
                   }}
-                  onFocus={e => (e.target.style.border = '1px solid rgba(232,181,71,0.5)')}
-                  onBlur={e => (e.target.style.border = errors.cardHolder ? '1px solid rgba(248,113,113,0.6)' : '1px solid rgba(255,255,255,0.1)')}
+                  onFocus={e => (e.target.style.borderColor = 'var(--gold)')}
+                  onBlur={e => (e.target.style.borderColor = errors.cardHolder ? 'rgba(248,113,113,0.6)' : 'var(--border)')}
                 />
               </Field>
 
@@ -453,13 +436,13 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
                     value={expiryDisplay}
                     maxLength={5}
                     onChange={handleExpiryChange}
-                    className="w-full px-4 py-3 rounded-xl text-sm text-white font-mono placeholder:text-white/25 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl text-sm bg-palfinder-surface2 border border-border text-foreground font-mono placeholder:text-foreground/30 outline-none transition-all focus:border-palfinder-gold/50"
                     style={{
-                      background: 'rgba(255,255,255,0.05)',
-                      border: errors.expiry ? '1px solid rgba(248,113,113,0.6)' : '1px solid rgba(255,255,255,0.1)',
+                      background: 'var(--surface2)',
+                      border: errors.expiry ? '1px solid rgba(248,113,113,0.6)' : '1px solid var(--border)',
                     }}
-                    onFocus={e => (e.target.style.border = '1px solid rgba(232,181,71,0.5)')}
-                    onBlur={e => (e.target.style.border = errors.expiry ? '1px solid rgba(248,113,113,0.6)' : '1px solid rgba(255,255,255,0.1)')}
+                    onFocus={e => (e.target.style.borderColor = 'var(--gold)')}
+                    onBlur={e => (e.target.style.borderColor = errors.expiry ? 'rgba(248,113,113,0.6)' : 'var(--border)')}
                   />
                 </Field>
 
@@ -476,18 +459,18 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
                     })}
                     onFocus={(e) => {
                       setCvvFocused(true)
-                      e.target.style.border = '1px solid rgba(232,181,71,0.5)'
+                      e.target.style.borderColor = 'var(--gold)'
                     }}
                     onBlur={(e) => {
                       setCvvFocused(false)
-                      e.target.style.border = errors.cvv
-                        ? '1px solid rgba(248,113,113,0.6)'
-                        : '1px solid rgba(255,255,255,0.1)'
+                      e.target.style.borderColor = errors.cvv
+                        ? 'rgba(248,113,113,0.6)'
+                        : 'var(--border)'
                     }}
-                    className="w-full px-4 py-3 rounded-xl text-sm text-white font-mono placeholder:text-white/25 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl text-sm bg-palfinder-surface2 border border-border text-foreground font-mono placeholder:text-foreground/30 outline-none transition-all"
                     style={{
-                      background: 'rgba(255,255,255,0.05)',
-                      border: errors.cvv ? '1px solid rgba(248,113,113,0.6)' : '1px solid rgba(255,255,255,0.1)',
+                      background: 'var(--surface2)',
+                      border: errors.cvv ? '1px solid rgba(248,113,113,0.6)' : '1px solid var(--border)',
                     }}
                   />
                 </Field>
@@ -495,10 +478,10 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
 
               {/* Amount row */}
               <div className="rounded-xl px-4 py-3 flex items-center justify-between"
-                style={{ background: 'rgba(107,31,42,0.1)', border: '1px solid rgba(107,31,42,0.25)' }}>
-                <span className="text-xs text-white/50 font-medium">Total charge</span>
-                <span className="text-xl font-extrabold text-white">
-                  ${profile.price.toFixed(2)} <span className="text-xs font-medium text-white/40">USD</span>
+                style={{ background: 'var(--tag-bg)', border: '1px solid var(--tag-border)' }}>
+                <span className="text-xs text-foreground/60 font-medium">Total charge</span>
+                <span className="text-xl font-extrabold text-foreground">
+                  ${profile.price.toFixed(2)} <span className="text-xs font-medium text-foreground/45">USD</span>
                 </span>
               </div>
 
@@ -531,10 +514,9 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
             </form>
 
             {/* Footer */}
-            <div className="px-5 py-3 flex items-center justify-center gap-1.5"
-              style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-              <ShieldCheckIcon className="w-3 h-3 text-white/20" />
-              <span className="text-[10px] text-white/20">Secure · 256-bit encrypted · PCI DSS compliant</span>
+            <div className="px-5 py-3 flex items-center justify-center gap-1.5 border-t border-border">
+              <ShieldCheckIcon className="w-3 h-3 text-foreground/20" />
+              <span className="text-[10px] text-foreground/20">Secure · 256-bit encrypted · PCI DSS compliant</span>
             </div>
           </div>
         </div>
