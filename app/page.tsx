@@ -182,11 +182,7 @@ export default function Home() {
                 { href: '/palfinder', label: 'Palfinder', color: '#6B1F2A' },
               ].map(({ href, label, color }) => (
                 <Link key={href} href={href} prefetch={true}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-black/5 dark:hover:bg-white/5 ${
-                    label === 'Telegram' || label === 'Palfinder'
-                      ? 'text-black dark:text-white'
-                      : 'text-foreground/60 hover:text-foreground'
-                  }`}>
+                  className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-black/5 dark:hover:bg-white/5 text-foreground/60 hover:text-foreground">
                   {label}
                 </Link>
               ))}
