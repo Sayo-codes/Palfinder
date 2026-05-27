@@ -18,6 +18,8 @@ import {
   ChevronRightIcon,
   SparklesIcon,
   HeartIcon,
+  ZapIcon,
+  ShuffleIcon,
 } from 'lucide-react'
 import SnapchatIcon from '@/components/icons/SnapchatIcon'
 import TelegramIcon from '@/components/icons/TelegramIcon'
@@ -40,7 +42,7 @@ function PlatformPill({
 }: {
   href: string; label: string; color: string; textColor: string; icon: React.ReactNode
 }) {
-  const isBlackText = label === 'Telegram' || label === 'Palfinder';
+  const isBlackText = label === 'Telegram';
   
   return (
     <Link
@@ -197,15 +199,15 @@ export default function Home() {
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-5"
             style={{ background: 'rgba(212,26,117,0.1)', color: '#FF1B8D', border: '1px solid rgba(212,26,117,0.25)' }}>
             <SparklesIcon className="w-3 h-3" />
-            18+ Adult Platform · Verified Creators
+            18+ Adult Platform · Anonymous & Verified
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight mb-4">
-            <span className="text-foreground">Find Horny </span>
-            <span className="text-gradient-pink">Kik Girls</span>
+            <span className="text-foreground">Strangers Who </span>
+            <span className="text-gradient-pink">Want to Play</span>
           </h1>
           <p className="text-foreground/55 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
-            Open-minded adults ready to chat, sext, and exchange content. Connect
-            instantly with verified profiles.
+            Slip into a chat with someone new — verified adults, zero judgment.
+            Browse profiles or spin the wheel and connect with a random stranger instantly.
           </p>
         </div>
 
@@ -219,12 +221,12 @@ export default function Home() {
             icon={<WhatsAppIcon className="w-4 h-4" />} />
           <PlatformPill href="/onlyfans" label="OnlyFans" color="#00A3C4" textColor="#001a26"
             icon={<OnlyFansIcon className="w-4 h-4" />} />
-          <PlatformPill href="/palfinder" label="Palfinder" color="#6B1F2A" textColor="#fff"
+          <PlatformPill href="/palfinder" label="Palfinder" color="#D41A75" textColor="#fff"
             icon={<HeartIcon className="w-4 h-4" />} />
         </div>
 
         {/* ── Search ───────────────────────────────────────────────── */}
-        <div className="relative mb-5 max-w-2xl mx-auto">
+        <div className="relative mb-4 max-w-2xl mx-auto">
           <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
           <input
             type="text"
@@ -238,6 +240,27 @@ export default function Home() {
             style={{ boxShadow: '0 4px 16px rgba(212,26,117,0.4)' }}
           >
             Search
+          </button>
+        </div>
+
+        {/* ── Random Chat CTA ──────────────────────────────────────── */}
+        <div className="flex justify-center mb-5">
+          <button
+            id="start-random-chat"
+            className="group relative flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm text-white overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:brightness-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D41A75]/60"
+            style={{
+              background: 'linear-gradient(135deg, #D41A75 0%, #8E20D1 100%)',
+              boxShadow: '0 6px 28px rgba(212,26,117,0.45), 0 0 0 1px rgba(212,26,117,0.2)',
+            }}
+          >
+            {/* animated shimmer sweep */}
+            <span
+              className="pointer-events-none absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }}
+            />
+            <ShuffleIcon className="w-4 h-4 opacity-90" />
+            Spark a Random Chat
+            <ZapIcon className="w-3.5 h-3.5 opacity-75" />
           </button>
         </div>
 
