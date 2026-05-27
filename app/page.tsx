@@ -46,20 +46,22 @@ function PlatformPill({
     <Link
       href={href}
       prefetch={true}
-      className="platform-pill group flex items-center gap-2.5 px-5.5 py-2.5 rounded-full font-semibold text-sm whitespace-nowrap transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95"
+      className="platform-pill group inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full font-semibold text-sm whitespace-nowrap transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95"
       style={{
         ['--pill-accent' as any]: color,
-        ['--pill-hover-bg' as any]: `${color}10`, // 10% opacity in dark mode/hover
-        ['--pill-hover-border' as any]: `${color}40`, // 25% opacity border
+        ['--pill-hover-bg' as any]: `${color}10`,
+        ['--pill-hover-border' as any]: `${color}40`,
         ['--pill-hover-glow' as any]: `0 4px 20px ${color}15, inset 0 1px 0 rgba(255,255,255,0.05)`,
+        lineHeight: 1,
       } as React.CSSProperties}
     >
-      <span 
-        className="transition-transform duration-300 group-hover:scale-110 flex items-center justify-center text-[var(--pill-accent)]"
+      <span
+        className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center text-[var(--pill-accent)]"
+        style={{ lineHeight: 0 }}
       >
         {icon}
       </span>
-      <span>{label}</span>
+      <span className="leading-none">{label}</span>
     </Link>
   )
 }
