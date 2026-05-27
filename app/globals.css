@@ -91,8 +91,13 @@
 * { box-sizing: border-box; }
 
 html {
+  font-size: 112.5%; /* default is 100% (16px), 112.5% scales to ~18px for larger text across the site */
   scroll-behavior: smooth;
   /* Removed overflow-x hidden to prevent scroll trapping on touchpads */
+}
+
+html.admin-mode {
+  font-size: 100%; /* revert to standard 16px size for the admin panel */
 }
 
 body, input, select, textarea, button {

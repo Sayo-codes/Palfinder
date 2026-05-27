@@ -17,6 +17,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       .catch((err) => console.error('Failed to load profiles', err))
   }, [setProfiles])
 
+  useEffect(() => {
+    document.documentElement.classList.add('admin-mode')
+    return () => {
+      document.documentElement.classList.remove('admin-mode')
+    }
+  }, [])
+
   return (
     <div
       className="flex h-screen overflow-hidden app-container"
