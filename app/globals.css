@@ -243,6 +243,27 @@ body {
 .badge-whatsapp { background: rgba(0,209,104,0.12); color: #00D168; border: 1px solid rgba(0,209,104,0.2); }
 .badge-onlyfans { background: rgba(0,163,196,0.12); color: #00A3C4; border: 1px solid rgba(0,163,196,0.2); }
 
+/* Premium platform pills styling */
+.platform-pill {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  color: rgba(245, 240, 235, 0.75);
+}
+.light .platform-pill {
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  color: rgba(25, 22, 19, 0.75);
+}
+.platform-pill:hover {
+  background-color: var(--pill-hover-bg);
+  border-color: var(--pill-hover-border);
+  box-shadow: var(--pill-hover-glow);
+  color: var(--text);
+  transform: translateY(-1.5px);
+}
+
 /* Mobile Edge Swipe Fixes */
 .no-swipe-interruption {
   touch-action: pan-y;

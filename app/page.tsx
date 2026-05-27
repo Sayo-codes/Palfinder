@@ -38,27 +38,28 @@ const tags = [
 ]
 
 function PlatformPill({
-  href, label, color, textColor, icon,
+  href, label, color, icon,
 }: {
-  href: string; label: string; color: string; textColor: string; icon: React.ReactNode
+  href: string; label: string; color: string; icon: React.ReactNode
 }) {
-  const isBlackText = label === 'Telegram';
-  
   return (
     <Link
       href={href}
       prefetch={true}
-      className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full font-bold text-sm whitespace-nowrap transition-all duration-200 hover:scale-105 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95 ${
-        isBlackText ? 'text-black dark:text-white' : ''
-      }`}
+      className="platform-pill group flex items-center gap-2.5 px-5.5 py-2.5 rounded-full font-semibold text-sm whitespace-nowrap transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95"
       style={{
-        backgroundColor: color,
-        color: isBlackText ? undefined : textColor,
-        boxShadow: `0 4px 24px ${color}60, 0 0 0 1px ${color}30`,
-      }}
+        ['--pill-accent' as any]: color,
+        ['--pill-hover-bg' as any]: `${color}10`, // 10% opacity in dark mode/hover
+        ['--pill-hover-border' as any]: `${color}40`, // 25% opacity border
+        ['--pill-hover-glow' as any]: `0 4px 20px ${color}15, inset 0 1px 0 rgba(255,255,255,0.05)`,
+      } as React.CSSProperties}
     >
-      {icon}
-      {label}
+      <span 
+        className="transition-transform duration-300 group-hover:scale-110 flex items-center justify-center text-[var(--pill-accent)]"
+      >
+        {icon}
+      </span>
+      <span>{label}</span>
     </Link>
   )
 }
@@ -213,15 +214,15 @@ export default function Home() {
 
         {/* ── Platform pills ───────────────────────────────────────── */}
         <div className="flex flex-wrap gap-2.5 justify-center mb-8">
-          <PlatformPill href="/snapchat" label="Snapchat" color="#E6C100" textColor="#1a1a1a"
+          <PlatformPill href="/snapchat" label="Snapchat" color="#E6C100"
             icon={<SnapchatIcon className="w-4 h-4" />} />
-          <PlatformPill href="/telegram" label="Telegram" color="#0082C5" textColor="#fff"
+          <PlatformPill href="/telegram" label="Telegram" color="#0082C5"
             icon={<TelegramIcon className="w-4 h-4" />} />
-          <PlatformPill href="/whatsapp" label="WhatsApp" color="#00D168" textColor="#0a2618"
+          <PlatformPill href="/whatsapp" label="WhatsApp" color="#00D168"
             icon={<WhatsAppIcon className="w-4 h-4" />} />
-          <PlatformPill href="/onlyfans" label="OnlyFans" color="#00A3C4" textColor="#001a26"
+          <PlatformPill href="/onlyfans" label="OnlyFans" color="#00A3C4"
             icon={<OnlyFansIcon className="w-4 h-4" />} />
-          <PlatformPill href="/palfinder" label="Palfinder" color="#D41A75" textColor="#fff"
+          <PlatformPill href="/palfinder" label="Palfinder" color="#D41A75"
             icon={<HeartIcon className="w-4 h-4" />} />
         </div>
 
