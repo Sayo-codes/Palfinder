@@ -246,8 +246,8 @@ export default function Home() {
                 >
                   {[
                     { href: '/', label: 'Home' },
-                    { href: '#about', label: 'About' },
-                    { href: '#support', label: 'Support' },
+                    { href: '/about', label: 'About' },
+                    { href: '/support', label: 'Support' },
                   ].map(({ href, label }) => (
                     <Link
                       key={label}
@@ -808,8 +808,8 @@ export default function Home() {
                   { href: '/', label: 'Home' },
                   { href: '#', label: 'Start Chatting' },
                   { href: '#', label: 'Blogs' },
-                  { href: '#about', label: 'About Us' },
-                  { href: '#support', label: 'Support' },
+                  { href: '/about', label: 'About Us' },
+                  { href: '/support', label: 'Support' },
                 ].map(({ href, label }) => (
                   <li key={label}>
                     <Link href={href} className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
