@@ -70,7 +70,7 @@ export function AdminSecretAccess({ children }: AdminSecretAccessProps) {
       {/* Trigger — wraps the copyright text */}
       <span
         onClick={handleTriggerClick}
-        className="cursor-pointer select-none hover:text-white/60 transition-colors duration-200"
+        className="cursor-pointer select-none hover:text-[#D41A75] transition-colors duration-200"
         title=""
       >
         {children}
@@ -107,13 +107,13 @@ export function AdminSecretAccess({ children }: AdminSecretAccessProps) {
               </div>
               <div className="text-center">
                 <h2 className="text-white font-bold text-lg tracking-tight">Admin Access</h2>
-                <p className="text-white/40 text-sm mt-0.5">Enter your password to continue</p>
+                <p className="text-white/60 text-sm mt-0.5">Enter your password to continue</p>
               </div>
             </div>
 
             {/* Input */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-white/40">
+              <label className="text-xs font-semibold uppercase tracking-wider text-white/55">
                 Password
               </label>
               <input
@@ -126,7 +126,7 @@ export function AdminSecretAccess({ children }: AdminSecretAccessProps) {
                   if (status === 'error') setStatus('idle')
                 }}
                 onKeyDown={handleKeyDown}
-                className="w-full px-4 py-3 rounded-xl text-white text-sm placeholder:text-white/20 focus:outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl text-white text-sm placeholder:text-white/45 focus:outline-none transition-all"
                 style={{
                   background: 'rgba(255,255,255,0.05)',
                   border: status === 'error'

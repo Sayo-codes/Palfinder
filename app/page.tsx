@@ -438,7 +438,7 @@ export default function Home() {
           <div className="mb-14">
             <div className="flex items-center gap-2 mb-6">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent to-neutral-200 dark:to-white/10" />
-              <span className="text-xs font-extrabold tracking-widest text-neutral-500 dark:text-foreground/40 uppercase">Browse by Platform</span>
+              <span className="text-xs font-extrabold tracking-widest text-foreground/60 uppercase">Browse by Platform</span>
               <div className="h-px flex-1 bg-gradient-to-l from-transparent to-neutral-200 dark:to-white/10" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

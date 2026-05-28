@@ -288,7 +288,7 @@ export default function PalfinderGrid({ profiles }: { profiles: PalfinderDBProfi
         {/* Section heading */}
         <div className="flex items-center gap-2 mb-8">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D41A75]/20" />
-          <span className="text-xs font-extrabold tracking-widest text-neutral-500 dark:text-foreground/40 uppercase flex items-center gap-1.5">
+          <span className="text-xs font-extrabold tracking-widest text-foreground/60 uppercase flex items-center gap-1.5">
             <SparklesIcon className="w-3.5 h-3.5 text-[#D41A75]" /> Featured Profiles
           </span>
           <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#D41A75]/20" />
