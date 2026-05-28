@@ -16,7 +16,6 @@ import {
   StarIcon,
   HeartIcon,
 } from 'lucide-react'
-import ThemeToggle from '@/components/ThemeToggle'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -237,7 +236,6 @@ export default function CardPaymentClient({ profile }: { profile: DBProfile }) {
           >
             <ChevronLeftIcon className="w-4 h-4" /> Back to payment options
           </Link>
-          <ThemeToggle />
         </div>
 
         <div className="grid lg:grid-cols-[1fr_440px] gap-8 items-start">

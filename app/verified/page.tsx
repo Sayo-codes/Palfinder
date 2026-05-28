@@ -2,7 +2,6 @@ import { getProfiles } from '@/lib/actions'
 import { BadgeCheckIcon, ChevronLeftIcon } from 'lucide-react'
 import Link from 'next/link'
 import { Profile } from '@/lib/types'
-import ThemeToggle from '@/components/ThemeToggle'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,7 +24,6 @@ export default async function VerifiedPage() {
         >
           <ChevronLeftIcon className="w-4 h-4" /> Back
         </Link>
-        <ThemeToggle />
       </div>
 
       {/* Header */}

@@ -11,7 +11,6 @@ import {
   StarIcon,
   ChevronRightIcon,
 } from 'lucide-react'
-import ThemeToggle from '@/components/ThemeToggle'
 
 interface Profile {
   id: string
@@ -49,7 +48,6 @@ export default function CheckoutClient({ profile }: { profile: Profile }) {
             <ChevronLeftIcon className="w-4 h-4" />
             Back to Palfinder
           </Link>
-          <ThemeToggle />
         </div>
 
         {/* ── Profile Summary Card ───────────────────────────── */}

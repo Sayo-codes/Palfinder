@@ -85,9 +85,9 @@ function PlatformSection({
     <section
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative overflow-hidden rounded-2xl p-6 flex flex-col justify-between gap-5 transition-all duration-300 hover:-translate-y-1"
+      className="group relative overflow-hidden rounded-2xl p-6 flex flex-col justify-between gap-5 transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#201E2B]"
       style={{
-        background: `linear-gradient(135deg, ${accentColor}0e 0%, transparent 60%), var(--surface)`,
+        backgroundImage: `linear-gradient(135deg, ${accentColor}0e 0%, transparent 60%)`,
         border: `1px solid ${isHovered ? `${accentColor}35` : 'var(--border)'}`,
         boxShadow: isHovered
           ? `0 12px 32px -4px rgba(0, 0, 0, 0.35), 0 0 24px -2px ${accentColor}20`
@@ -431,141 +431,143 @@ export default function Home() {
           </div>
         ) : null)}
 
-        {/* ── Browse by Platform ───────────────────────────────────── */}
-        <div className="mb-14">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-black/10 dark:to-white/10" />
-            <span className="text-xs font-semibold tracking-widest text-foreground/30 uppercase">Browse by Platform</span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-black/10 dark:to-white/10" />
+        {/* ── Browse by Platform, Verified Models & Trending Tags Card ── */}
+        <div className="mb-14 rounded-3xl p-6 sm:p-10 border border-[#e6e1da] dark:border-white/5 bg-[#FAF7F4] dark:bg-[#16151E] shadow-md dark:shadow-2xl transition-colors duration-300">
+          
+          {/* ── Browse by Platform ───────────────────────────────────── */}
+          <div className="mb-14">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent to-neutral-200 dark:to-white/10" />
+              <span className="text-xs font-extrabold tracking-widest text-neutral-500 dark:text-foreground/40 uppercase">Browse by Platform</span>
+              <div className="h-px flex-1 bg-gradient-to-l from-transparent to-neutral-200 dark:to-white/10" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <PlatformSection
+                title="Snapchat" accent="Models" accentColor="#E6C100"
+                description="Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops."
+                ctaLabel="Explore Snapchat" ctaTo="/snapchat"
+                icon={<SnapchatIcon className="w-5 h-5" />}
+              />
+              <PlatformSection
+                title="Telegram" accent="Models" accentColor="#0082C5"
+                description="Join private Telegram channels and DM with verified models for one-on-one experiences."
+                ctaLabel="Explore Telegram" ctaTo="/telegram"
+                icon={<TelegramIcon className="w-5 h-5" />}
+              />
+              <PlatformSection
+                title="WhatsApp" accent="Girls" accentColor="#00D168"
+                description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
+                ctaLabel="Find WhatsApp Numbers" ctaTo="/whatsapp"
+                icon={<WhatsAppIcon className="w-5 h-5" />}
+              />
+              <PlatformSection
+                title="OnlyFans" accent="Creators" accentColor="#00A3C4"
+                description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
+                ctaLabel="Explore OnlyFans" ctaTo="/onlyfans"
+                icon={<OnlyFansIcon className="w-5 h-5" />}
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <PlatformSection
-              title="Snapchat" accent="Models" accentColor="#E6C100"
-              description="Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops."
-              ctaLabel="Explore Snapchat" ctaTo="/snapchat"
-              icon={<SnapchatIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="Telegram" accent="Models" accentColor="#0082C5"
-              description="Join private Telegram channels and DM with verified models for one-on-one experiences."
-              ctaLabel="Explore Telegram" ctaTo="/telegram"
-              icon={<TelegramIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="WhatsApp" accent="Girls" accentColor="#00D168"
-              description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
-              ctaLabel="Find WhatsApp Numbers" ctaTo="/whatsapp"
-              icon={<WhatsAppIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="OnlyFans" accent="Creators" accentColor="#00A3C4"
-              description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
-              ctaLabel="Explore OnlyFans" ctaTo="/onlyfans"
-              icon={<OnlyFansIcon className="w-5 h-5" />}
-            />
-          </div>
-        </div>
 
-        {/* ── Cards Grid ───────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
+          {/* ── Cards Grid ───────────────────────────────────────────── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-          {/* Verified Models */}
-          <div className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1"
-            style={{
-              background: 'var(--surface)',
-              border: '1px solid rgba(0,163,196,0.2)',
-              boxShadow: '0 4px 24px rgba(0,163,196,0.08)',
-            }}>
-            <div className="flex items-center gap-2 mb-5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                style={{ background: 'rgba(0,163,196,0.12)', color: '#00A3C4', border: '1px solid rgba(0,163,196,0.2)' }}>
-                <ShieldCheckIcon className="w-4 h-4" />
+            {/* Verified Models */}
+            <div className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#201E2B]"
+              style={{
+                border: '1px solid rgba(0,163,196,0.2)',
+                boxShadow: '0 4px 24px rgba(0,163,196,0.08)',
+              }}>
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: 'rgba(0,163,196,0.12)', color: '#00A3C4', border: '1px solid rgba(0,163,196,0.2)' }}>
+                  <ShieldCheckIcon className="w-4 h-4" />
+                </div>
+                <h3 className="font-bold text-foreground">Verified Models</h3>
+                {verifiedModels.length > 0 && (
+                  <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ background: 'rgba(0,163,196,0.1)', color: '#00A3C4', border: '1px solid rgba(0,163,196,0.2)' }}>
+                    {verifiedModels.length}
+                  </span>
+                )}
               </div>
-              <h3 className="font-bold text-foreground">Verified Models</h3>
+
+              {modelsLoading ? (
+                <div className="flex-1 flex items-center justify-center py-8">
+                  <div className="w-6 h-6 border-2 border-foreground/10 border-t-[#00A3C4] rounded-full animate-spin" />
+                </div>
+              ) : verifiedModels.length > 0 ? (
+                <ul className="space-y-2 mb-4">
+                  {verifiedModels.slice(0, 3).map((m) => (
+                    <li key={m.id}>
+                      <Link href={`/profile/${m.username}`}
+                        className="flex items-center justify-between group p-2 -mx-2 rounded-xl transition-colors hover:bg-black/5 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/30">
+                        <div className="flex items-center gap-3">
+                          <div className="relative flex-shrink-0">
+                            {m.photo ? (
+                              <img src={m.photo} alt={m.name} className="w-9 h-9 rounded-full object-cover border border-border" />
+                            ) : (
+                              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#D41A75] to-[#8E20D1]" />
+                            )}
+                            {m.online && (
+                              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#00D168] border-2 border-background" />
+                            )}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-1">
+                              <span className="font-semibold text-foreground text-sm group-hover:text-[#D41A75] transition-colors">{m.name}</span>
+                              <BadgeCheckIcon className="w-3.5 h-3.5 text-[#0082C5]" />
+                            </div>
+                            <p className="text-xs text-foreground/45">{m.country}</p>
+                          </div>
+                        </div>
+                        <div className="text-foreground/25 group-hover:text-[#E6C100] transition-colors" onClick={e => e.preventDefault()}>
+                          <StarIcon className="w-4 h-4" />
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="flex-1 flex flex-col items-center justify-center py-8 text-center">
+                  <ShieldCheckIcon className="w-8 h-8 text-foreground/10 mb-2" />
+                  <p className="text-foreground/40 text-sm font-medium">No verified models yet</p>
+                  <p className="text-foreground/25 text-xs mt-1">Check back soon</p>
+                </div>
+              )}
+
               {verifiedModels.length > 0 && (
-                <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full"
-                  style={{ background: 'rgba(0,163,196,0.1)', color: '#00A3C4', border: '1px solid rgba(0,163,196,0.2)' }}>
-                  {verifiedModels.length}
-                </span>
+                <Link href="/verified"
+                  className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all hover:brightness-110 mt-auto text-center block"
+                  style={{ background: 'rgba(0,163,196,0.08)', border: '1px solid rgba(0,163,196,0.2)', color: '#00A3C4' }}>
+                  View All Verified
+                </Link>
               )}
             </div>
 
-            {modelsLoading ? (
-              <div className="flex-1 flex items-center justify-center py-8">
-                <div className="w-6 h-6 border-2 border-foreground/10 border-t-[#00A3C4] rounded-full animate-spin" />
+            {/* Trending Tags */}
+            <div className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#201E2B]"
+              style={{
+                border: '1px solid rgba(212,26,117,0.2)',
+                boxShadow: '0 4px 24px rgba(212,26,117,0.08)',
+              }}>
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: 'rgba(212,26,117,0.12)', color: '#D41A75', border: '1px solid rgba(212,26,117,0.2)' }}>
+                  <TrendingUpIcon className="w-4 h-4" />
+                </div>
+                <h3 className="font-bold text-foreground">Trending Tags</h3>
               </div>
-            ) : verifiedModels.length > 0 ? (
-              <ul className="space-y-2 mb-4">
-                {verifiedModels.slice(0, 3).map((m) => (
-                  <li key={m.id}>
-                    <Link href={`/profile/${m.username}`}
-                      className="flex items-center justify-between group p-2 -mx-2 rounded-xl transition-colors hover:bg-black/5 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/30">
-                      <div className="flex items-center gap-3">
-                        <div className="relative flex-shrink-0">
-                          {m.photo ? (
-                            <img src={m.photo} alt={m.name} className="w-9 h-9 rounded-full object-cover border border-border" />
-                          ) : (
-                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#D41A75] to-[#8E20D1]" />
-                          )}
-                          {m.online && (
-                            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#00D168] border-2 border-background" />
-                          )}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-1">
-                            <span className="font-semibold text-foreground text-sm group-hover:text-[#D41A75] transition-colors">{m.name}</span>
-                            <BadgeCheckIcon className="w-3.5 h-3.5 text-[#0082C5]" />
-                          </div>
-                          <p className="text-xs text-foreground/45">{m.country}</p>
-                        </div>
-                      </div>
-                      <div className="text-foreground/25 group-hover:text-[#E6C100] transition-colors" onClick={e => e.preventDefault()}>
-                        <StarIcon className="w-4 h-4" />
-                      </div>
-                    </Link>
-                  </li>
+              <div className="flex flex-wrap gap-2">
+                {tags.map((t) => (
+                  <button
+                    key={t}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:scale-105 hover:border-[#D41A75]/40 hover:text-[#D41A75] hover:bg-[#D41A75]/10 bg-black/5 dark:bg-white/4 border border-black/10 dark:border-white/9 text-foreground/65"
+                  >
+                    {t}
+                  </button>
                 ))}
-              </ul>
-            ) : (
-              <div className="flex-1 flex flex-col items-center justify-center py-8 text-center">
-                <ShieldCheckIcon className="w-8 h-8 text-foreground/10 mb-2" />
-                <p className="text-foreground/40 text-sm font-medium">No verified models yet</p>
-                <p className="text-foreground/25 text-xs mt-1">Check back soon</p>
               </div>
-            )}
-
-            {verifiedModels.length > 0 && (
-              <Link href="/verified"
-                className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all hover:brightness-110 mt-auto text-center block"
-                style={{ background: 'rgba(0,163,196,0.08)', border: '1px solid rgba(0,163,196,0.2)', color: '#00A3C4' }}>
-                View All Verified
-              </Link>
-            )}
-          </div>
-
-          {/* Trending Tags */}
-          <div className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1"
-            style={{
-              background: 'var(--surface)',
-              border: '1px solid rgba(212,26,117,0.2)',
-              boxShadow: '0 4px 24px rgba(212,26,117,0.08)',
-            }}>
-            <div className="flex items-center gap-2 mb-5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                style={{ background: 'rgba(212,26,117,0.12)', color: '#D41A75', border: '1px solid rgba(212,26,117,0.2)' }}>
-                <TrendingUpIcon className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-foreground">Trending Tags</h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((t) => (
-                <button
-                  key={t}
-                  className="px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:scale-105 hover:border-[#D41A75]/40 hover:text-[#D41A75] hover:bg-[#D41A75]/10 bg-black/5 dark:bg-white/4 border border-black/10 dark:border-white/9 text-foreground/65"
-                >
-                  {t}
-                </button>
-              ))}
             </div>
           </div>
         </div>
@@ -625,158 +627,84 @@ export default function Home() {
         </div>
 
         {/* ── Safety First Section ─────────────────────────────────── */}
-        <div className="mb-14">
+        <div className="mb-14 rounded-3xl p-6 sm:p-10 border border-[#e6e1da] dark:border-white/5 bg-[#FAF7F4] dark:bg-[#16151E] text-neutral-900 dark:text-foreground shadow-md transition-colors duration-300">
           {/* Header */}
-          <div className="text-center mb-10">
-            <div
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-5"
-              style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981', border: '1px solid rgba(16,185,129,0.25)' }}
-            >
-              <ShieldCheckIcon className="w-3 h-3" />
-              Trust &amp; Safety
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
-              <span className="text-foreground">Safety </span>
-              <span
-                style={{
-                  background: 'linear-gradient(135deg, #10b981 0%, #0082C5 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                First
-              </span>
+          <div className="mb-8">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-[#C91A63] dark:text-[#E0336B] transition-colors duration-300">
+              Safety First
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-[#F5F0EB] mt-2 mb-4 transition-colors duration-300">
+              Built on Trust &amp; Respect
             </h2>
-            <p className="text-foreground/55 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
-              Built on Trust &amp; Respect — we believe anonymity should empower, not enable harm.
-              Strong safety features and clear community rules let everyone chat confidently and respectfully.
+            <p className="text-neutral-600 dark:text-foreground/60 text-sm sm:text-base leading-relaxed max-w-2xl transition-colors duration-300">
+              We believe anonymity should empower, not enable harm. That’s why we’ve built strong safety features and clear community rules so everyone can chat confidently and respectfully.
             </p>
           </div>
 
-          {/* Safety Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+          {/* Safety Points */}
+          <div className="flex flex-col gap-6 sm:gap-8 mb-10">
 
-            {/* Card 1 — 24/7 Moderation */}
-            <div
-              className="group relative rounded-2xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              style={{
-                background: 'linear-gradient(135deg, rgba(16,185,129,0.07) 0%, transparent 65%), var(--surface)',
-                border: '1px solid rgba(16,185,129,0.22)',
-                boxShadow: '0 4px 24px rgba(16,185,129,0.08)',
-              }}
-            >
+            {/* Point 1 — 24/7 Moderation */}
+            <div className="flex items-start gap-4">
               <div
-                className="absolute -top-8 -right-8 w-28 h-28 rounded-full blur-2xl opacity-15 group-hover:opacity-35 transition-opacity duration-500 pointer-events-none"
-                style={{ background: '#10b981' }}
-              />
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
-                style={{
-                  background: 'rgba(16,185,129,0.12)',
-                  color: '#10b981',
-                  border: '1px solid rgba(16,185,129,0.25)',
-                  boxShadow: '0 0 20px rgba(16,185,129,0.18)',
-                }}
+                className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 bg-[#FFF0F6] dark:bg-[#E0336B]/10 border border-[#FFE3EC] dark:border-[#E0336B]/20 text-[#C91A63] dark:text-[#E0336B] shadow-sm transition-colors duration-300"
               >
                 <ShieldCheckIcon className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-foreground text-base mb-2">24/7 Moderation</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed flex-1">
-                Our team actively reviews every report to keep the community safe around the clock.
-              </p>
-              <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(16,185,129,0.15)' }}>
-                <span className="text-xs font-semibold tracking-wide" style={{ color: '#10b981' }}>Always Watching ✦</span>
+              <div className="flex-1">
+                <h3 className="font-bold text-neutral-900 dark:text-[#F5F0EB] text-base sm:text-lg leading-snug transition-colors duration-300">
+                  24/7 Moderation
+                </h3>
+                <p className="text-neutral-600 dark:text-foreground/50 text-sm mt-1 leading-relaxed transition-colors duration-300">
+                  Our team actively reviews reports to keep the community safe.
+                </p>
               </div>
             </div>
 
-            {/* Card 2 — One-Click Reporting */}
-            <div
-              className="group relative rounded-2xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              style={{
-                background: 'linear-gradient(135deg, rgba(245,158,11,0.07) 0%, transparent 65%), var(--surface)',
-                border: '1px solid rgba(245,158,11,0.22)',
-                boxShadow: '0 4px 24px rgba(245,158,11,0.08)',
-              }}
-            >
+            {/* Point 2 — One-Click Reporting */}
+            <div className="flex items-start gap-4">
               <div
-                className="absolute -top-8 -right-8 w-28 h-28 rounded-full blur-2xl opacity-15 group-hover:opacity-35 transition-opacity duration-500 pointer-events-none"
-                style={{ background: '#f59e0b' }}
-              />
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
-                style={{
-                  background: 'rgba(245,158,11,0.12)',
-                  color: '#f59e0b',
-                  border: '1px solid rgba(245,158,11,0.25)',
-                  boxShadow: '0 0 20px rgba(245,158,11,0.18)',
-                }}
+                className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 bg-[#FFF0F6] dark:bg-[#E0336B]/10 border border-[#FFE3EC] dark:border-[#E0336B]/20 text-[#C91A63] dark:text-[#E0336B] shadow-sm transition-colors duration-300"
               >
                 <FlagIcon className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-foreground text-base mb-2">One-Click Reporting</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed flex-1">
-                Report inappropriate behavior instantly with one tap. We act on every report, swiftly and seriously.
-              </p>
-              <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(245,158,11,0.15)' }}>
-                <span className="text-xs font-semibold tracking-wide" style={{ color: '#f59e0b' }}>Instant Action ✦</span>
+              <div className="flex-1">
+                <h3 className="font-bold text-neutral-900 dark:text-[#F5F0EB] text-base sm:text-lg leading-snug transition-colors duration-300">
+                  One-Click Reporting
+                </h3>
+                <p className="text-neutral-600 dark:text-foreground/50 text-sm mt-1 leading-relaxed transition-colors duration-300">
+                  Report inappropriate behavior instantly with our easy reporting system.
+                </p>
               </div>
             </div>
 
-            {/* Card 3 — Clear Guidelines */}
-            <div
-              className="group relative rounded-2xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              style={{
-                background: 'linear-gradient(135deg, rgba(142,32,209,0.07) 0%, transparent 65%), var(--surface)',
-                border: '1px solid rgba(142,32,209,0.22)',
-                boxShadow: '0 4px 24px rgba(142,32,209,0.08)',
-              }}
-            >
+            {/* Point 3 — Clear Guidelines */}
+            <div className="flex items-start gap-4">
               <div
-                className="absolute -top-8 -right-8 w-28 h-28 rounded-full blur-2xl opacity-15 group-hover:opacity-35 transition-opacity duration-500 pointer-events-none"
-                style={{ background: '#8E20D1' }}
-              />
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
-                style={{
-                  background: 'rgba(142,32,209,0.12)',
-                  color: '#8E20D1',
-                  border: '1px solid rgba(142,32,209,0.25)',
-                  boxShadow: '0 0 20px rgba(142,32,209,0.18)',
-                }}
+                className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 bg-[#FFF0F6] dark:bg-[#E0336B]/10 border border-[#FFE3EC] dark:border-[#E0336B]/20 text-[#C91A63] dark:text-[#E0336B] shadow-sm transition-colors duration-300"
               >
                 <BookOpenIcon className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-foreground text-base mb-2">Clear Guidelines</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed flex-1">
-                Respect, consent, and safety are non-negotiable. Our guidelines keep everyone on the same page.
-              </p>
-              <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(142,32,209,0.15)' }}>
-                <span className="text-xs font-semibold tracking-wide" style={{ color: '#8E20D1' }}>Zero Tolerance ✦</span>
+              <div className="flex-1">
+                <h3 className="font-bold text-neutral-900 dark:text-[#F5F0EB] text-base sm:text-lg leading-snug transition-colors duration-300">
+                  Clear Guidelines
+                </h3>
+                <p className="text-neutral-600 dark:text-foreground/50 text-sm mt-1 leading-relaxed transition-colors duration-300">
+                  Everyone knows the rules. Respect, kindness, and safety are non-negotiable.
+                </p>
               </div>
             </div>
+
           </div>
 
           {/* CTA Button */}
-          <div className="flex justify-center">
-            <a
+          <div className="flex justify-start">
+            <Link
               href="#"
-              id="community-guidelines-btn"
-              className="group relative inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl font-bold text-sm text-white overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:brightness-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10b981]/50"
-              style={{
-                background: 'linear-gradient(135deg, #10b981 0%, #0082C5 100%)',
-                boxShadow: '0 6px 28px rgba(16,185,129,0.4), 0 0 0 1px rgba(16,185,129,0.15)',
-              }}
+              className="px-6 py-3 rounded-full border border-neutral-300 dark:border-white/12 hover:border-neutral-400 dark:hover:border-white/20 bg-transparent text-neutral-800 dark:text-[#F5F0EB] hover:bg-neutral-50/50 dark:hover:bg-white/5 font-bold transition-all text-sm text-center inline-block transition-colors duration-300"
             >
-              {/* shimmer sweep */}
-              <span
-                className="pointer-events-none absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"
-                style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)' }}
-              />
-              <ShieldCheckIcon className="w-4 h-4 opacity-90" />
               Read Community Guidelines
-              <ChevronRightIcon className="w-4 h-4 opacity-80 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -804,6 +732,43 @@ export default function Home() {
             <button className="px-8 py-3 rounded-2xl bg-white text-black font-bold text-sm hover:scale-105 hover:brightness-110 transition-all active:scale-95 shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
               Upgrade Now →
             </button>
+          </div>
+        </div>
+
+        {/* ── Community Stats Section ──────────────────────────────────────── */}
+        <div className="relative overflow-hidden rounded-3xl p-8 sm:p-12 mb-14 text-center bg-palfinder-surface border border-border shadow-md">
+          <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5 blur-3xl pointer-events-none"
+            style={{ background: '#00D168' }} />
+          <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-5 blur-3xl pointer-events-none"
+            style={{ background: '#00A3C4' }} />
+
+          <div className="relative z-10">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
+              <span className="text-foreground">Trusted by Thousands for </span>
+              <span className="text-gradient-pink">Anonymous Chat</span>
+            </h2>
+            <p className="text-foreground/60 text-sm sm:text-base max-w-lg mx-auto leading-relaxed mb-10">
+              Join a growing community of people seeking genuine connection in our chat rooms
+            </p>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-4xl mx-auto">
+              <div className="flex flex-col items-center">
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">2.4M+</span>
+                <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">Conversations</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">180+</span>
+                <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">Countries</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">98%</span>
+                <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">Safe Chats</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">24/7</span>
+                <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">Moderation</span>
+              </div>
+            </div>
           </div>
         </div>
 

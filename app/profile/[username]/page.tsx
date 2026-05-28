@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ChevronLeftIcon } from 'lucide-react'
-import ThemeToggle from '@/components/ThemeToggle'
 import { use } from 'react'
 
 export default function ProfilePlaceholder({ params }: { params: Promise<{ username: string }> }) {
@@ -15,7 +14,6 @@ export default function ProfilePlaceholder({ params }: { params: Promise<{ usern
         >
           <ChevronLeftIcon className="w-4 h-4" /> Back
         </Link>
-        <ThemeToggle />
       </div>
 
       <div className="bg-palfinder-surface border border-border rounded-3xl p-10 max-w-md w-full text-center flex flex-col items-center shadow-[0_0_40px_rgba(212,26,117,0.06)]">

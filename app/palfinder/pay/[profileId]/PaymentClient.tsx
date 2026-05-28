@@ -20,7 +20,6 @@ import {
   ShieldCheckIcon, QrCodeIcon, StarIcon, HeartIcon, CheckCircle2Icon,
   ChevronDownIcon, AlertTriangleIcon, InfoIcon, Loader2Icon, DownloadIcon, LinkIcon
 } from 'lucide-react'
-import ThemeToggle from '@/components/ThemeToggle'
 import { SORTED_WALLETS, generatePaymentRef, type CryptoWallet } from '@/lib/config/crypto'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -251,7 +250,6 @@ export default function PaymentClient({ profile }: { profile: DBProfile }) {
           <Link href="/palfinder" className="inline-flex items-center gap-1.5 text-sm text-foreground/50 hover:text-foreground transition-colors">
             <ChevronLeftIcon className="w-4 h-4" /> Back to Palfinder
           </Link>
-          <ThemeToggle />
         </div>
 
         <div className="grid lg:grid-cols-[1fr_440px] gap-8 items-start">

@@ -6,7 +6,6 @@ import {
   ChevronLeftIcon, HeartIcon, SearchIcon, ChevronDownIcon,
   StarIcon, SparklesIcon, XIcon, PlayIcon, ImageIcon, FilmIcon,
 } from 'lucide-react'
-import ThemeToggle from '@/components/ThemeToggle'
 
 /* ── Types from DB (mirroring Prisma PalfinderProfile) ─────── */
 export interface PalfinderDBProfile {
@@ -220,7 +219,6 @@ export default function PalfinderGrid({ profiles }: { profiles: PalfinderDBProfi
           <Link href="/" className="flex items-center gap-1 text-foreground/70 hover:text-foreground text-sm rounded-md transition-colors">
             <ChevronLeftIcon className="w-4 h-4" /> Back
           </Link>
-          <ThemeToggle />
         </div>
 
         {/* Hero */}
