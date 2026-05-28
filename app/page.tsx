@@ -25,6 +25,8 @@ import {
   MousePointer,
   Users2,
   MessageSquare,
+  FlagIcon,
+  BookOpenIcon,
 } from 'lucide-react'
 import SnapchatIcon from '@/components/icons/SnapchatIcon'
 import TelegramIcon from '@/components/icons/TelegramIcon'
@@ -429,103 +431,19 @@ export default function Home() {
           </div>
         ) : null)}
 
-        {/* ── Platform sections ────────────────────────────────────── */}
-        <div className="mb-14">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-black/10 dark:to-white/10" />
-            <span className="text-xs font-semibold tracking-widest text-foreground/30 uppercase">Browse by Platform</span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-black/10 dark:to-white/10" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <PlatformSection
-              title="Snapchat" accent="Models" accentColor="#E6C100"
-              description="Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops."
-              ctaLabel="Explore Snapchat" ctaTo="/snapchat"
-              icon={<SnapchatIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="Telegram" accent="Models" accentColor="#0082C5"
-              description="Join private Telegram channels and DM with verified models for one-on-one experiences."
-              ctaLabel="Explore Telegram" ctaTo="/telegram"
-              icon={<TelegramIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="WhatsApp" accent="Girls" accentColor="#00D168"
-              description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
-              ctaLabel="Find WhatsApp Numbers" ctaTo="/whatsapp"
-              icon={<WhatsAppIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="OnlyFans" accent="Creators" accentColor="#00A3C4"
-              description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
-              ctaLabel="Explore OnlyFans" ctaTo="/onlyfans"
-              icon={<OnlyFansIcon className="w-5 h-5" />}
-            />
-          </div>
-        </div>
-
-        {/* ── How Stranger Chat Works ────────────────────────────── */}
-        <div className="mb-14">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
-              <span className="text-foreground">How Stranger Chat </span>
-              <span className="text-gradient-pink">Works</span>
-            </h2>
-            <p className="text-foreground/55 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-              Three simple steps to start online chatting
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {/* Step 1 */}
-            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
-              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#D41A75' }} />
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(212,26,117,0.12)', boxShadow: '0 0 20px rgba(212,26,117,0.15)' }}>
-                <MousePointer className="w-6 h-6" style={{ color: '#D41A75' }} />
-              </div>
-              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #D41A75, #8E20D1)', color: '#fff', boxShadow: '0 4px 12px rgba(212,26,117,0.3)' }}>1</div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Click Start</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed">
-                No signup, no forms. Just one click to start chatting online.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
-              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#8E20D1' }} />
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(142,32,209,0.12)', boxShadow: '0 0 20px rgba(142,32,209,0.15)' }}>
-                <Users2 className="w-6 h-6" style={{ color: '#8E20D1' }} />
-              </div>
-              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #8E20D1, #D41A75)', color: '#fff', boxShadow: '0 4px 12px rgba(142,32,209,0.3)' }}>2</div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Get Matched</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed">
-                We instantly connect you with a stranger for random chat.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
-              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#00A3C4' }} />
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(0,163,196,0.12)', boxShadow: '0 0 20px rgba(0,163,196,0.15)' }}>
-                <MessageSquare className="w-6 h-6" style={{ color: '#00A3C4' }} />
-              </div>
-              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #00A3C4, #0082C5)', color: '#fff', boxShadow: '0 4px 12px rgba(0,163,196,0.3)' }}>3</div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Talk with Strangers</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed">
-                Join chat rooms and have real conversations anonymously.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* ── Cards Grid ───────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
 
           {/* Verified Models */}
-          <div className="rounded-2xl p-5 flex flex-col bg-palfinder-surface border border-border shadow-[0_0_30px_rgba(0,163,196,0.06)]">
+          <div className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1"
+            style={{
+              background: 'var(--surface)',
+              border: '1px solid rgba(0,163,196,0.2)',
+              boxShadow: '0 4px 24px rgba(0,163,196,0.08)',
+            }}>
             <div className="flex items-center gap-2 mb-5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'rgba(0,163,196,0.12)', color: '#00A3C4' }}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                style={{ background: 'rgba(0,163,196,0.12)', color: '#00A3C4', border: '1px solid rgba(0,163,196,0.2)' }}>
                 <ShieldCheckIcon className="w-4 h-4" />
               </div>
               <h3 className="font-bold text-foreground">Verified Models</h3>
@@ -583,18 +501,23 @@ export default function Home() {
 
             {verifiedModels.length > 0 && (
               <Link href="/verified"
-                className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-[#00A3C4]/15 mt-auto text-center block"
-                style={{ background: 'rgba(0,163,196,0.08)', border: '1px solid rgba(0,163,196,0.18)', color: '#00A3C4' }}>
+                className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all hover:brightness-110 mt-auto text-center block"
+                style={{ background: 'rgba(0,163,196,0.08)', border: '1px solid rgba(0,163,196,0.2)', color: '#00A3C4' }}>
                 View All Verified
               </Link>
             )}
           </div>
 
           {/* Trending Tags */}
-          <div className="rounded-2xl p-5 flex flex-col bg-palfinder-surface border border-border shadow-[0_0_30px_rgba(212,26,117,0.06)]">
+          <div className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1"
+            style={{
+              background: 'var(--surface)',
+              border: '1px solid rgba(212,26,117,0.2)',
+              boxShadow: '0 4px 24px rgba(212,26,117,0.08)',
+            }}>
             <div className="flex items-center gap-2 mb-5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'rgba(212,26,117,0.12)', color: '#D41A75' }}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                style={{ background: 'rgba(212,26,117,0.12)', color: '#D41A75', border: '1px solid rgba(212,26,117,0.2)' }}>
                 <TrendingUpIcon className="w-4 h-4" />
               </div>
               <h3 className="font-bold text-foreground">Trending Tags</h3>
@@ -609,6 +532,251 @@ export default function Home() {
                 </button>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* ── How Stranger Chat Works ────────────────────────────── */}
+        <div className="mb-14">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
+              <span className="text-foreground">How Stranger Chat </span>
+              <span className="text-gradient-pink">Works</span>
+            </h2>
+            <p className="text-foreground/55 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+              Three simple steps to start online chatting
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {/* Step 1 */}
+            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#D41A75' }} />
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(212,26,117,0.12)', boxShadow: '0 0 20px rgba(212,26,117,0.15)' }}>
+                <MousePointer className="w-6 h-6" style={{ color: '#D41A75' }} />
+              </div>
+              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #D41A75, #8E20D1)', color: '#fff', boxShadow: '0 4px 12px rgba(212,26,117,0.3)' }}>1</div>
+              <h3 className="text-lg font-bold text-foreground mb-2">Click Start</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed">
+                No signup, no forms. Just one click to start chatting online.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#8E20D1' }} />
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(142,32,209,0.12)', boxShadow: '0 0 20px rgba(142,32,209,0.15)' }}>
+                <Users2 className="w-6 h-6" style={{ color: '#8E20D1' }} />
+              </div>
+              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #8E20D1, #D41A75)', color: '#fff', boxShadow: '0 4px 12px rgba(142,32,209,0.3)' }}>2</div>
+              <h3 className="text-lg font-bold text-foreground mb-2">Get Matched</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed">
+                We instantly connect you with a stranger for random chat.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#00A3C4' }} />
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(0,163,196,0.12)', boxShadow: '0 0 20px rgba(0,163,196,0.15)' }}>
+                <MessageSquare className="w-6 h-6" style={{ color: '#00A3C4' }} />
+              </div>
+              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #00A3C4, #0082C5)', color: '#fff', boxShadow: '0 4px 12px rgba(0,163,196,0.3)' }}>3</div>
+              <h3 className="text-lg font-bold text-foreground mb-2">Talk with Strangers</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed">
+                Join chat rooms and have real conversations anonymously.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Safety First Section ─────────────────────────────────── */}
+        <div className="mb-14">
+          {/* Header */}
+          <div className="text-center mb-10">
+            <div
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-5"
+              style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981', border: '1px solid rgba(16,185,129,0.25)' }}
+            >
+              <ShieldCheckIcon className="w-3 h-3" />
+              Trust &amp; Safety
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
+              <span className="text-foreground">Safety </span>
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #10b981 0%, #0082C5 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                First
+              </span>
+            </h2>
+            <p className="text-foreground/55 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
+              Built on Trust &amp; Respect — we believe anonymity should empower, not enable harm.
+              Strong safety features and clear community rules let everyone chat confidently and respectfully.
+            </p>
+          </div>
+
+          {/* Safety Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+
+            {/* Card 1 — 24/7 Moderation */}
+            <div
+              className="group relative rounded-2xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, rgba(16,185,129,0.07) 0%, transparent 65%), var(--surface)',
+                border: '1px solid rgba(16,185,129,0.22)',
+                boxShadow: '0 4px 24px rgba(16,185,129,0.08)',
+              }}
+            >
+              <div
+                className="absolute -top-8 -right-8 w-28 h-28 rounded-full blur-2xl opacity-15 group-hover:opacity-35 transition-opacity duration-500 pointer-events-none"
+                style={{ background: '#10b981' }}
+              />
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+                style={{
+                  background: 'rgba(16,185,129,0.12)',
+                  color: '#10b981',
+                  border: '1px solid rgba(16,185,129,0.25)',
+                  boxShadow: '0 0 20px rgba(16,185,129,0.18)',
+                }}
+              >
+                <ShieldCheckIcon className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-foreground text-base mb-2">24/7 Moderation</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed flex-1">
+                Our team actively reviews every report to keep the community safe around the clock.
+              </p>
+              <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(16,185,129,0.15)' }}>
+                <span className="text-xs font-semibold tracking-wide" style={{ color: '#10b981' }}>Always Watching ✦</span>
+              </div>
+            </div>
+
+            {/* Card 2 — One-Click Reporting */}
+            <div
+              className="group relative rounded-2xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, rgba(245,158,11,0.07) 0%, transparent 65%), var(--surface)',
+                border: '1px solid rgba(245,158,11,0.22)',
+                boxShadow: '0 4px 24px rgba(245,158,11,0.08)',
+              }}
+            >
+              <div
+                className="absolute -top-8 -right-8 w-28 h-28 rounded-full blur-2xl opacity-15 group-hover:opacity-35 transition-opacity duration-500 pointer-events-none"
+                style={{ background: '#f59e0b' }}
+              />
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+                style={{
+                  background: 'rgba(245,158,11,0.12)',
+                  color: '#f59e0b',
+                  border: '1px solid rgba(245,158,11,0.25)',
+                  boxShadow: '0 0 20px rgba(245,158,11,0.18)',
+                }}
+              >
+                <FlagIcon className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-foreground text-base mb-2">One-Click Reporting</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed flex-1">
+                Report inappropriate behavior instantly with one tap. We act on every report, swiftly and seriously.
+              </p>
+              <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(245,158,11,0.15)' }}>
+                <span className="text-xs font-semibold tracking-wide" style={{ color: '#f59e0b' }}>Instant Action ✦</span>
+              </div>
+            </div>
+
+            {/* Card 3 — Clear Guidelines */}
+            <div
+              className="group relative rounded-2xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, rgba(142,32,209,0.07) 0%, transparent 65%), var(--surface)',
+                border: '1px solid rgba(142,32,209,0.22)',
+                boxShadow: '0 4px 24px rgba(142,32,209,0.08)',
+              }}
+            >
+              <div
+                className="absolute -top-8 -right-8 w-28 h-28 rounded-full blur-2xl opacity-15 group-hover:opacity-35 transition-opacity duration-500 pointer-events-none"
+                style={{ background: '#8E20D1' }}
+              />
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+                style={{
+                  background: 'rgba(142,32,209,0.12)',
+                  color: '#8E20D1',
+                  border: '1px solid rgba(142,32,209,0.25)',
+                  boxShadow: '0 0 20px rgba(142,32,209,0.18)',
+                }}
+              >
+                <BookOpenIcon className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-foreground text-base mb-2">Clear Guidelines</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed flex-1">
+                Respect, consent, and safety are non-negotiable. Our guidelines keep everyone on the same page.
+              </p>
+              <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(142,32,209,0.15)' }}>
+                <span className="text-xs font-semibold tracking-wide" style={{ color: '#8E20D1' }}>Zero Tolerance ✦</span>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="flex justify-center">
+            <a
+              href="#"
+              id="community-guidelines-btn"
+              className="group relative inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl font-bold text-sm text-white overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:brightness-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10b981]/50"
+              style={{
+                background: 'linear-gradient(135deg, #10b981 0%, #0082C5 100%)',
+                boxShadow: '0 6px 28px rgba(16,185,129,0.4), 0 0 0 1px rgba(16,185,129,0.15)',
+              }}
+            >
+              {/* shimmer sweep */}
+              <span
+                className="pointer-events-none absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)' }}
+              />
+              <ShieldCheckIcon className="w-4 h-4 opacity-90" />
+              Read Community Guidelines
+              <ChevronRightIcon className="w-4 h-4 opacity-80 transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
+          </div>
+        </div>
+
+        {/* ── Platform sections ────────────────────────────────────── */}
+        <div className="mb-14">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-black/10 dark:to-white/10" />
+            <span className="text-xs font-semibold tracking-widest text-foreground/30 uppercase">Browse by Platform</span>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-black/10 dark:to-white/10" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <PlatformSection
+              title="Snapchat" accent="Models" accentColor="#E6C100"
+              description="Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops."
+              ctaLabel="Explore Snapchat" ctaTo="/snapchat"
+              icon={<SnapchatIcon className="w-5 h-5" />}
+            />
+            <PlatformSection
+              title="Telegram" accent="Models" accentColor="#0082C5"
+              description="Join private Telegram channels and DM with verified models for one-on-one experiences."
+              ctaLabel="Explore Telegram" ctaTo="/telegram"
+              icon={<TelegramIcon className="w-5 h-5" />}
+            />
+            <PlatformSection
+              title="WhatsApp" accent="Girls" accentColor="#00D168"
+              description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
+              ctaLabel="Find WhatsApp Numbers" ctaTo="/whatsapp"
+              icon={<WhatsAppIcon className="w-5 h-5" />}
+            />
+            <PlatformSection
+              title="OnlyFans" accent="Creators" accentColor="#00A3C4"
+              description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
+              ctaLabel="Explore OnlyFans" ctaTo="/onlyfans"
+              icon={<OnlyFansIcon className="w-5 h-5" />}
+            />
           </div>
         </div>
 
