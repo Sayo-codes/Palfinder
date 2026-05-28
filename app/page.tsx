@@ -432,7 +432,7 @@ export default function Home() {
         ) : null)}
 
         {/* ── Browse by Platform, Verified Models & Trending Tags Card ── */}
-        <div className="mb-14 rounded-3xl p-6 sm:p-10 border border-[#e6e1da] dark:border-white/5 bg-[#FAF7F4] dark:bg-[#16151E] shadow-md dark:shadow-2xl transition-colors duration-300">
+        <div className="mb-14 rounded-3xl p-6 sm:p-10 border border-[#e6e1da] dark:border-white/5 bg-[#faf7f4] dark:bg-[#16151e] shadow-md dark:shadow-2xl transition-colors duration-300 -mx-4 sm:mx-0">
           
           {/* ── Browse by Platform ───────────────────────────────────── */}
           <div className="mb-14">
