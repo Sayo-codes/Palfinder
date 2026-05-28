@@ -431,6 +431,41 @@ export default function Home() {
           </div>
         ) : null)}
 
+        {/* ── Browse by Platform ───────────────────────────────────── */}
+        <div className="mb-14">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-black/10 dark:to-white/10" />
+            <span className="text-xs font-semibold tracking-widest text-foreground/30 uppercase">Browse by Platform</span>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-black/10 dark:to-white/10" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <PlatformSection
+              title="Snapchat" accent="Models" accentColor="#E6C100"
+              description="Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops."
+              ctaLabel="Explore Snapchat" ctaTo="/snapchat"
+              icon={<SnapchatIcon className="w-5 h-5" />}
+            />
+            <PlatformSection
+              title="Telegram" accent="Models" accentColor="#0082C5"
+              description="Join private Telegram channels and DM with verified models for one-on-one experiences."
+              ctaLabel="Explore Telegram" ctaTo="/telegram"
+              icon={<TelegramIcon className="w-5 h-5" />}
+            />
+            <PlatformSection
+              title="WhatsApp" accent="Girls" accentColor="#00D168"
+              description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
+              ctaLabel="Find WhatsApp Numbers" ctaTo="/whatsapp"
+              icon={<WhatsAppIcon className="w-5 h-5" />}
+            />
+            <PlatformSection
+              title="OnlyFans" accent="Creators" accentColor="#00A3C4"
+              description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
+              ctaLabel="Explore OnlyFans" ctaTo="/onlyfans"
+              icon={<OnlyFansIcon className="w-5 h-5" />}
+            />
+          </div>
+        </div>
+
         {/* ── Cards Grid ───────────────────────────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
 
@@ -745,40 +780,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── Platform sections ────────────────────────────────────── */}
-        <div className="mb-14">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-black/10 dark:to-white/10" />
-            <span className="text-xs font-semibold tracking-widest text-foreground/30 uppercase">Browse by Platform</span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-black/10 dark:to-white/10" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <PlatformSection
-              title="Snapchat" accent="Models" accentColor="#E6C100"
-              description="Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops."
-              ctaLabel="Explore Snapchat" ctaTo="/snapchat"
-              icon={<SnapchatIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="Telegram" accent="Models" accentColor="#0082C5"
-              description="Join private Telegram channels and DM with verified models for one-on-one experiences."
-              ctaLabel="Explore Telegram" ctaTo="/telegram"
-              icon={<TelegramIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="WhatsApp" accent="Girls" accentColor="#00D168"
-              description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
-              ctaLabel="Find WhatsApp Numbers" ctaTo="/whatsapp"
-              icon={<WhatsAppIcon className="w-5 h-5" />}
-            />
-            <PlatformSection
-              title="OnlyFans" accent="Creators" accentColor="#00A3C4"
-              description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
-              ctaLabel="Explore OnlyFans" ctaTo="/onlyfans"
-              icon={<OnlyFansIcon className="w-5 h-5" />}
-            />
-          </div>
-        </div>
+
 
         {/* ── Premium Banner ───────────────────────────────────────── */}
         <div className="relative overflow-hidden rounded-3xl p-8 mb-14 text-center"
