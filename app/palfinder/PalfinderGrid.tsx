@@ -284,14 +284,6 @@ export default function PalfinderGrid({ profiles }: { profiles: PalfinderDBProfi
           </button>
         </div>
 
-        {/* Filters */}
-        <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-1 mb-8 justify-center">
-          {['Prices ($)', 'Age Range'].map(label => (
-            <button key={label} className="group flex items-center gap-1.5 rounded-full py-2 px-4.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-all hover:scale-105 active:scale-95 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/9 text-foreground/70 hover:text-foreground hover:border-[#D41A75]/30">
-              {label} <ChevronDownIcon className="w-3.5 h-3.5 text-foreground/45 group-hover:text-[#D41A75] transition-colors" strokeWidth={2} />
-            </button>
-          ))}
-        </div>
 
         {/* Section heading */}
         <div className="flex items-center gap-2 mb-8">
