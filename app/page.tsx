@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { getProfiles } from '@/lib/actions'
 import { Profile } from '@/lib/types'
 import Link from 'next/link'
@@ -20,6 +20,11 @@ import {
   HeartIcon,
   ZapIcon,
   ShuffleIcon,
+  Menu,
+  X,
+  MousePointer,
+  Users2,
+  MessageSquare,
 } from 'lucide-react'
 import SnapchatIcon from '@/components/icons/SnapchatIcon'
 import TelegramIcon from '@/components/icons/TelegramIcon'
@@ -72,43 +77,57 @@ function PlatformSection({
   title: string; accent: string; accentColor: string; description: string
   ctaLabel: string; ctaTo: string; icon: React.ReactNode
 }) {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
-    <section className="group relative overflow-hidden rounded-2xl p-5 flex flex-col gap-4 transition-all duration-300 hover:-translate-y-0.5"
+    <section
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative overflow-hidden rounded-2xl p-6 flex flex-col justify-between gap-5 transition-all duration-300 hover:-translate-y-1"
       style={{
-        background: `linear-gradient(135deg, ${accentColor}0a 0%, transparent 60%)`,
-        border: `1px solid ${accentColor}18`,
-        boxShadow: `0 0 40px ${accentColor}08`,
+        background: `linear-gradient(135deg, ${accentColor}0e 0%, transparent 60%), var(--surface)`,
+        border: `1px solid ${isHovered ? `${accentColor}35` : 'var(--border)'}`,
+        boxShadow: isHovered
+          ? `0 12px 32px -4px rgba(0, 0, 0, 0.35), 0 0 24px -2px ${accentColor}20`
+          : `0 4px 20px -2px rgba(0, 0, 0, 0.15), 0 0 16px -2px ${accentColor}06`,
       }}>
       {/* Background accent blob */}
-      <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-10 transition-opacity group-hover:opacity-20 blur-xl"
+      <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-8 transition-all duration-500 group-hover:opacity-20 group-hover:scale-125 blur-2xl pointer-events-none"
         style={{ background: accentColor }} />
 
-      <div className="flex items-start gap-3 relative">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
-          style={{ background: `${accentColor}18`, color: accentColor, boxShadow: `0 0 16px ${accentColor}30` }}>
+      <div className="flex items-start gap-4 relative z-10">
+        <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+          style={{
+            background: `${accentColor}14`,
+            color: accentColor,
+            boxShadow: isHovered ? `0 0 20px ${accentColor}40` : `0 0 12px ${accentColor}15`,
+            border: `1px solid ${accentColor}25`
+          }}>
           {icon}
         </div>
-        <div>
-          <h2 className="text-lg font-bold text-foreground leading-tight">
+        <div className="flex-1">
+          <h2 className="text-lg font-bold text-foreground leading-tight group-hover:text-foreground/90 transition-colors">
             {title}{' '}
-            <span style={{ color: accentColor }}>{accent}</span>
+            <span style={{ color: accentColor }} className="font-extrabold">{accent}</span>
           </h2>
-          <p className="text-foreground/60 text-xs mt-0.5 leading-relaxed">{description}</p>
+          <p className="text-foreground/55 dark:text-foreground/60 text-xs mt-1.5 leading-relaxed">{description}</p>
         </div>
       </div>
 
       <Link
         href={ctaTo}
         prefetch={true}
-        className="relative flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm transition-all duration-200 hover:brightness-110 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95"
+        className="relative z-10 flex items-center justify-center gap-2 w-full py-3 rounded-xl font-extrabold text-sm transition-all duration-300 hover:scale-[1.01] hover:brightness-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
         style={{
           background: accentColor,
-          color: accentColor === '#E6C100' ? '#1a1a1a' : '#050508',
-          boxShadow: `0 4px 20px ${accentColor}40`,
+          color: accentColor === '#0082C5' ? '#ffffff' : '#111115',
+          boxShadow: isHovered
+            ? `0 8px 24px ${accentColor}45`
+            : `0 4px 14px ${accentColor}20`,
         }}
       >
-        {ctaLabel}
-        <ChevronRightIcon className="w-4 h-4 opacity-70" />
+        <span>{ctaLabel}</span>
+        <ChevronRightIcon className="w-4 h-4 opacity-80 transition-transform duration-300 group-hover:translate-x-1" />
       </Link>
     </section>
   )
@@ -120,6 +139,21 @@ export default function Home() {
   const [searchValue, setSearchValue] = useState('')
   const [modelsLoading, setModelsLoading] = useState(true)
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [menuOpen])
 
   // ── Log all inputs on this page to admin/input-logs ──────────────────────
   useInputLogger('Homepage')
@@ -156,10 +190,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
 
-        {/* ── Header ──────────────────────────────────────────────── */}
-        <header className="flex justify-between items-center mb-10">
+      {/* ── Fixed Header ────────────────────────────────────────── */}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border" style={{ background: 'var(--header-bg)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50">
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
@@ -173,8 +207,8 @@ export default function Home() {
             </span>
           </Link>
 
-          <div className="flex items-center gap-4">
-            {/* Nav links */}
+          <div className="flex items-center gap-3">
+            {/* Desktop nav links */}
             <nav className="hidden sm:flex items-center gap-1">
               {[
                 { href: '/snapchat', label: 'Snapchat', color: '#E6C100' },
@@ -182,16 +216,54 @@ export default function Home() {
                 { href: '/whatsapp', label: 'WhatsApp', color: '#00D168' },
                 { href: '/onlyfans', label: 'OnlyFans', color: '#00A3C4' },
                 { href: '/palfinder', label: 'Palfinder', color: '#6B1F2A' },
-              ].map(({ href, label, color }) => (
+              ].map(({ href, label }) => (
                 <Link key={href} href={href} prefetch={true}
                   className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-black/5 dark:hover:bg-white/5 text-foreground/60 hover:text-foreground">
                   {label}
                 </Link>
               ))}
             </nav>
+
             <ThemeToggle />
+
+            {/* Dropdown menu button */}
+            <div className="relative sm:hidden" ref={menuRef}>
+              <button
+                onClick={() => setMenuOpen(o => !o)}
+                className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 border border-border bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground/70 hover:text-foreground"
+                aria-label="Menu"
+              >
+                {menuOpen ? <X className="w-4.5 h-4.5" style={{ width: 18, height: 18 }} /> : <Menu className="w-4.5 h-4.5" style={{ width: 18, height: 18 }} />}
+              </button>
+
+              {/* Dropdown */}
+              {menuOpen && (
+                <div
+                  className="absolute right-0 top-full mt-2 w-48 rounded-xl overflow-hidden border border-border shadow-lg"
+                  style={{ background: 'var(--surface)', boxShadow: 'var(--card-shadow)' }}
+                >
+                  {[
+                    { href: '/', label: 'Home' },
+                    { href: '#about', label: 'About' },
+                    { href: '#support', label: 'Support' },
+                  ].map(({ href, label }) => (
+                    <Link
+                      key={label}
+                      href={href}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground/70 hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition-colors border-b border-border last:border-b-0"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        </header>
+        </div>
+      </header>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
 
         {/* ── Hero ────────────────────────────────────────────────── */}
         <div className="text-center mb-8">
@@ -392,6 +464,60 @@ export default function Home() {
           </div>
         </div>
 
+        {/* ── How Stranger Chat Works ────────────────────────────── */}
+        <div className="mb-14">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
+              <span className="text-foreground">How Stranger Chat </span>
+              <span className="text-gradient-pink">Works</span>
+            </h2>
+            <p className="text-foreground/55 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+              Three simple steps to start online chatting
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {/* Step 1 */}
+            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#D41A75' }} />
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(212,26,117,0.12)', boxShadow: '0 0 20px rgba(212,26,117,0.15)' }}>
+                <MousePointer className="w-6 h-6" style={{ color: '#D41A75' }} />
+              </div>
+              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #D41A75, #8E20D1)', color: '#fff', boxShadow: '0 4px 12px rgba(212,26,117,0.3)' }}>1</div>
+              <h3 className="text-lg font-bold text-foreground mb-2">Click Start</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed">
+                No signup, no forms. Just one click to start chatting online.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#8E20D1' }} />
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(142,32,209,0.12)', boxShadow: '0 0 20px rgba(142,32,209,0.15)' }}>
+                <Users2 className="w-6 h-6" style={{ color: '#8E20D1' }} />
+              </div>
+              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #8E20D1, #D41A75)', color: '#fff', boxShadow: '0 4px 12px rgba(142,32,209,0.3)' }}>2</div>
+              <h3 className="text-lg font-bold text-foreground mb-2">Get Matched</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed">
+                We instantly connect you with a stranger for random chat.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#00A3C4' }} />
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(0,163,196,0.12)', boxShadow: '0 0 20px rgba(0,163,196,0.15)' }}>
+                <MessageSquare className="w-6 h-6" style={{ color: '#00A3C4' }} />
+              </div>
+              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #00A3C4, #0082C5)', color: '#fff', boxShadow: '0 4px 12px rgba(0,163,196,0.3)' }}>3</div>
+              <h3 className="text-lg font-bold text-foreground mb-2">Talk with Strangers</h3>
+              <p className="text-foreground/50 text-sm leading-relaxed">
+                Join chat rooms and have real conversations anonymously.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* ── Cards Grid ───────────────────────────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
 
@@ -541,6 +667,36 @@ export default function Home() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm mb-10">
             <div>
+              <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Platform</h4>
+              <ul className="space-y-2.5">
+                {[
+                  { href: '/', label: 'Home' },
+                  { href: '#', label: 'Start Chatting' },
+                  { href: '#', label: 'Blogs' },
+                  { href: '#about', label: 'About Us' },
+                  { href: '#support', label: 'Support' },
+                ].map(({ href, label }) => (
+                  <li key={label}>
+                    <Link href={href} className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Legal</h4>
+              <ul className="space-y-2.5">
+                {[
+                  { href: '#', label: 'Privacy Policy' },
+                  { href: '#', label: 'Terms of Service' },
+                  { href: '#', label: 'Guidelines' },
+                ].map(({ href, label }) => (
+                  <li key={label}>
+                    <Link href={href} className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
               <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Discover</h4>
               <ul className="space-y-2.5">
                 {[
@@ -552,26 +708,6 @@ export default function Home() {
                 ].map(({ href, label }) => (
                   <li key={label}>
                     <Link href={href} className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Categories</h4>
-              <ul className="space-y-2.5">
-                {['Verified Models', 'Local Hookups', 'Couples', 'Sugar Babies', 'New Users'].map((label) => (
-                  <li key={label}>
-                    <Link href="#" className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Legal</h4>
-              <ul className="space-y-2.5">
-                {['Terms of Service', 'Privacy Policy', '2257 Exemption', 'DMCA', 'Contact Us'].map((label) => (
-                  <li key={label}>
-                    <Link href="#" className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>
                   </li>
                 ))}
               </ul>
