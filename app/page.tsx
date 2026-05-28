@@ -821,7 +821,7 @@ export default function Home() {
               <h4 className="font-bold text-foreground mb-3 text-xs uppercase tracking-widest text-foreground/60">Legal</h4>
               <ul className="space-y-2.5">
                 {[
-                  { href: '#', label: 'Privacy Policy' },
+                  { href: '/privacy', label: 'Privacy Policy' },
                   { href: '#', label: 'Terms of Service' },
                   { href: '#', label: 'Guidelines' },
                 ].map(({ href, label }) => (

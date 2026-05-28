@@ -375,7 +375,7 @@ export default function AboutPage() {
               </h4>
               <ul className="space-y-2.5">
                 {[
-                  { href: '#', label: 'Privacy Policy' },
+                  { href: '/privacy', label: 'Privacy Policy' },
                   { href: '#', label: 'Terms of Service' },
                   { href: '#', label: 'Guidelines' },
                 ].map(({ href, label }) => (
