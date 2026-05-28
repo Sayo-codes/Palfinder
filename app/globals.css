@@ -14,6 +14,33 @@
 }
 
 :root {
+  /* Light Mode (Warm Ivory & Creamy Sand) — DEFAULT */
+  --pink: #C91A63;
+  --purple: #7C1BBF;
+  --cyan: #008EA6;
+  --teal: #006CA3;
+  --green: #009E4F;
+  --yellow: #B88600;
+  --gold: #9A7000;
+  --bg: #FAF7F4; /* warm soft ivory/cream background */
+  --header-bg: rgba(250, 247, 244, 0.85); /* theme-adaptive transparent header background */
+  --surface: #FFFFFF; /* clean crisp card surface */
+  --surface2: #F2ECE5; /* warm off-white / sandy recesses */
+  --border: rgba(26, 22, 19, 0.12);
+  --text: #191613; /* rich warm charcoal text - boosted for high contrast */
+  --text-muted: rgba(25, 22, 19, 0.76); /* boosted readability */
+  --text-subtle: rgba(25, 22, 19, 0.54); /* boosted readability */
+  --accent-glow: rgba(201, 26, 99, 0.12);
+  --card-shadow: 0 4px 16px rgba(28, 25, 23, 0.08);
+  --card-hover-border: rgba(201, 26, 99, 0.2);
+  --tag-bg: rgba(107, 31, 42, 0.08);
+  --tag-text: #6B1F2A; /* warm maroon - excellent contrast in light mode */
+  --tag-border: rgba(107, 31, 42, 0.2);
+  --hero-grad-start: #6B1F2A;
+  --hero-grad-end: #9A7000;
+}
+
+.dark {
   /* Dark Mode (Warm & Premium Charcoal-Plum) */
   --pink: #E0336B;
   --purple: #9B3ED6;
@@ -40,52 +67,44 @@
   --hero-grad-end: #E8B547;
 }
 
-.light {
-  /* Light Mode (Warm Ivory & Creamy Sand) */
-  --pink: #C91A63;
-  --purple: #7C1BBF;
-  --cyan: #008EA6;
-  --teal: #006CA3;
-  --green: #009E4F;
-  --yellow: #B88600;
-  --gold: #9A7000;
-  --bg: #FAF7F4; /* warm soft ivory/cream background */
-  --header-bg: rgba(250, 247, 244, 0.85); /* theme-adaptive transparent header background */
-  --surface: #FFFFFF; /* clean crisp card surface */
-  --surface2: #F2ECE5; /* warm off-white / sandy recesses */
-  --border: rgba(26, 22, 19, 0.12);
-  --text: #191613; /* rich warm charcoal text - boosted for high contrast */
-  --text-muted: rgba(25, 22, 19, 0.76); /* boosted readability */
-  --text-subtle: rgba(25, 22, 19, 0.54); /* boosted readability */
-  --accent-glow: rgba(201, 26, 99, 0.12);
-  --card-shadow: 0 4px 16px rgba(28, 25, 23, 0.08);
-  --card-hover-border: rgba(201, 26, 99, 0.2);
-  --tag-bg: rgba(107, 31, 42, 0.08);
-  --tag-text: #6B1F2A; /* warm maroon - excellent contrast in light mode */
-  --tag-border: rgba(107, 31, 42, 0.2);
-  --hero-grad-start: #6B1F2A;
-  --hero-grad-end: #9A7000;
-}
-
 /* Boost text contrast in light mode for all text-foreground/xx utility classes */
-.light .text-foreground\/80 { color: rgba(25, 22, 19, 0.88) !important; }
-.light .text-foreground\/70 { color: rgba(25, 22, 19, 0.82) !important; }
-.light .text-foreground\/65 { color: rgba(25, 22, 19, 0.78) !important; }
-.light .text-foreground\/60 { color: rgba(25, 22, 19, 0.76) !important; }
-.light .text-foreground\/55 { color: rgba(25, 22, 19, 0.72) !important; }
-.light .text-foreground\/50 { color: rgba(25, 22, 19, 0.68) !important; }
-.light .text-foreground\/45 { color: rgba(25, 22, 19, 0.64) !important; }
-.light .text-foreground\/40 { color: rgba(25, 22, 19, 0.60) !important; }
-.light .text-foreground\/35 { color: rgba(25, 22, 19, 0.55) !important; }
-.light .text-foreground\/30 { color: rgba(25, 22, 19, 0.50) !important; }
-.light .text-foreground\/25 { color: rgba(25, 22, 19, 0.45) !important; }
-.light .text-foreground\/20 { color: rgba(25, 22, 19, 0.38) !important; }
-.light .text-foreground\/15 { color: rgba(25, 22, 19, 0.30) !important; }
-.light .text-foreground\/10 { color: rgba(25, 22, 19, 0.22) !important; }
+/* Light mode is now the default (:root), so these apply without a class prefix */
+:root .text-foreground\/80 { color: rgba(25, 22, 19, 0.88) !important; }
+:root .text-foreground\/70 { color: rgba(25, 22, 19, 0.82) !important; }
+:root .text-foreground\/65 { color: rgba(25, 22, 19, 0.78) !important; }
+:root .text-foreground\/60 { color: rgba(25, 22, 19, 0.76) !important; }
+:root .text-foreground\/55 { color: rgba(25, 22, 19, 0.72) !important; }
+:root .text-foreground\/50 { color: rgba(25, 22, 19, 0.68) !important; }
+:root .text-foreground\/45 { color: rgba(25, 22, 19, 0.64) !important; }
+:root .text-foreground\/40 { color: rgba(25, 22, 19, 0.60) !important; }
+:root .text-foreground\/35 { color: rgba(25, 22, 19, 0.55) !important; }
+:root .text-foreground\/30 { color: rgba(25, 22, 19, 0.50) !important; }
+:root .text-foreground\/25 { color: rgba(25, 22, 19, 0.45) !important; }
+:root .text-foreground\/20 { color: rgba(25, 22, 19, 0.38) !important; }
+:root .text-foreground\/15 { color: rgba(25, 22, 19, 0.30) !important; }
+:root .text-foreground\/10 { color: rgba(25, 22, 19, 0.22) !important; }
+/* Reset overrides in dark mode so the default foreground opacity classes work naturally */
+.dark .text-foreground\/80,
+.dark .text-foreground\/70,
+.dark .text-foreground\/65,
+.dark .text-foreground\/60,
+.dark .text-foreground\/55,
+.dark .text-foreground\/50,
+.dark .text-foreground\/45,
+.dark .text-foreground\/40,
+.dark .text-foreground\/35,
+.dark .text-foreground\/30,
+.dark .text-foreground\/25,
+.dark .text-foreground\/20,
+.dark .text-foreground\/15,
+.dark .text-foreground\/10 { color: unset; }
 
-/* Placeholder visibility boost */
-.light input::placeholder, .light textarea::placeholder {
+/* Placeholder visibility boost — light mode is now default */
+input::placeholder, textarea::placeholder {
   color: rgba(25, 22, 19, 0.52) !important;
+}
+.dark input::placeholder, .dark textarea::placeholder {
+  color: rgba(245, 240, 235, 0.35) !important;
 }
 
 * { box-sizing: border-box; }
@@ -224,14 +243,14 @@ body {
 .toggle-track {
   width: 44px; height: 24px;
   border-radius: 99px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.1);
   position: relative;
   cursor: pointer;
   transition: background 0.2s;
 }
-.light .toggle-track { background: rgba(0,0,0,0.1); }
-.toggle-track.on { background: #FF1B8D; }
-.light .toggle-track.on { background: #C91A63; }
+.dark .toggle-track { background: rgba(255,255,255,0.1); }
+.toggle-track.on { background: #C91A63; }
+.dark .toggle-track.on { background: #FF1B8D; }
 .toggle-thumb {
   position: absolute;
   top: 3px; left: 3px;
@@ -256,16 +275,16 @@ body {
   gap: 6px;
   padding: 8px 16px;
   line-height: 1;
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.02);
-  color: rgba(245, 240, 235, 0.75);
-}
-.light .platform-pill {
   background-color: rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   color: rgba(25, 22, 19, 0.75);
+}
+.dark .platform-pill {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  color: rgba(245, 240, 235, 0.75);
 }
 .platform-pill:hover {
   background-color: var(--pill-hover-bg);

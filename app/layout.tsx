@@ -38,7 +38,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
-      <head />
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (!sessionStorage.getItem('theme-session-started')) {
+                  sessionStorage.setItem('theme-session-started', 'true');
+                  localStorage.removeItem('theme');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen transition-colors duration-300 font-sans">
         <ThemeProvider>
           {children}
