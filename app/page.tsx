@@ -572,55 +572,88 @@ export default function Home() {
 
         {/* ── How Stranger Chat Works ────────────────────────────── */}
         <div className="mb-14">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
-              <span className="text-foreground">How Stranger Chat </span>
-              <span className="text-gradient-pink">Works</span>
-            </h2>
-            <p className="text-foreground/55 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-              Three simple steps to start online chatting
-            </p>
-          </div>
+          {/* Two-column: left = heading + steps, right = image */}
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {/* Step 1 */}
-            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
-              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#D41A75' }} />
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(212,26,117,0.12)', boxShadow: '0 0 20px rgba(212,26,117,0.15)' }}>
-                <MousePointer className="w-6 h-6" style={{ color: '#D41A75' }} />
+            {/* LEFT — heading + step cards */}
+            <div className="flex-1 min-w-0">
+              <div className="mb-10">
+                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
+                  <span className="text-foreground">How Stranger Chat </span>
+                  <span className="text-gradient-pink">Works</span>
+                </h2>
+                <p className="text-foreground/55 text-sm sm:text-base max-w-md leading-relaxed">
+                  Three simple steps to start online chatting
+                </p>
               </div>
-              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #D41A75, #8E20D1)', color: '#fff', boxShadow: '0 4px 12px rgba(212,26,117,0.3)' }}>1</div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Click Start</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed">
-                No signup, no forms. Just one click to start chatting online.
-              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-5">
+                {/* Step 1 */}
+                <div className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+                  <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#D41A75' }} />
+                  <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto lg:mx-0 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(212,26,117,0.12)', boxShadow: '0 0 20px rgba(212,26,117,0.15)' }}>
+                      <MousePointer className="w-6 h-6" style={{ color: '#D41A75' }} />
+                    </div>
+                    <div>
+                      <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-2" style={{ background: 'linear-gradient(135deg, #D41A75, #8E20D1)', color: '#fff', boxShadow: '0 4px 12px rgba(212,26,117,0.3)' }}>1</div>
+                      <h3 className="text-lg font-bold text-foreground mb-1">Click Start</h3>
+                      <p className="text-foreground/50 text-sm leading-relaxed">No signup, no forms. Just one click to start chatting online.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+                  <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#8E20D1' }} />
+                  <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto lg:mx-0 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(142,32,209,0.12)', boxShadow: '0 0 20px rgba(142,32,209,0.15)' }}>
+                      <Users2 className="w-6 h-6" style={{ color: '#8E20D1' }} />
+                    </div>
+                    <div>
+                      <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-2" style={{ background: 'linear-gradient(135deg, #8E20D1, #D41A75)', color: '#fff', boxShadow: '0 4px 12px rgba(142,32,209,0.3)' }}>2</div>
+                      <h3 className="text-lg font-bold text-foreground mb-1">Get Matched</h3>
+                      <p className="text-foreground/50 text-sm leading-relaxed">We instantly connect you with a stranger for random chat.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+                  <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#00A3C4' }} />
+                  <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto lg:mx-0 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(0,163,196,0.12)', boxShadow: '0 0 20px rgba(0,163,196,0.15)' }}>
+                      <MessageSquare className="w-6 h-6" style={{ color: '#00A3C4' }} />
+                    </div>
+                    <div>
+                      <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-2" style={{ background: 'linear-gradient(135deg, #00A3C4, #0082C5)', color: '#fff', boxShadow: '0 4px 12px rgba(0,163,196,0.3)' }}>3</div>
+                      <h3 className="text-lg font-bold text-foreground mb-1">Talk with Strangers</h3>
+                      <p className="text-foreground/50 text-sm leading-relaxed">Join chat rooms and have real conversations anonymously.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
-              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#8E20D1' }} />
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(142,32,209,0.12)', boxShadow: '0 0 20px rgba(142,32,209,0.15)' }}>
-                <Users2 className="w-6 h-6" style={{ color: '#8E20D1' }} />
+            {/* RIGHT — romantic cafe image */}
+            <div className="w-full lg:w-[340px] xl:w-[380px] flex-shrink-0 lg:mt-36">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl"
+                style={{ border: '1px solid rgba(212,26,117,0.18)', boxShadow: '0 0 40px rgba(212,26,117,0.12), 0 0 80px rgba(142,32,209,0.06)' }}>
+                <img
+                  src="/cafe-couple.jpg"
+                  alt="Elegant couple at a Parisian cafe"
+                  className="w-full object-cover object-[center_22%]"
+                  style={{ height: '480px' }}
+                />
+                {/* Bottom gradient overlay with caption */}
+                <div className="absolute bottom-0 left-0 right-0 px-5 py-5"
+                  style={{ background: 'linear-gradient(to top, rgba(13,12,18,0.88) 0%, rgba(13,12,18,0.4) 60%, transparent 100%)' }}>
+                  <p className="text-white font-semibold text-sm leading-snug">Verified Adults</p>
+                  <p className="text-white/55 text-xs mt-0.5">Zero judgment · 100% anonymous</p>
+                </div>
               </div>
-              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #8E20D1, #D41A75)', color: '#fff', boxShadow: '0 4px 12px rgba(142,32,209,0.3)' }}>2</div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Get Matched</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed">
-                We instantly connect you with a stranger for random chat.
-              </p>
             </div>
 
-            {/* Step 3 */}
-            <div className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
-              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#00A3C4' }} />
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(0,163,196,0.12)', boxShadow: '0 0 20px rgba(0,163,196,0.15)' }}>
-                <MessageSquare className="w-6 h-6" style={{ color: '#00A3C4' }} />
-              </div>
-              <div className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mb-3" style={{ background: 'linear-gradient(135deg, #00A3C4, #0082C5)', color: '#fff', boxShadow: '0 4px 12px rgba(0,163,196,0.3)' }}>3</div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Talk with Strangers</h3>
-              <p className="text-foreground/50 text-sm leading-relaxed">
-                Join chat rooms and have real conversations anonymously.
-              </p>
-            </div>
           </div>
         </div>
 
