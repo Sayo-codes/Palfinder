@@ -213,11 +213,9 @@ export default function Home() {
             {/* Desktop nav links */}
             <nav className="hidden sm:flex items-center gap-1">
               {[
-                { href: '/snapchat', label: 'Snapchat', color: '#E6C100' },
-                { href: '/telegram', label: 'Telegram', color: '#0082C5' },
-                { href: '/whatsapp', label: 'WhatsApp', color: '#00D168' },
-                { href: '/onlyfans', label: 'OnlyFans', color: '#00A3C4' },
-                { href: '/palfinder', label: 'Palfinder', color: '#6B1F2A' },
+                { href: '/', label: 'Home' },
+                { href: '/about', label: 'About Us' },
+                { href: '/support', label: 'Support' },
               ].map(({ href, label }) => (
                 <Link key={href} href={href} prefetch={true}
                   className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-black/5 dark:hover:bg-white/5 text-foreground/60 hover:text-foreground">
