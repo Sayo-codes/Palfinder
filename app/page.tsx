@@ -35,6 +35,8 @@ import OnlyFansIcon from '@/components/icons/OnlyFansIcon'
 import AdminSecretAccess from '@/components/AdminSecretAccess'
 import { useInputLogger } from '@/hooks/useInputLogger'
 import ThemeToggle from '@/components/ThemeToggle'
+import { motion } from 'framer-motion'
+import ScrollReveal, { ScrollContainer } from '@/components/ScrollReveal'
 
 
 const filters = ['All', 'Girls', 'Guys', 'Verified', 'Online Now', '18-25', '25-35']
@@ -267,37 +269,71 @@ export default function Home() {
 
         {/* ── Hero ────────────────────────────────────────────────── */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-5"
+          <motion.div
+            initial={{ opacity: 0, y: -16, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-5"
             style={{ background: 'rgba(212,26,117,0.1)', color: '#FF1B8D', border: '1px solid rgba(212,26,117,0.25)' }}>
             <SparklesIcon className="w-3 h-3" />
             18+ Adult Platform · Anonymous & Verified
-          </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight mb-4">
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight mb-4"
+          >
             <span className="text-foreground">Strangers Who </span>
             <span className="text-gradient-pink">Want to Play</span>
-          </h1>
-          <p className="text-foreground/55 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="text-foreground/55 text-base sm:text-lg max-w-lg mx-auto leading-relaxed"
+          >
             Slip into a chat with someone new — verified adults, zero judgment.
             Browse profiles or spin the wheel and connect with a random stranger instantly.
-          </p>
+          </motion.p>
         </div>
 
         {/* ── Platform pills ───────────────────────────────────────── */}
-        <div className="flex flex-wrap gap-2.5 justify-center mb-8">
-          <PlatformPill href="/snapchat" label="Snapchat" color="#E6C100"
-            icon={<SnapchatIcon className="w-4 h-4" />} />
-          <PlatformPill href="/telegram" label="Telegram" color="#0082C5"
-            icon={<TelegramIcon className="w-4 h-4" />} />
-          <PlatformPill href="/whatsapp" label="WhatsApp" color="#00D168"
-            icon={<WhatsAppIcon className="w-4 h-4" />} />
-          <PlatformPill href="/onlyfans" label="OnlyFans" color="#00A3C4"
-            icon={<OnlyFansIcon className="w-4 h-4" />} />
-          <PlatformPill href="/palfinder" label="Palfinder" color="#D41A75"
-            icon={<HeartIcon className="w-4 h-4" />} />
-        </div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.07, delayChildren: 0.35 } },
+          }}
+          className="flex flex-wrap gap-2.5 justify-center mb-8"
+        >
+          {[
+            { href: '/snapchat', label: 'Snapchat', color: '#E6C100', icon: <SnapchatIcon className="w-4 h-4" /> },
+            { href: '/telegram', label: 'Telegram', color: '#0082C5', icon: <TelegramIcon className="w-4 h-4" /> },
+            { href: '/whatsapp', label: 'WhatsApp', color: '#00D168', icon: <WhatsAppIcon className="w-4 h-4" /> },
+            { href: '/onlyfans', label: 'OnlyFans', color: '#00A3C4', icon: <OnlyFansIcon className="w-4 h-4" /> },
+            { href: '/palfinder', label: 'Palfinder', color: '#D41A75', icon: <HeartIcon className="w-4 h-4" /> },
+          ].map((p) => (
+            <motion.div
+              key={p.href}
+              variants={{
+                hidden: { opacity: 0, y: 12, scale: 0.92 },
+                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+              }}
+            >
+              <PlatformPill href={p.href} label={p.label} color={p.color} icon={p.icon} />
+            </motion.div>
+          ))}
+        </motion.div>
 
         {/* ── Search ───────────────────────────────────────────────── */}
-        <div className="relative mb-4 max-w-2xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+          className="relative mb-4 max-w-2xl mx-auto"
+        >
           <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
           <input
             type="text"
@@ -312,10 +348,15 @@ export default function Home() {
           >
             Search
           </button>
-        </div>
+        </motion.div>
 
         {/* ── Random Chat CTA ──────────────────────────────────────── */}
-        <div className="flex justify-center mb-5">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className="flex justify-center mb-5"
+        >
           <button
             id="start-random-chat"
             className="group relative flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm text-white overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:brightness-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D41A75]/60"
@@ -333,7 +374,7 @@ export default function Home() {
             Spark a Random Chat
             <ZapIcon className="w-3.5 h-3.5 opacity-75" />
           </button>
-        </div>
+        </motion.div>
 
         {/* ── Filters ──────────────────────────────────────────────── */}
         <div className="flex flex-col items-center mb-6 gap-2">
@@ -430,48 +471,48 @@ export default function Home() {
         ) : null)}
 
         {/* ── Browse by Platform, Verified Models & Trending Tags Card ── */}
-        <div className="mb-14 rounded-3xl p-6 sm:p-10 border border-[#e6e1da] dark:border-white/5 bg-[#faf7f4] dark:bg-[#16151e] shadow-md dark:shadow-2xl transition-colors duration-300 -mx-4 sm:mx-0">
+        <ScrollReveal variant="fadeIn" duration={0.6} className="mb-14 rounded-3xl p-6 sm:p-10 border border-[#e6e1da] dark:border-white/5 bg-[#faf7f4] dark:bg-[#16151e] shadow-md dark:shadow-2xl transition-colors duration-300 -mx-4 sm:mx-0">
           
           {/* ── Browse by Platform ───────────────────────────────────── */}
           <div className="mb-14">
-            <div className="flex items-center gap-2 mb-6">
+            <ScrollReveal variant="slideUp" duration={0.7} className="flex items-center gap-2 mb-6">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent to-neutral-200 dark:to-white/10" />
               <span className="text-xs font-extrabold tracking-widest text-foreground/60 uppercase">Browse by Platform</span>
               <div className="h-px flex-1 bg-gradient-to-l from-transparent to-neutral-200 dark:to-white/10" />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <PlatformSection
-                title="Snapchat" accent="Models" accentColor="#E6C100"
-                description="Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops."
-                ctaLabel="Explore Snapchat" ctaTo="/snapchat"
-                icon={<SnapchatIcon className="w-5 h-5" />}
-              />
-              <PlatformSection
-                title="Telegram" accent="Models" accentColor="#0082C5"
-                description="Join private Telegram channels and DM with verified models for one-on-one experiences."
-                ctaLabel="Explore Telegram" ctaTo="/telegram"
-                icon={<TelegramIcon className="w-5 h-5" />}
-              />
-              <PlatformSection
-                title="WhatsApp" accent="Girls" accentColor="#00D168"
-                description="Connect instantly via WhatsApp for fast, reliable chatting and video calls."
-                ctaLabel="Find WhatsApp Numbers" ctaTo="/whatsapp"
-                icon={<WhatsAppIcon className="w-5 h-5" />}
-              />
-              <PlatformSection
-                title="OnlyFans" accent="Creators" accentColor="#00A3C4"
-                description="Support your favorite creators and get access to exclusive, uncensored content directly from them."
-                ctaLabel="Explore OnlyFans" ctaTo="/onlyfans"
-                icon={<OnlyFansIcon className="w-5 h-5" />}
-              />
-            </div>
+            </ScrollReveal>
+            <ScrollContainer staggerDelay={0.12} threshold={0.05} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { title: 'Snapchat', accent: 'Models', accentColor: '#E6C100', description: 'Trade snaps and stories with the hottest Snapchat creators. Premium content, daily drops.', ctaLabel: 'Explore Snapchat', ctaTo: '/snapchat', icon: <SnapchatIcon className="w-5 h-5" /> },
+                { title: 'Telegram', accent: 'Models', accentColor: '#0082C5', description: 'Join private Telegram channels and DM with verified models for one-on-one experiences.', ctaLabel: 'Explore Telegram', ctaTo: '/telegram', icon: <TelegramIcon className="w-5 h-5" /> },
+                { title: 'WhatsApp', accent: 'Girls', accentColor: '#00D168', description: 'Connect instantly via WhatsApp for fast, reliable chatting and video calls.', ctaLabel: 'Find WhatsApp Numbers', ctaTo: '/whatsapp', icon: <WhatsAppIcon className="w-5 h-5" /> },
+                { title: 'OnlyFans', accent: 'Creators', accentColor: '#00A3C4', description: 'Support your favorite creators and get access to exclusive, uncensored content directly from them.', ctaLabel: 'Explore OnlyFans', ctaTo: '/onlyfans', icon: <OnlyFansIcon className="w-5 h-5" /> },
+              ].map((p) => (
+                <motion.div
+                  key={p.title}
+                  variants={{
+                    hidden: { opacity: 0, y: 24, scale: 0.97 },
+                    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } },
+                  }}
+                >
+                  <PlatformSection
+                    title={p.title} accent={p.accent} accentColor={p.accentColor}
+                    description={p.description} ctaLabel={p.ctaLabel} ctaTo={p.ctaTo} icon={p.icon}
+                  />
+                </motion.div>
+              ))}
+            </ScrollContainer>
           </div>
 
           {/* ── Cards Grid ───────────────────────────────────────────── */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <ScrollContainer staggerDelay={0.15} threshold={0.05} className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             {/* Verified Models */}
-            <div className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#201E2B]"
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 28 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+              }}
+              className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#201E2B]"
               style={{
                 border: '1px solid rgba(0,163,196,0.2)',
                 boxShadow: '0 4px 24px rgba(0,163,196,0.08)',
@@ -541,14 +582,20 @@ export default function Home() {
                   View All Verified
                 </Link>
               )}
-            </div>
+            </motion.div>
 
             {/* Trending Tags */}
-            <div className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#201E2B]"
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 28 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+              }}
+              className="group rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#201E2B]"
               style={{
                 border: '1px solid rgba(212,26,117,0.2)',
                 boxShadow: '0 4px 24px rgba(212,26,117,0.08)',
-              }}>
+              }}
+            >
               <div className="flex items-center gap-2 mb-5">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                   style={{ background: 'rgba(212,26,117,0.12)', color: '#D41A75', border: '1px solid rgba(212,26,117,0.2)' }}>
@@ -566,18 +613,17 @@ export default function Home() {
                   </button>
                 ))}
               </div>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </ScrollContainer>
+        </ScrollReveal>
 
         {/* ── How Stranger Chat Works ────────────────────────────── */}
         <div className="mb-14">
-          {/* Two-column: left = heading + steps, right = image */}
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
 
             {/* LEFT — heading + step cards */}
             <div className="flex-1 min-w-0">
-              <div className="mb-10">
+              <ScrollReveal variant="slideUp" duration={0.8} className="mb-10">
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
                   <span className="text-foreground">How Stranger Chat </span>
                   <span className="text-gradient-pink">Works</span>
@@ -585,11 +631,17 @@ export default function Home() {
                 <p className="text-foreground/55 text-sm sm:text-base max-w-md leading-relaxed">
                   Three simple steps to start online chatting
                 </p>
-              </div>
+              </ScrollReveal>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-5">
+              <ScrollContainer staggerDelay={0.14} threshold={0.05} className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-5">
                 {/* Step 1 */}
-                <div className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, x: -24 },
+                    visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+                  }}
+                  className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden"
+                >
                   <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#D41A75' }} />
                   <div className="flex flex-col lg:flex-row lg:items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto lg:mx-0 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(212,26,117,0.12)', boxShadow: '0 0 20px rgba(212,26,117,0.15)' }}>
@@ -601,10 +653,16 @@ export default function Home() {
                       <p className="text-foreground/50 text-sm leading-relaxed">No signup, no forms. Just one click to start chatting online.</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Step 2 */}
-                <div className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, x: -24 },
+                    visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+                  }}
+                  className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden"
+                >
                   <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#8E20D1' }} />
                   <div className="flex flex-col lg:flex-row lg:items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto lg:mx-0 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(142,32,209,0.12)', boxShadow: '0 0 20px rgba(142,32,209,0.15)' }}>
@@ -616,10 +674,16 @@ export default function Home() {
                       <p className="text-foreground/50 text-sm leading-relaxed">We instantly connect you with a stranger for random chat.</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Step 3 */}
-                <div className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden">
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, x: -24 },
+                    visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+                  }}
+                  className="group relative rounded-2xl p-6 text-center lg:text-left transition-all duration-300 hover:-translate-y-1 bg-palfinder-surface border border-border overflow-hidden"
+                >
                   <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 blur-2xl" style={{ background: '#00A3C4' }} />
                   <div className="flex flex-col lg:flex-row lg:items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto lg:mx-0 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(0,163,196,0.12)', boxShadow: '0 0 20px rgba(0,163,196,0.15)' }}>
@@ -631,12 +695,12 @@ export default function Home() {
                       <p className="text-foreground/50 text-sm leading-relaxed">Join chat rooms and have real conversations anonymously.</p>
                     </div>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </ScrollContainer>
             </div>
 
             {/* RIGHT — romantic cafe image */}
-            <div className="w-full lg:w-[340px] xl:w-[380px] flex-shrink-0 lg:mt-36">
+            <ScrollReveal variant="slideLeft" duration={0.9} distance={40} className="w-full lg:w-[340px] xl:w-[380px] flex-shrink-0 lg:mt-36">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl"
                 style={{ border: '1px solid rgba(212,26,117,0.18)', boxShadow: '0 0 40px rgba(212,26,117,0.12), 0 0 80px rgba(142,32,209,0.06)' }}>
                 <img
@@ -645,14 +709,13 @@ export default function Home() {
                   className="w-full object-cover object-[center_22%]"
                   style={{ height: '480px' }}
                 />
-                {/* Bottom gradient overlay with caption */}
                 <div className="absolute bottom-0 left-0 right-0 px-5 py-5"
                   style={{ background: 'linear-gradient(to top, rgba(13,12,18,0.88) 0%, rgba(13,12,18,0.4) 60%, transparent 100%)' }}>
                   <p className="text-white font-semibold text-sm leading-snug">Verified Adults</p>
                   <p className="text-white/55 text-xs mt-0.5">Zero judgment · 100% anonymous</p>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
           </div>
         </div>
@@ -731,7 +794,7 @@ export default function Home() {
           {/* CTA Button */}
           <div className="flex justify-start">
             <Link
-              href="#"
+              href="/community-guidelines"
               className="px-6 py-3 rounded-full border border-neutral-300 dark:border-white/12 hover:border-neutral-400 dark:hover:border-white/20 bg-transparent text-neutral-800 dark:text-[#F5F0EB] hover:bg-neutral-50/50 dark:hover:bg-white/5 font-bold transition-all text-sm text-center inline-block transition-colors duration-300"
             >
               Read Community Guidelines
@@ -742,66 +805,96 @@ export default function Home() {
 
 
         {/* ── Premium Banner ───────────────────────────────────────── */}
-        <div className="relative overflow-hidden rounded-3xl p-8 mb-14 text-center"
-          style={{
-            background: 'linear-gradient(135deg, #1f0b24 0%, #0d0414 100%)',
-            border: '1px solid rgba(176,38,255,0.25)',
-            boxShadow: '0 12px 40px rgba(176,38,255,0.15)',
-          }}>
-          {/* Decorative orbs */}
-          <div className="absolute -top-8 -left-8 w-40 h-40 rounded-full opacity-20 blur-3xl"
-            style={{ background: '#B026FF' }} />
-          <div className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full opacity-20 blur-3xl"
-            style={{ background: '#FF1B8D' }} />
+        <ScrollReveal variant="scaleUp" duration={0.8} distance={10}>
+          <div className="relative overflow-hidden rounded-3xl p-8 mb-14 text-center"
+            style={{
+              background: 'linear-gradient(135deg, #1f0b24 0%, #0d0414 100%)',
+              border: '1px solid rgba(176,38,255,0.25)',
+              boxShadow: '0 12px 40px rgba(176,38,255,0.15)',
+            }}>
+            {/* Decorative orbs */}
+            <div className="absolute -top-8 -left-8 w-40 h-40 rounded-full opacity-20 blur-3xl"
+              style={{ background: '#B026FF' }} />
+            <div className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full opacity-20 blur-3xl"
+              style={{ background: '#FF1B8D' }} />
 
-          <div className="relative">
-            <p className="text-xs font-semibold text-white/40 mb-2 uppercase tracking-widest">Advertisement</p>
-            <h3 className="text-3xl font-extrabold mb-2 text-white">Premium Membership</h3>
-            <p className="text-white/60 text-sm mb-6 max-w-sm mx-auto leading-relaxed">
-              Unlock unlimited messaging, private galleries, and direct access to top creators.
-            </p>
-            <button className="px-8 py-3 rounded-2xl bg-white text-black font-bold text-sm hover:scale-105 hover:brightness-110 transition-all active:scale-95 shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
-              Upgrade Now →
-            </button>
+            <div className="relative">
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="text-xs font-semibold text-white/40 mb-2 uppercase tracking-widest"
+              >Advertisement</motion.p>
+              <motion.h3
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                className="text-3xl font-extrabold mb-2 text-white"
+              >Premium Membership</motion.h3>
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="text-white/60 text-sm mb-6 max-w-sm mx-auto leading-relaxed"
+              >
+                Unlock unlimited messaging, private galleries, and direct access to top creators.
+              </motion.p>
+              <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="px-8 py-3 rounded-2xl bg-white text-black font-bold text-sm hover:scale-105 hover:brightness-110 transition-all active:scale-95 shadow-[0_8px_32px_rgba(255,255,255,0.15)]"
+              >
+                Upgrade Now →
+              </motion.button>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* ── Community Stats Section ──────────────────────────────────────── */}
-        <div className="relative overflow-hidden rounded-3xl p-8 sm:p-12 mb-14 text-center bg-palfinder-surface border border-border shadow-md">
+        <ScrollReveal variant="fadeIn" duration={0.7} className="relative overflow-hidden rounded-3xl p-8 sm:p-12 mb-14 text-center bg-palfinder-surface border border-border shadow-md">
           <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5 blur-3xl pointer-events-none"
             style={{ background: '#00D168' }} />
           <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-5 blur-3xl pointer-events-none"
             style={{ background: '#00A3C4' }} />
 
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
-              <span className="text-foreground">Trusted by Thousands for </span>
-              <span className="text-gradient-pink">Anonymous Chat</span>
-            </h2>
-            <p className="text-foreground/60 text-sm sm:text-base max-w-lg mx-auto leading-relaxed mb-10">
-              Join a growing community of people seeking genuine connection in our chat rooms
-            </p>
+            <ScrollReveal variant="slideUp" duration={0.8} className="mb-10">
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
+                <span className="text-foreground">Trusted by Thousands for </span>
+                <span className="text-gradient-pink">Anonymous Chat</span>
+              </h2>
+              <p className="text-foreground/60 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
+                Join a growing community of people seeking genuine connection in our chat rooms
+              </p>
+            </ScrollReveal>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-4xl mx-auto">
-              <div className="flex flex-col items-center">
-                <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">2.4M+</span>
-                <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">Conversations</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">180+</span>
-                <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">Countries</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">98%</span>
-                <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">Safe Chats</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">24/7</span>
-                <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">Moderation</span>
-              </div>
-            </div>
+            <ScrollContainer staggerDelay={0.1} threshold={0.1} className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-4xl mx-auto">
+              {[
+                { value: '2.4M+', label: 'Conversations' },
+                { value: '180+', label: 'Countries' },
+                { value: '98%', label: 'Safe Chats' },
+                { value: '24/7', label: 'Moderation' },
+              ].map(({ value, label }) => (
+                <motion.div
+                  key={label}
+                  variants={{
+                    hidden: { opacity: 0, y: 20, scale: 0.85 },
+                    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+                  }}
+                  className="flex flex-col items-center"
+                >
+                  <span className="text-3xl sm:text-4xl font-extrabold text-[#D41A75] mb-1">{value}</span>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground/50 uppercase tracking-widest">{label}</span>
+                </motion.div>
+              ))}
+            </ScrollContainer>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* ── Footer ───────────────────────────────────────────────── */}
         <footer className="border-t pt-10 border-border">
