@@ -523,7 +523,7 @@ export default function SupportPage() {
                 {[
                   { href: '/privacy', label: 'Privacy Policy' },
                   { href: '#', label: 'Terms of Service' },
-                  { href: '#', label: 'Guidelines' },
+                  { href: '/community-guidelines', label: 'Guidelines' },
                 ].map(({ href, label }) => (
                   <li key={label}>
                     <Link

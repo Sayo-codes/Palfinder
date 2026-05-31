@@ -430,7 +430,7 @@ export default function PrivacyPolicyPage() {
                 {[
                   { href: '/privacy', label: 'Privacy Policy' },
                   { href: '#', label: 'Terms of Service' },
-                  { href: '#', label: 'Community Guidelines' },
+                  { href: '/community-guidelines', label: 'Community Guidelines' },
                 ].map(({ href, label }) => (
                   <li key={label}>
                     <Link href={href} className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors text-sm">
