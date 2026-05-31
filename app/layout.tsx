@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Suspense } from 'react'
 import ThemeProvider from '@/components/ThemeProvider'
+import ScrollRestoration from '@/components/ScrollRestoration'
 import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google'
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -54,6 +56,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen transition-colors duration-300 font-sans">
         <ThemeProvider>
+          <Suspense fallback={null}>
+            <ScrollRestoration />
+          </Suspense>
           {children}
         </ThemeProvider>
       </body>

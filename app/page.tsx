@@ -947,7 +947,7 @@ export default function Home() {
                 {[
                   { href: '/privacy', label: 'Privacy Policy' },
                   { href: '#', label: 'Terms of Service' },
-                  { href: '/community-guidelines', label: 'Guidelines' },
+                  { href: '/community-guidelines', label: 'Community Guidelines' },
                 ].map(({ href, label }) => (
                   <li key={label}>
                     <Link href={href} className="text-foreground/50 hover:text-foreground transition-colors text-sm">{label}</Link>

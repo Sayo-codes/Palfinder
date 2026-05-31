@@ -377,7 +377,7 @@ export default function AboutPage() {
                 {[
                   { href: '/privacy', label: 'Privacy Policy' },
                   { href: '#', label: 'Terms of Service' },
-                  { href: '/community-guidelines', label: 'Guidelines' },
+                  { href: '/community-guidelines', label: 'Community Guidelines' },
                 ].map(({ href, label }) => (
                   <li key={label}>
                     <Link
