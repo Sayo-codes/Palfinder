@@ -437,7 +437,7 @@ export default function SparkRandomChat() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes typingDot {
           0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
           30% { opacity: 1; transform: translateY(-4px); }
@@ -448,9 +448,10 @@ export default function SparkRandomChat() {
         }
         input:focus {
           border-color: rgba(224, 51, 107, 0.4) !important;
-          ring-color: rgba(224, 51, 107, 0.2);
+          outline: none !important;
+          box-shadow: 0 0 0 2px rgba(224, 51, 107, 0.2) !important;
         }
-      `}</style>
+      `}} />
     </div>
   )
 }

@@ -37,6 +37,7 @@ import { useInputLogger } from '@/hooks/useInputLogger'
 import ThemeToggle from '@/components/ThemeToggle'
 import { motion } from 'framer-motion'
 import ScrollReveal, { ScrollContainer } from '@/components/ScrollReveal'
+import SparkRandomChat from '@/components/SparkRandomChat'
 
 
 const filters = ['All', 'Girls', 'Guys', 'Verified', 'Online Now', '18-25', '25-35']
@@ -357,23 +358,7 @@ export default function Home() {
           transition={{ duration: 0.7, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
           className="flex justify-center mb-5"
         >
-          <button
-            id="start-random-chat"
-            className="group relative flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm text-white overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:brightness-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D41A75]/60"
-            style={{
-              background: 'linear-gradient(135deg, #D41A75 0%, #8E20D1 100%)',
-              boxShadow: '0 6px 28px rgba(212,26,117,0.45), 0 0 0 1px rgba(212,26,117,0.2)',
-            }}
-          >
-            {/* animated shimmer sweep */}
-            <span
-              className="pointer-events-none absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }}
-            />
-            <ShuffleIcon className="w-4 h-4 opacity-90" />
-            Spark a Random Chat
-            <ZapIcon className="w-3.5 h-3.5 opacity-75" />
-          </button>
+          <SparkRandomChat />
         </motion.div>
 
         {/* ── Filters ──────────────────────────────────────────────── */}
