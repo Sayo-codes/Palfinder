@@ -54,12 +54,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className="min-h-screen transition-colors duration-300 font-sans">
+      <body className="min-h-screen transition-colors duration-300 font-sans overflow-x-hidden max-w-full bg-[var(--bg)]">
         <ThemeProvider>
           <Suspense fallback={null}>
             <ScrollRestoration />
           </Suspense>
-          {children}
+          <main className="relative w-full max-w-full overflow-x-hidden min-h-screen flex flex-col items-center justify-start">
+            <div className="w-full flex-grow flex flex-col">
+              {children}
+            </div>
+          </main>
         </ThemeProvider>
       </body>
     </html>

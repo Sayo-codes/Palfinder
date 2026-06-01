@@ -194,7 +194,7 @@ export default function Home() {
   })
 
   return (
-    <div className="min-h-screen w-full">
+    <div className="min-h-screen w-full overflow-x-hidden max-w-full">
 
       {/* ── Fixed Header ────────────────────────────────────────── */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-border" style={{ background: 'var(--header-bg)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
@@ -456,7 +456,7 @@ export default function Home() {
         ) : null)}
 
         {/* ── Browse by Platform, Verified Models & Trending Tags Card ── */}
-        <ScrollReveal variant="fadeIn" duration={0.6} className="mb-14 rounded-3xl p-6 sm:p-10 border border-[#e6e1da] dark:border-white/5 bg-[#faf7f4] dark:bg-[#16151e] shadow-md dark:shadow-2xl transition-colors duration-300 -mx-4 sm:mx-0">
+        <ScrollReveal variant="fadeIn" duration={0.6} className="mb-14 rounded-3xl p-6 sm:p-10 border border-[#e6e1da] dark:border-white/5 bg-[#faf7f4] dark:bg-[#16151e] shadow-md dark:shadow-2xl transition-colors duration-300">
           
           {/* ── Browse by Platform ───────────────────────────────────── */}
           <div className="mb-14">
