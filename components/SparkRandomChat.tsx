@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { Sparkles } from 'lucide-react'
 
 type Phase = 'idle' | 'loading' | 'terms' | 'chat'
 type Message = { id: number; text: string; sender: 'me' | 'stranger'; time: string }
@@ -139,15 +140,14 @@ export default function SparkRandomChat() {
       <button
         id="spark-random-chat-btn"
         onClick={handleStartChat}
-        className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl text-sm font-bold text-white overflow-hidden transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] hover:shadow-[0_0_40px_rgba(224,51,107,0.4)]"
+        className="group relative flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
         style={{
-          background: 'linear-gradient(135deg, #E0336B 0%, #9B3ED6 50%, #00B4D8 100%)',
-          boxShadow: '0 4px 24px rgba(224, 51, 107, 0.3)',
+          background: 'linear-gradient(135deg, #D41A75 0%, #8E20D1 100%)',
+          boxShadow: '0 4px 18px rgba(212, 26, 117, 0.35)',
         }}
       >
-        <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
-        <span className="text-lg">✨</span>
-        <span className="relative">Spark a Random Chat</span>
+        <Sparkles className="w-4 h-4 opacity-90 transition-transform duration-300 group-hover:rotate-12" />
+        <span>Spark a Random Chat</span>
       </button>
     )
   }
